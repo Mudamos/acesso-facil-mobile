@@ -1,7 +1,7 @@
 platform :ios, '9.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-target 'EasyAccess' do
+def pods
   # Pods for EasyAccess
   pod 'React', :path => '../node_modules/react-native/'
   pod 'React-Core', :path => '../node_modules/react-native/React'
@@ -26,21 +26,14 @@ target 'EasyAccess' do
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+end
 
-  target 'EasyAccessTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
+target 'EasyAccess' do
+  pods
   use_native_modules!
 end
 
-target 'EasyAccess-tvOS' do
-  # Pods for EasyAccess-tvOS
-
-  target 'EasyAccess-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
+target 'EasyAccessStaging' do
+  pods
+  use_native_modules!
 end
