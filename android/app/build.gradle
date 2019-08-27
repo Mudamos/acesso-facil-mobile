@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 import com.android.build.OutputFile
 
@@ -133,6 +134,9 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        // react-native-config
+        resValue "string", "build_config_package", "com.easyaccess"
     }
     splits {
         abi {
@@ -155,9 +159,6 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://facebook.github.io/react-native/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -184,6 +185,48 @@ android {
         pickFirst '**/x86_64/libc++_shared.so'
         pickFirst '**/x86/libjsc.so'
         pickFirst '**/armeabi-v7a/libjsc.so'
+    }
+
+    signingConfigs {
+      staging
+    }
+
+    // Staging signing configs
+    def Properties stagingProps = new Properties()
+    def stagingPropFile = file('../keystores/easyaccess-staging.properties')
+    if (stagingPropFile.canRead()) {
+        println "Will load STAGING realease properties"
+
+        stagingProps.load(new FileInputStream(stagingPropFile))
+
+        if (stagingProps!=null && stagingProps.containsKey('STORE_FILE') && stagingProps.containsKey('STORE_PASSWORD') &&
+                stagingProps.containsKey('KEY_ALIAS') && stagingProps.containsKey('KEY_PASSWORD')) {
+
+            println "Staging release variables found"
+
+            android.signingConfigs.staging.storeFile = file(stagingProps['STORE_FILE'])
+            android.signingConfigs.staging.storePassword = stagingProps['STORE_PASSWORD']
+            android.signingConfigs.staging.keyAlias = stagingProps['KEY_ALIAS']
+            android.signingConfigs.staging.keyPassword = stagingProps['KEY_PASSWORD']
+        }
+    }
+
+    flavorDimensions "version"
+
+    productFlavors {
+        development {
+            dimension "version"
+            applicationId = "org.itsrio.sefaz.development.easyaccess"
+            versionName "1.0-debug"
+        }
+
+        staging {
+            dimension "version"
+            applicationId = "org.itsrio.sefaz.staging.easyaccess"
+            versionCode 1
+            versionName "1.0-beta-mudamos"
+            signingConfig signingConfigs.staging
+        }
     }
 }
 

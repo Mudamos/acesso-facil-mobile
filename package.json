@@ -7,8 +7,9 @@
     "yarn": "^1.17.3"
   },
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "android": "ENVFILE=.env.development react-native run-android --variant developmentDebug",
+    "build-android-staging": "ENVFILE=.env.staging android/gradlew -p android assembleStagingRelease",
+    "ios": "ENVFILE=.env.development react-native run-ios --scheme EasyAccess",
     "lint": "eslint .",
     "log-android": "react-native log-android",
     "log-ios": "react-native-log-ios EasyAccess",
@@ -18,7 +19,8 @@
   },
   "dependencies": {
     "react": "16.8.6",
-    "react-native": "0.60.5"
+    "react-native": "0.60.5",
+    "react-native-config": "^0.11.7"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
