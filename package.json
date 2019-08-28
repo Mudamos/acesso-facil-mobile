@@ -13,9 +13,9 @@
     "lint": "eslint .",
     "log-android": "react-native log-android",
     "log-ios": "react-native-log-ios EasyAccess",
-    "prettier": "prettier --write index.js src/**/*.js",
+    "prettier": "prettier --write index.js src/*.js src/**/*.js",
     "start": "react-native start",
-    "sort": "import-sort --write index.js src/**/*.js",
+    "sort": "import-sort --write index.js src/*.js src/**/*.js",
     "test": "jest",
     "xcode": "xed ios"
   },

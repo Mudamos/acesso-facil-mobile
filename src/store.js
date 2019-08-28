@@ -1,11 +1,11 @@
-import { isDev } from "./utils";
-
-import { combineReducers, createStore, applyMiddleware } from "redux";
-import { createLogger } from "redux-logger";
+import { applyMiddleware, createStore } from "redux";
 import { combineEpics, createEpicMiddleware } from "redux-observable";
-import { createAccount } from "./epics";
-import reducer from "./reducers";
+
 import { ajax } from "rxjs/ajax";
+import { createAccount } from "./epics";
+import { createLogger } from "redux-logger";
+import { isDev } from "./utils";
+import reducer from "./reducers";
 
 export const storeBuilder = () => {
   const logger = createLogger({

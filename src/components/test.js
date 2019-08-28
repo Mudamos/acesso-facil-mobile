@@ -1,15 +1,7 @@
-import { Provider, connect } from "react-redux";
-import React, { Fragment } from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
-} from "react-native";
+import { Text, TouchableHighlight } from "react-native";
 
+import React from "react";
+import { connect } from "react-redux";
 import { createAccount } from "../actions";
 
 const enhance = connect(
