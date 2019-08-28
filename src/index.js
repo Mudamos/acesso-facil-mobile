@@ -14,6 +14,7 @@ import {
   View,
   Text,
   StatusBar,
+  TouchableHighlight,
 } from 'react-native';
 
 import {
@@ -23,9 +24,11 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {Provider} from 'react-redux';
+import Test from './components/test';
 
-const App = () => {
-  return (
+const App = store => () => (
+  <Provider store={store}>
     <Fragment>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
@@ -40,10 +43,10 @@ const App = () => {
           )}
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
+              <Test />
               <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
+                Edit <Text style={styles.highlight}>App.js</Text> to change
+                this screen and then come back to see your edits.
               </Text>
             </View>
             <View style={styles.sectionContainer}>
@@ -69,8 +72,8 @@ const App = () => {
         </ScrollView>
       </SafeAreaView>
     </Fragment>
-  );
-};
+  </Provider>
+);
 
 const styles = StyleSheet.create({
   scrollView: {

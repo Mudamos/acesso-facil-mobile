@@ -3,7 +3,20 @@
  */
 
 import {AppRegistry} from 'react-native';
-import App from './App';
+import App from './src';
 import {name as appName} from './app.json';
+import { storeBuilder } from './src/store';
+import {
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  View,
+  Text,
+  StatusBar,
+  TouchableHighlight,
+} from 'react-native';
 
-AppRegistry.registerComponent(appName, () => App);
+const { store, run } = storeBuilder();
+run();
+
+AppRegistry.registerComponent(appName, () => App(store));
