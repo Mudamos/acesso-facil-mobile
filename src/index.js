@@ -6,7 +6,7 @@
  * @flow
  */
 
-import React, {Fragment} from 'react';
+import React, { Fragment } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -14,8 +14,7 @@ import {
   View,
   Text,
   StatusBar,
-  TouchableHighlight,
-} from 'react-native';
+} from "react-native";
 
 import {
   Header,
@@ -23,9 +22,9 @@ import {
   Colors,
   DebugInstructions,
   ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import {Provider} from 'react-redux';
-import Test from './components/test';
+} from "react-native/Libraries/NewAppScreen";
+import { Provider } from "react-redux";
+import Test from "./components/test";
 
 const App = store => () => (
   <Provider store={store}>
@@ -45,8 +44,8 @@ const App = store => () => (
             <View style={styles.sectionContainer}>
               <Test />
               <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change
-                this screen and then come back to see your edits.
+                Edit <Text style={styles.highlight}>App.js</Text> to change this
+                screen and then come back to see your edits.
               </Text>
             </View>
             <View style={styles.sectionContainer}>
@@ -80,7 +79,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lighter,
   },
   engine: {
-    position: 'absolute',
+    position: "absolute",
     right: 0,
   },
   body: {
@@ -92,25 +91,25 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 24,
-    fontWeight: '600',
+    fontWeight: "600",
     color: Colors.black,
   },
   sectionDescription: {
     marginTop: 8,
     fontSize: 18,
-    fontWeight: '400',
+    fontWeight: "400",
     color: Colors.dark,
   },
   highlight: {
-    fontWeight: '700',
+    fontWeight: "700",
   },
   footer: {
     color: Colors.dark,
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: "600",
     padding: 4,
     paddingRight: 12,
-    textAlign: 'right',
+    textAlign: "right",
   },
 });
 

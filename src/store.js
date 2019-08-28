@@ -1,11 +1,11 @@
-import {isDev} from './utils';
+import { isDev } from "./utils";
 
-import {combineReducers, createStore, applyMiddleware} from 'redux';
-import {createLogger} from 'redux-logger';
-import {combineEpics, createEpicMiddleware} from 'redux-observable';
-import { createAccount } from './epics';
-import reducer from './reducers';
-import {ajax} from 'rxjs/ajax';
+import { combineReducers, createStore, applyMiddleware } from "redux";
+import { createLogger } from "redux-logger";
+import { combineEpics, createEpicMiddleware } from "redux-observable";
+import { createAccount } from "./epics";
+import reducer from "./reducers";
+import { ajax } from "rxjs/ajax";
 
 export const storeBuilder = () => {
   const logger = createLogger({
@@ -21,9 +21,9 @@ export const storeBuilder = () => {
     diff: true,
     level: {
       prevState: false,
-      action: 'log',
-      nextState: 'log',
-      error: 'error',
+      action: "log",
+      nextState: "log",
+      error: "error",
     },
   });
 
@@ -31,7 +31,7 @@ export const storeBuilder = () => {
 
   const rootEpic = combineEpics(...epics);
   const epicMiddleware = createEpicMiddleware({
-    dependencies: {getJSON: ajax.getJSON},
+    dependencies: { getJSON: ajax.getJSON },
   });
 
   const store = isDev
