@@ -1,5 +1,5 @@
 export const createAccount = ({ accountName }) => ({
-  type: 'CREATE_ACCOUNT',
+  type: "CREATE_ACCOUNT",
   payload: {
     accountName,
   },

@@ -13,7 +13,9 @@
     "lint": "eslint .",
     "log-android": "react-native log-android",
     "log-ios": "react-native-log-ios EasyAccess",
+    "prettier": "prettier --write index.js src/**/*.js",
     "start": "react-native start",
+    "sort": "import-sort --write index.js src/**/*.js",
     "test": "jest",
     "xcode": "xed ios"
   },
@@ -34,6 +36,7 @@
     "@react-native-community/eslint-config": "^0.0.5",
     "babel-jest": "^24.9.0",
     "eslint": "^6.2.2",
+    "import-sort-cli": "^6.0.0",
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.56.0",
     "react-native-cli": "^2.0.1",
