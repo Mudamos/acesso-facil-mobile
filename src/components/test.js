@@ -1,5 +1,6 @@
 import { Text, TouchableHighlight } from "react-native";
 
+import Config from "react-native-config";
 import React from "react";
 import { connect } from "react-redux";
 import { createAccount } from "../actions";
@@ -11,7 +12,7 @@ const enhance = connect(
 
 const Test = ({ createAccount }) => (
   <TouchableHighlight onPress={() => createAccount({ accountName: "Jonas" })}>
-    <Text>Create account!</Text>
+    <Text>Create account! {Config.API_URL}</Text>
   </TouchableHighlight>
 );
 
