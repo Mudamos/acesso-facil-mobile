@@ -1,19 +1,40 @@
-import { Text, TouchableHighlight } from "react-native";
+import { Text, TouchableHighlight, View } from "react-native";
+import { accountLogin, createAccount, fetchAccounts } from "../actions";
 
 import Config from "react-native-config";
 import React from "react";
 import { connect } from "react-redux";
-import { createAccount } from "../actions";
+import { head } from "ramda";
 
 const enhance = connect(
-  null,
-  { createAccount },
+  state => ({
+    accountTest: head(state.accounts.data),
+  }),
+  { createAccount, fetchAccounts, accountLogin },
 );
 
-const Test = ({ createAccount }) => (
-  <TouchableHighlight onPress={() => createAccount({ accountName: "Jonas" })}>
-    <Text>Create account! {Config.API_URL}</Text>
-  </TouchableHighlight>
+const Test = ({ accountLogin, accountTest, createAccount, fetchAccounts }) => (
+  <View>
+    <TouchableHighlight onPress={() => createAccount({ accountName: "Jonas" })}>
+      <Text>Create account! {Config.API_URL}</Text>
+    </TouchableHighlight>
+
+    <TouchableHighlight onPress={fetchAccounts}>
+      <Text>Fetch accounts</Text>
+    </TouchableHighlight>
+
+    {accountTest && (
+      <TouchableHighlight
+        onPress={() =>
+          accountLogin({
+            id: accountTest.id,
+            contentEncoded: "eyJhY2NvdW50TmFtZSI6IkpvbmFzIn0=",
+          })
+        }>
+        <Text>Login</Text>
+      </TouchableHighlight>
+    )}
+  </View>
 );
 
 export default enhance(Test);

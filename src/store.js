@@ -1,9 +1,12 @@
 import { applyMiddleware, createStore } from "redux";
 import { combineEpics, createEpicMiddleware } from "redux-observable";
 
-import { ajax } from "rxjs/ajax";
-import { createAccount } from "./epics";
+import Config from "react-native-config";
+import { accountEpics } from "./epics";
+import accountManager from "./services/account";
+import api from "./services/api";
 import { createLogger } from "redux-logger";
+import { defaultStorage } from "./services/storage";
 import { isDev } from "./utils";
 import reducer from "./reducers";
 
@@ -27,11 +30,20 @@ export const storeBuilder = () => {
     },
   });
 
-  const epics = [createAccount];
+  const epics = [accountEpics];
 
   const rootEpic = combineEpics(...epics);
+
+  const storage = defaultStorage();
+
   const epicMiddleware = createEpicMiddleware({
-    dependencies: { getJSON: ajax.getJSON },
+    dependencies: {
+      api: api(Config),
+      accountManager: accountManager({
+        keychainNamespace: Config.KEYCHAIN_NAMESPACE,
+        storage,
+      }),
+    },
   });
 
   const store = isDev

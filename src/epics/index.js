@@ -1,1 +1,1 @@
-export * from "./account";
+export { default as accountEpics } from "./account";
