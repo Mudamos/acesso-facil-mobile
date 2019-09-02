@@ -10,12 +10,14 @@ import {
   set,
 } from "ramda";
 
+import uuidv1 from "uuid/v1";
+
 const ACCOUNTS_KEY = "accounts";
 const RSA_STRENGTH = 2048;
 const ALGORITHM = RSA.SHA512withRSA;
 
-const accountId = (keychainNamespace, index) =>
-  `${keychainNamespace}.key.${index}`;
+const generateAccountId = keychainNamespace =>
+  `${keychainNamespace}.key.${uuidv1()}`;
 
 const fetchAccounts = storage =>
   storage.fetch(ACCOUNTS_KEY).then(accounts => accounts || []);
@@ -35,7 +37,7 @@ const createAccount = curry((storage, keychainNamespace, { accountName }) =>
     .then(accounts => ({
       accounts,
       newAccount: {
-        id: accountId(keychainNamespace, accounts.length + 1),
+        id: generateAccountId(keychainNamespace),
         name: accountName,
         committed: false,
       },
