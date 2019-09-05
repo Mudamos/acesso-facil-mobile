@@ -40,6 +40,7 @@ yarn-error.log
 buck-out/
 \.buckd/
 *.keystore
+!android/keystores/easyaccess-staging.keystore
 
 # fastlane
 #
