@@ -137,6 +137,9 @@ android {
 
         // react-native-config
         resValue "string", "build_config_package", "com.easyaccess"
+
+        // react-native-camera
+        missingDimensionStrategy "react-native-camera", "general"
     }
     splits {
         abi {
