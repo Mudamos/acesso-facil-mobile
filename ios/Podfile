@@ -29,6 +29,9 @@ def pods
 
   pod 'react-native-camera', :path => '../node_modules/react-native-camera'
   pod 'ReactNativePermissions', :path => '../node_modules/react-native-permissions'
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+  pod 'RNSha256', :path => '../node_modules/react-native-sha256'
 end
 
 target 'EasyAccess' do
