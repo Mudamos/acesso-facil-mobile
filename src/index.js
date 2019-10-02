@@ -1,116 +1,49 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React, { Component } from "react";
+import { appDidMount, appWillUnmount } from "./actions";
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from "react-native/Libraries/NewAppScreen";
-import React, { Fragment } from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-
+import HomeContainer from "./containers/home-container";
+import { NavigationNativeContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
-import Test from "./components/test";
+import QRCodeCreateAccountContainer from "./containers/qrcode-create-account-container";
+import SplashScreenContainer from "./containers/splash-screen-container";
+import { createStackNavigator } from "@react-navigation/stack";
 
-const App = store => () => (
-  <Provider store={store}>
-    <Fragment>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Test />
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </Fragment>
-  </Provider>
-);
+const { Navigator, Screen } = createStackNavigator();
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: "absolute",
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: "600",
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: "400",
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: "700",
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: "600",
-    padding: 4,
-    paddingRight: 12,
-    textAlign: "right",
-  },
-});
+const AppBuilder = store =>
+  class App extends Component {
+    componentDidMount() {
+      store.dispatch(appDidMount());
+    }
 
-export default App;
+    componentWillUnmount() {
+      store.dispatch(appWillUnmount());
+    }
+
+    render() {
+      return (
+        <Provider store={store}>
+          <NavigationNativeContainer>
+            <Navigator
+              initialRouteName="SplashScreen"
+              headerMode="none"
+              screenOptions={{ gestureEnabled: true }}>
+              <Screen name="SplashScreen" component={SplashScreenContainer} />
+              <Screen name="Home" component={HomeContainer} />
+              <Screen
+                name="CreateAccount"
+                component={QRCodeCreateAccountContainer}
+                options={{
+                  gesturesEnabled: true,
+                  gestureDirection: "horizontal",
+                  animation: "spring",
+                }}
+              />
+            </Navigator>
+          </NavigationNativeContainer>
+        </Provider>
+      );
+    }
+  };
+
+export default AppBuilder;
