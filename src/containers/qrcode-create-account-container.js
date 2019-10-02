@@ -41,12 +41,21 @@ const enhance = compose(
         this.props.hasSuccessOnQrcodeScan
       ) {
         this.props.navigation.goBack();
-        Alert.alert("Acesso Fácil", "Identidade criada com sucesso");
+        Alert.alert("Acesso Fácil", "Identidade criada com sucesso", [
+          {
+            text: "Ok",
+            onPress: () => this.props.dismissNotifyQrcodeSuccess(),
+          },
+        ]);
       }
 
       if (hasDiffProp("scannerError") && this.props.scannerError) {
-        this.props.navigation.goBack();
-        Alert.alert("Acesso Fácil", this.props.scannerError);
+        Alert.alert("Acesso Fácil", this.props.scannerError, [
+          {
+            text: "Ok",
+            onPress: () => this.props.dismissNotifyQrcodeSuccess(),
+          },
+        ]);
       }
     },
     componentWillUnmount() {
@@ -60,9 +69,7 @@ const enhance = compose(
     onBack: ({ navigation: { goBack } }) => () => goBack(),
     onQrcodeScan: ({ qrcodeScan }) => ({ content }) => qrcodeScan({ content }),
   }),
-  mapProps(
-    omit(["scannerError", "dismissNotifyQrcodeSuccess", "createAccountAbort"]),
-  ),
+  mapProps(omit(["dismissNotifyQrcodeSuccess", "createAccountAbort"])),
   pure,
 );
 

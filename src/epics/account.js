@@ -23,7 +23,6 @@ import {
 import { filter, identity, prop, propEq } from "ramda";
 
 import { combineEpics } from "redux-observable";
-import { getCurrentAccount } from "../selectors";
 import { of } from "rxjs";
 import { ofType as ofType$ } from "redux-observable";
 
@@ -126,7 +125,9 @@ const qrcodeAccountVerify = (action$, state$, { accountManager, api }) =>
 
             return Promise.reject("QRCode inválido");
           })
-          .then(({ success, data }) => qrcodeScanSuccess({ success, data, currentAccount }))
+          .then(({ success, data }) =>
+            qrcodeScanSuccess({ success, data, currentAccount }),
+          )
           .catch(qrcodeScanError);
       } catch (error) {
         return qrcodeScanError(error);
@@ -134,7 +135,7 @@ const qrcodeAccountVerify = (action$, state$, { accountManager, api }) =>
     }),
   );
 
-const qrcodeAccountSuccess = (action$, state$) =>
+const qrcodeAccountSuccess = action$ =>
   action$.pipe(
     ofType$("QRCODE_SCAN_SUCCESS"),
     exhaustMap$(({ payload: { data, currentAccount } }) => {

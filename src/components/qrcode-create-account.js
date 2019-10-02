@@ -50,11 +50,16 @@ const QRCodeCreateAccount = ({
   isWaitingForName,
   onBack,
   onQrcodeScan,
+  scannerError,
 }) => {
   const [showIntro, setShowIntro] = useState(true);
   const [cameraEnabled, setCameraEnabled] = useState(false);
   const shouldRenderCamera =
-    !isScanning && !isWaitingForName && !hasSuccessOnQrcodeScan && !showIntro;
+    !isScanning &&
+    !isWaitingForName &&
+    !hasSuccessOnQrcodeScan &&
+    !showIntro &&
+    !scannerError;
 
   return (
     <View style={styles.container}>
@@ -67,6 +72,7 @@ const QRCodeCreateAccount = ({
             containerStyle={styles.qrcodeContainer}
             cameraStyle={styles.qrcodeCamera}
             notAuthorizedView={<QRCodeNotAuthorized />}
+            pendingAuthorizationView={<View />}
             cameraProps={{
               onCameraReady: () => setCameraEnabled(true),
               notAuthorizedView: <QRCodeNotAuthorized />,
