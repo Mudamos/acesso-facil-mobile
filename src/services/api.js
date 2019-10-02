@@ -1,4 +1,4 @@
-import { curry, pickAll } from "ramda";
+import { curry, lensProp, pickAll, set } from "ramda";
 import farfetch, { prefix, requestLogger, responseLogger } from "farfetch";
 import { isDev, log } from "../utils";
 
@@ -10,12 +10,25 @@ const handleResponseError = res =>
 const rejectErrorResponses = res => {
   log("Api response:", res);
 
-  return deserialize(res)
-    .catch(() => ({}))
-    .then(json => ({
+  return deserialize(res).then(json => {
+    const body = {
+      status: res.status,
       response: res,
       json: camelizeKeys(json),
-    }));
+    };
+
+    if (/4\d\d/.test(res.status)) {
+      return Promise.reject(
+        set(
+          lensProp("json"),
+          "Identidade expirada, por favor gere uma nova",
+          body,
+        ),
+      );
+    }
+
+    return res.ok ? Promise.resolve(body) : Promise.reject(body);
+  });
 };
 
 const deserialize = res => res.json().then(camelizeKeys);
@@ -43,8 +56,8 @@ const requester = ({ host }) => {
 };
 
 const logError = err => {
-  log("Raw error: ", err.message, err.stack, err.json);
-  return Promise.reject(err);
+  log("Raw error: ", err.message, err.status, err.json, err.response);
+  return Promise.reject(getData(err) || err.message);
 };
 
 const serializeJson = req => ({ ...req, body: JSON.stringify(req.body) });
@@ -59,13 +72,15 @@ const createAccount = curry((client, { content, publicKey, signature }) =>
     .then(getData),
 );
 
-const login = curry((client, { content, signature }) =>
+const login = curry((client, { content, signature, publicKey }) =>
   client
     .use(serializeJson)
-    .post("/login")
-    .send({ content, signature })
+    .post("/sign_in")
+    .send({ content, signature, publicKey })
     .then(getData),
 );
+
+const fetchPublicKey = client => () => client.get("/publicKey").then(getData);
 
 export default Config => {
   const client = requester({ host: Config.API_URL });
@@ -73,5 +88,6 @@ export default Config => {
   return {
     createAccount: createAccount(client),
     login: login(client),
+    fetchPublicKey: fetchPublicKey(client),
   };
 };
