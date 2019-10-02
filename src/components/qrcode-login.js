@@ -18,23 +18,23 @@ const styles = StyleSheet.create({
 
 const QRCodeLogin = ({ onQrcodeScan, isScanning, loadingMessage }) => (
   <View style={styles.container}>
-    <QRCodeScanner
-      onRead={content => onQrcodeScan({ content: content.data })}
-      reactivate={!isScanning}
-      showMarker
-      customMarker={<QRCodeMask />}
-      reactivateTimeout={5000}
-      containerStyle={styles.qrcodeContainer}
-      cameraStyle={styles.qrcodeCamera}
-      notAuthorizedView={<QRCodeNotAuthorized />}
-      cameraProps={{
-        ratio: "1:1",
-        notAuthorizedView: <QRCodeNotAuthorized />,
-      }}
-      checkAndroid6Permissions
-      permissionDialogTitle="Por que precisamos do acesso a camera?"
-      permissionDialogMessage="Para conceder o acesso à SEFAZ é necessário escanear o QRCode através da camera do seu dispositivo"
-    />
+    {!isScanning && (
+      <QRCodeScanner
+        onRead={content => onQrcodeScan({ content: content.data })}
+        showMarker
+        customMarker={<QRCodeMask />}
+        containerStyle={styles.qrcodeContainer}
+        cameraStyle={styles.qrcodeCamera}
+        notAuthorizedView={<QRCodeNotAuthorized />}
+        cameraProps={{
+          ratio: "1:1",
+          notAuthorizedView: <QRCodeNotAuthorized />,
+        }}
+        checkAndroid6Permissions
+        permissionDialogTitle="Por que precisamos do acesso a camera?"
+        permissionDialogMessage="Para conceder o acesso à SEFAZ é necessário escanear o QRCode através da camera do seu dispositivo"
+      />
+    )}
     <LoaderModal visible={isScanning} message={loadingMessage} />
   </View>
 );
