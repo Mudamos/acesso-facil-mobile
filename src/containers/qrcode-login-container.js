@@ -71,7 +71,6 @@ const enhance = compose(
   mapProps(
     omit([
       "currentAccount",
-      "hasSuccessOnQrcodeScan",
       "scannerError",
       "dismissNotifyQrcodeSuccess",
       "qrcodeScan",

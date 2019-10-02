@@ -16,9 +16,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const QRCodeLogin = ({ onQrcodeScan, isScanning, loadingMessage }) => (
+const QRCodeLogin = ({ hasSuccessOnQrcodeScan, onQrcodeScan, isScanning, loadingMessage }) => (
   <View style={styles.container}>
-    {!isScanning && (
+    {!isScanning && !hasSuccessOnQrcodeScan && (
       <QRCodeScanner
         onRead={content => onQrcodeScan({ content: content.data })}
         showMarker
@@ -44,6 +44,7 @@ QRCodeLogin.defaultProps = {
 };
 
 QRCodeLogin.proptypes = {
+  hasSuccessOnQrcodeScan: PropTypes.bool.isRequired,
   isScanning: PropTypes.bool.isRequired,
   loadingMessage: PropTypes.string,
   onQrcodeScan: PropTypes.func.isRequired,
