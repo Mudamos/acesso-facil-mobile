@@ -16,28 +16,40 @@ const styles = StyleSheet.create({
   },
 });
 
-const QRCodeLogin = ({ hasSuccessOnQrcodeScan, onQrcodeScan, isScanning, loadingMessage }) => (
-  <View style={styles.container}>
-    {!isScanning && !hasSuccessOnQrcodeScan && (
-      <QRCodeScanner
-        onRead={content => onQrcodeScan({ content: content.data })}
-        showMarker
-        customMarker={<QRCodeMask />}
-        containerStyle={styles.qrcodeContainer}
-        cameraStyle={styles.qrcodeCamera}
-        notAuthorizedView={<QRCodeNotAuthorized />}
-        cameraProps={{
-          ratio: "1:1",
-          notAuthorizedView: <QRCodeNotAuthorized />,
-        }}
-        checkAndroid6Permissions
-        permissionDialogTitle="Por que precisamos do acesso a camera?"
-        permissionDialogMessage="Para conceder o acesso à SEFAZ é necessário escanear o QRCode através da camera do seu dispositivo"
-      />
-    )}
-    <LoaderModal visible={isScanning} message={loadingMessage} />
-  </View>
-);
+const QRCodeLogin = ({
+  hasSuccessOnQrcodeScan,
+  onQrcodeScan,
+  scannerError,
+  isScanning,
+  loadingMessage,
+}) => {
+  const shouldRenderCamera =
+    !isScanning && !hasSuccessOnQrcodeScan && !scannerError;
+
+  return (
+    <View style={styles.container}>
+      {shouldRenderCamera && (
+        <QRCodeScanner
+          onRead={content => onQrcodeScan({ content: content.data })}
+          showMarker
+          customMarker={<QRCodeMask />}
+          containerStyle={styles.qrcodeContainer}
+          cameraStyle={styles.qrcodeCamera}
+          notAuthorizedView={<QRCodeNotAuthorized />}
+          pendingAuthorizationView={<View />}
+          cameraProps={{
+            ratio: "1:1",
+            notAuthorizedView: <QRCodeNotAuthorized />,
+          }}
+          checkAndroid6Permissions
+          permissionDialogTitle="Por que precisamos do acesso a camera?"
+          permissionDialogMessage="Para conceder o acesso à SEFAZ é necessário escanear o QRCode através da camera do seu dispositivo"
+        />
+      )}
+      <LoaderModal visible={isScanning} message={loadingMessage} />
+    </View>
+  );
+};
 
 QRCodeLogin.defaultProps = {
   loadingMessage: null,
