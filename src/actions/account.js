@@ -13,11 +13,14 @@ export const createAccountError = raw => ({
   },
 });
 
-export const createAccountSuccess = ({ id, name, publicKey }) => ({
+export const createAccountAbort = () => ({ type: "CREATE_ACCOUNT_ABORT" });
+
+export const createAccountSuccess = ({ id, name, idDevice, publicKey }) => ({
   type: "CREATE_ACCOUNT_SUCCESS",
   payload: {
     id,
     name,
+    idDevice,
     publicKey,
   },
 });
@@ -50,6 +53,54 @@ export const accountLoginError = raw => ({
   },
 });
 
-export const accountLoginSuccess = () => ({
-  type: "ACCOUNT_LOGIN_SUCCESS",
+export const notifyQrcodeSuccess = () => ({
+  type: "NOTIFY_QRCODE_SUCCESS",
+});
+
+export const changeCurrentAccount = id => ({
+  type: "CHANGE_CURRENT_ACCOUNT",
+  payload: { id },
+});
+
+export const qrcodeScan = ({ content, currentAccount }) => ({
+  type: "QRCODE_SCAN",
+  payload: {
+    content,
+    currentAccount,
+  },
+});
+
+export const qrcodeScanSuccess = ({ success, data, currentAccount }) => ({
+  type: "QRCODE_SCAN_SUCCESS",
+  payload: {
+    success,
+    data,
+    currentAccount,
+  },
+});
+
+export const qrcodeScanError = raw => ({
+  type: "QRCODE_SCAN_ERROR",
+  payload: { raw },
+});
+
+export const requestNewAccountName = tempAccount => ({
+  type: "REQUEST_NEW_ACCOUNT_NAME",
+  payload: {
+    tempAccount,
+  },
+});
+
+export const deleteAccount = id => ({
+  type: "DELETE_ACCOUNT",
+  payload: { id },
+});
+
+export const deleteAccountSuccess = () => ({
+  type: "DELETE_ACCOUNT_SUCCESS",
+});
+
+export const deleteAccountError = raw => ({
+  type: "DELETE_ACCOUNT_ERROR",
+  payload: { raw },
 });

@@ -7,9 +7,11 @@ import {
   isNil,
   lensPath,
   propEq,
+  reject,
   set,
 } from "ramda";
 
+import { sha1 } from "react-native-sha256";
 import uuidv1 from "uuid/v1";
 
 const ACCOUNTS_KEY = "accounts";
@@ -51,10 +53,24 @@ const createAccount = curry((storage, keychainNamespace, { accountName }) =>
       ),
     )
     .then(({ accounts, newAccount }) =>
+      sha1(newAccount.publicKey).then(hash =>
+        set(lensPath(["newAccount", "idDevice"]), hash, {
+          accounts,
+          newAccount,
+        }),
+      ),
+    )
+    .then(({ accounts, newAccount }) =>
       persistAccounts(storage, append(newAccount, accounts)).then(
         () => newAccount,
       ),
     ),
+);
+
+const deleteAccount = curry((storage, id) =>
+  fetchAccounts(storage)
+    .then(accounts => reject(propEq("id", id), accounts))
+    .then(accounts => persistAccounts(storage, accounts).then(() => accounts)),
 );
 
 const commit = curry((storage, accountId) =>
@@ -87,12 +103,13 @@ const signMessage = curry((storage, accountId, message) =>
 
 /* @returns {Boolean} isValid
  */
-const verifyMessage = curry((signature, message, publicKey) =>
+const verifyMessage = curry((storage, signature, message, publicKey) =>
   RSA.verifyWithAlgorithm(signature, message, publicKey, ALGORITHM),
 );
 
 export default ({ keychainNamespace, storage }) => ({
   createAccount: createAccount(storage, keychainNamespace),
+  deleteAccount: deleteAccount(storage),
   commit: commit(storage),
   destroyUncommited: () => destroyUncommited(storage),
   fetchAccounts: () => fetchAccounts(storage),
