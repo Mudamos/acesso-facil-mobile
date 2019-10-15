@@ -114,7 +114,7 @@ const qrcodeAccountVerify = (action$, state$, { accountManager, api }) =>
     exhaustMap$(async ({ payload: { content, currentAccount } }) => {
       try {
         const [contentEncoded, signature] = content.split(";");
-        const publicKey = await api.fetchPublicKey().then(prop("publicKey"));
+        const publicKey = await api.fetchPublicKey();
 
         return accountManager
           .verifyMessageWithPublicKey(signature, contentEncoded, publicKey)

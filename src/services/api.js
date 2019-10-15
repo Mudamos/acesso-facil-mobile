@@ -1,4 +1,4 @@
-import { curry, lensProp, pickAll, set } from "ramda";
+import { curry, includes, lensProp, pickAll, set } from "ramda";
 import farfetch, { prefix, requestLogger, responseLogger } from "farfetch";
 import { isDev, log } from "../utils";
 
@@ -31,7 +31,15 @@ const rejectErrorResponses = res => {
   });
 };
 
-const deserialize = res => res.json().then(camelizeKeys);
+const deserialize = res => {
+  const contentType = res.headers.get("content-type");
+
+  if (contentType && includes("application/json", contentType)) {
+    return res.json().then(camelizeKeys);
+  }
+
+  return res.text();
+};
 
 const requester = ({ host }) => {
   let builder = farfetch;
@@ -80,7 +88,7 @@ const login = curry((client, { content, signature, publicKey }) =>
     .then(getData),
 );
 
-const fetchPublicKey = client => () => client.get("/publicKey").then(getData);
+const fetchPublicKey = client => () => client.get("/public-key").then(getData);
 
 export default Config => {
   const client = requester({ host: Config.API_URL });
