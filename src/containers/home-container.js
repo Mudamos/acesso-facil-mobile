@@ -31,7 +31,7 @@ const enhance = compose(
   withProps(({ accounts, currentAccount }) => ({
     title: isEmpty(accounts)
       ? "Acesso Fácil SEFAZ"
-      : propOr("Selecione uma identidade", "name", currentAccount),
+      : propOr("Selecione uma identidade", "accountName", currentAccount),
     hasCurrentAccount: !!currentAccount,
   })),
   mapProps(omit(["accounts", "currentAccount", "changeCurrentAccount"])),

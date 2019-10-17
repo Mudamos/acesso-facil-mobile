@@ -34,14 +34,15 @@ const persistAccounts = curry((storage, accounts) =>
  *  @param {String} newAccount.publicKey
  *  @param {Boolean} newAccount.committed - If it's should be considered saved
  */
-const createAccount = curry((storage, keychainNamespace, { accountName }) =>
+const createAccount = curry((storage, keychainNamespace, { accountName, ...extra }) =>
   fetchAccounts(storage)
     .then(accounts => ({
       accounts,
       newAccount: {
         id: generateAccountId(keychainNamespace),
-        name: accountName,
+        accountName: accountName,
         committed: false,
+        ...extra,
       },
     }))
     .then(({ accounts, newAccount }) =>

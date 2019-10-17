@@ -1,4 +1,4 @@
-import { curry, includes, lensProp, pickAll, set } from "ramda";
+import { curry, includes, isEmpty, lensProp, pickAll, propOr, set } from "ramda";
 import farfetch, { prefix, requestLogger, responseLogger } from "farfetch";
 import { isDev, log } from "../utils";
 
@@ -14,14 +14,16 @@ const rejectErrorResponses = res => {
     const body = {
       status: res.status,
       response: res,
-      json: camelizeKeys(json),
+      data: camelizeKeys(json),
     };
+
+    log("Api response body: ", json);
 
     if (/4\d\d/.test(res.status)) {
       return Promise.reject(
         set(
-          lensProp("json"),
-          "Identidade expirada, por favor gere uma nova",
+          lensProp("data"),
+          propOr("Identidade expirada, por favor gere uma nova", "descricao", json),
           body,
         ),
       );
@@ -34,11 +36,17 @@ const rejectErrorResponses = res => {
 const deserialize = res => {
   const contentType = res.headers.get("content-type");
 
-  if (contentType && includes("application/json", contentType)) {
-    return res.json().then(camelizeKeys);
-  }
+  return res.text().then(body => {
+    if (contentType && includes("application/json", contentType)) {
+      if (isEmpty(body)) {
+        return null;
+      }
 
-  return res.text();
+      return camelizeKeys(JSON.parse(body));
+    }
+
+    return body;
+  });
 };
 
 const requester = ({ host }) => {
@@ -64,13 +72,13 @@ const requester = ({ host }) => {
 };
 
 const logError = err => {
-  log("Raw error: ", err.message, err.status, err.json, err.response);
+  log("Raw error: ", err.message, err.status, err.data, err.response);
   return Promise.reject(getData(err) || err.message);
 };
 
 const serializeJson = req => ({ ...req, body: JSON.stringify(req.body) });
 
-const getData = ({ json }) => json;
+const getData = ({ data }) => data;
 
 const createAccount = curry((client, { content, publicKey, signature }) =>
   client

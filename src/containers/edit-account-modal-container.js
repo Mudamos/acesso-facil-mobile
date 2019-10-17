@@ -6,12 +6,12 @@ import {
   withProps,
   withState,
 } from "recompose";
+import { prop, propOr } from "ramda";
 
 import EditAccountModal from "../components/edit-account-modal";
 import { connect } from "react-redux";
 import { createAccount } from "../actions";
 import { getTempAccount } from "../selectors";
-import { prop } from "ramda";
 
 const enhance = compose(
   connect(
@@ -25,8 +25,8 @@ const enhance = compose(
   withProps(({ account }) => ({
     defaultAccountName: prop("accountName", account),
   })),
-  branch(({ defaultAccountName }) => !defaultAccountName, renderNothing),
-  withState("customName", "setCustomName", prop("defaultAccountName")),
+  branch(({ account }) => !account, renderNothing),
+  withState("customName", "setCustomName", propOr("", "defaultAccountName")),
   pure,
 );
 

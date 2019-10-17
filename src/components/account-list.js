@@ -1,4 +1,4 @@
-import { DARK_GRAY, GRAY } from "../constants";
+import { DARK_GRAY, LIGHT_GRAY } from "../constants";
 import { FlatList, StyleSheet, View } from "react-native";
 
 import AccountCard from "./account-card";
@@ -9,7 +9,7 @@ import React from "react";
 import { isEmpty } from "ramda";
 
 const styles = StyleSheet.create({
-  container: { flex: 2, backgroundColor: GRAY },
+  container: { flex: 2, backgroundColor: LIGHT_GRAY },
   newAccount: { marginBottom: 16 },
   newAccountText: { fontWeight: "bold" },
   itemSeparator: {
@@ -47,7 +47,7 @@ const AccountList = ({
             account={item}
             index={index}
             onChange={changeCurrentAccount}
-            onDelete={() => onDeleteAccount({ id: item.id, name: item.name })}
+            onDelete={() => onDeleteAccount({ id: item.id, accountName: item.accountName })}
           />
         )}
       />

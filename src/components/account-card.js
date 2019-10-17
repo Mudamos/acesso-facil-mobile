@@ -47,7 +47,7 @@ const AccountCard = ({ account, index, onChange, onDelete }) => (
         onPress={() => onChange(account.id)}
         onLongPress={() => onDelete()}>
         <Text style={styles.text} numberOfLines={2}>
-          {account.name}
+          {account.accountName}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity

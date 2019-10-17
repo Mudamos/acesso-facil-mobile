@@ -1,4 +1,4 @@
-import { BLUE, GRAY, WHITE } from "../../constants";
+import { BLUE, GRAY, LIGHT_GRAY, WHITE } from "../../constants";
 import {
   StyleSheet,
   Text,
@@ -21,11 +21,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   disabled: {
-    backgroundColor: GRAY,
+    backgroundColor: LIGHT_GRAY,
     borderRadius: 10,
     padding: 10,
     flexDirection: "row",
     justifyContent: "center",
+  },
+  disabledText: {
+    color: GRAY,
   },
   text: {
     color: WHITE,
@@ -38,7 +41,7 @@ const Button = ({ text, icon, textStyle, style, disabled, onPress }) => {
     return (
       <View style={[styles.disabled, style]}>
         {icon}
-        <Text style={[styles.text, textStyle]}>{text}</Text>
+        <Text style={[styles.text, styles.disabledText, textStyle]}>{text}</Text>
       </View>
     );
   }

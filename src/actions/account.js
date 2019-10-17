@@ -15,13 +15,14 @@ export const createAccountError = raw => ({
 
 export const createAccountAbort = () => ({ type: "CREATE_ACCOUNT_ABORT" });
 
-export const createAccountSuccess = ({ id, name, idDevice, publicKey }) => ({
+export const createAccountSuccess = ({ id, accountName, idDevice, publicKey, ...extra }) => ({
   type: "CREATE_ACCOUNT_SUCCESS",
   payload: {
     id,
-    name,
+    accountName,
     idDevice,
     publicKey,
+    ...extra,
   },
 });
 
