@@ -1,20 +1,28 @@
-import { propOr } from "ramda";
+import { curry, head, isEmpty, propOr } from "ramda";
 
-const GENERIC_ERRORS_PATTERN = [
-  /.*java.lang.String.getBytes.*/i,
-  /.*Network request failed.*/i,
+const MAPPED_ERRORS = [
+  {
+    pattern: /.*java.lang.String.getBytes.*/i,
+    message: "Não foi possível ler o QRCode, tente novamente",
+  },
+  {
+    pattern: /.*Network request failed.*/i,
+    message: "Não foi possível conectar com o servidor, tente novamente",
+  }
 ];
+
+const testPattern = curry((error, mappedError) => mappedError.pattern.test(error));
 
 const formatErrorPayload = payload => {
   const error = propOr(payload.raw, "message", payload.raw);
 
-  if (
-    GENERIC_ERRORS_PATTERN.map(pattern => pattern.test(error)).some(Boolean)
-  ) {
-    return "Um erro inesperado aconteceu, tente novamente";
+  const mappedErrors = MAPPED_ERRORS.filter(testPattern(error));
+
+  if (isEmpty(mappedErrors)) {
+    return error;
   }
 
-  return error;
+  return head(mappedErrors).message;
 };
 
 const initialState = {
