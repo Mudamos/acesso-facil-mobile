@@ -85,6 +85,11 @@ export const qrcodeScanError = raw => ({
   payload: { raw },
 });
 
+export const qcodeValidateContent = ({ qrcodeSignedData, publicKey, currentAccount }) => ({
+  type: "QRCODE_VALIDATE_CONTENT",
+  payload: { qrcodeSignedData, publicKey, currentAccount },
+})
+
 export const requestNewAccountName = tempAccount => ({
   type: "REQUEST_NEW_ACCOUNT_NAME",
   payload: {

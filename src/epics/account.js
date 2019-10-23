@@ -9,6 +9,7 @@ import {
   fetchAccounts as fetchAccountsRequest,
   fetchAccountsSuccess,
   notifyQrcodeSuccess,
+  qcodeValidateContent,
   qrcodeScanError,
   qrcodeScanSuccess,
   requestNewAccountName,
@@ -28,7 +29,7 @@ import { ofType as ofType$ } from "redux-observable";
 
 const rejectUncommitted = filter(propEq("committed", true));
 
-const mountApp = action$ =>
+const mountAppEpic = action$ =>
   action$.pipe(
     ofType$("APP_DID_MOUNT"),
     exhaustMap$(() =>
@@ -38,7 +39,7 @@ const mountApp = action$ =>
     ),
   );
 
-const createAccount = (action$, state$, { accountManager, api }) =>
+const createAccountEpic = (action$, state$, { accountManager, api }) =>
   action$.pipe(
     ofType$("CREATE_ACCOUNT"),
     exhaustMap$(async ({ payload: { accountName, ...extraApiArgs } }) => {
@@ -70,7 +71,7 @@ const createAccount = (action$, state$, { accountManager, api }) =>
     }),
   );
 
-const fetchAccounts = (action$, state$, { accountManager }) =>
+const fetchAccountsEpic = (action$, state$, { accountManager }) =>
   action$.pipe(
     ofType$("FETCH_ACCOUNTS"),
     switchMap$(() =>
@@ -83,7 +84,7 @@ const fetchAccounts = (action$, state$, { accountManager }) =>
     ),
   );
 
-const deleteAccount = (action$, state$, { accountManager }) =>
+const deleteAccountEpic = (action$, state$, { accountManager }) =>
   action$.pipe(
     ofType$("DELETE_ACCOUNT"),
     exhaustMap$(({ payload: { id } }) =>
@@ -95,7 +96,7 @@ const deleteAccount = (action$, state$, { accountManager }) =>
     mergeMap$(identity),
   );
 
-const login = (action$, state$, { accountManager, api }) =>
+const loginEpic = (action$, state$, { accountManager, api }) =>
   action$.pipe(
     ofType$("ACCOUNT_LOGIN"),
     switchMap$(({ payload: { contentEncoded, id } }) =>
@@ -108,13 +109,30 @@ const login = (action$, state$, { accountManager, api }) =>
     mergeMap$(identity),
   );
 
-const qrcodeAccountVerify = (action$, state$, { accountManager, api }) =>
+const qrcodeScanEpic = (action$, state$, { api }) =>
   action$.pipe(
     ofType$("QRCODE_SCAN"),
     exhaustMap$(async ({ payload: { content, currentAccount } }) => {
       try {
-        const [contentEncoded, signature] = content.split(";");
-        const publicKey = await api.fetchPublicKey();
+        const [qrcodeSignedData, publicKey] =
+          await Promise.all([
+            api.fetchQrcodeSignedData(content),
+            api.fetchPublicKey()
+          ]);
+
+          return qcodeValidateContent({ qrcodeSignedData, publicKey, currentAccount })
+      } catch (error) {
+        return qrcodeScanError(error);
+      }
+    }),
+  );
+
+const qrcodeScanValidateContentEpic = (action$, state$, { accountManager, api }) =>
+  action$.pipe(
+    ofType$("QRCODE_VALIDATE_CONTENT"),
+    exhaustMap$(async ({ payload: { qrcodeSignedData, publicKey, currentAccount } }) => {
+      try {
+        const [contentEncoded, signature] = qrcodeSignedData.split(";");
 
         return accountManager
           .verifyMessageWithPublicKey(signature, contentEncoded, publicKey)
@@ -125,9 +143,7 @@ const qrcodeAccountVerify = (action$, state$, { accountManager, api }) =>
 
             return Promise.reject("QRCode inválido");
           })
-          .then(({ success, data }) =>
-            qrcodeScanSuccess({ success, data, currentAccount }),
-          )
+          .then(({ success, data }) => qrcodeScanSuccess({ success, data, currentAccount }))
           .catch(qrcodeScanError);
       } catch (error) {
         return qrcodeScanError(error);
@@ -135,7 +151,7 @@ const qrcodeAccountVerify = (action$, state$, { accountManager, api }) =>
     }),
   );
 
-const qrcodeAccountSuccess = action$ =>
+const qrcodeScanSuccessEpic = action$ =>
   action$.pipe(
     ofType$("QRCODE_SCAN_SUCCESS"),
     exhaustMap$(({ payload: { data, currentAccount } }) => {
@@ -160,11 +176,12 @@ const qrcodeAccountSuccess = action$ =>
   );
 
 export default combineEpics(
-  mountApp,
-  createAccount,
-  deleteAccount,
-  fetchAccounts,
-  login,
-  qrcodeAccountVerify,
-  qrcodeAccountSuccess,
+  createAccountEpic,
+  deleteAccountEpic,
+  fetchAccountsEpic,
+  loginEpic,
+  mountAppEpic,
+  qrcodeScanEpic,
+  qrcodeScanSuccessEpic,
+  qrcodeScanValidateContentEpic,
 );

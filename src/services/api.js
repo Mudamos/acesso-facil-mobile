@@ -4,67 +4,65 @@ import { isDev, log } from "../utils";
 
 import { camelizeKeys } from "humps";
 
-const handleResponseError = res =>
-  res.then(rejectErrorResponses).catch(logError);
+const handleResponseError = (res, expectJson) =>
+  res.then(error => rejectErrorResponses(error, expectJson)).catch(logError);
 
-const rejectErrorResponses = res => {
+const rejectErrorResponses = (res, expectJson) => {
   log("Api response:", res);
 
-  return deserialize(res).then(json => {
-    const body = {
+  return deserialize(res, expectJson).then(body => {
+    const customResponse = {
       status: res.status,
       response: res,
-      data: camelizeKeys(json),
+      data: expectJson ? camelizeKeys(body) : body,
     };
 
-    log("Api response body: ", json);
+    log("Api response body: ", body);
 
     if (/4\d\d/.test(res.status)) {
       return Promise.reject(
         set(
           lensProp("data"),
-          propOr("Identidade expirada, por favor gere uma nova", "descricao", json),
-          body,
+          propOr("Identidade expirada, por favor gere uma nova", "descricao", body),
+          customResponse,
         ),
       );
     }
 
-    return res.ok ? Promise.resolve(body) : Promise.reject(body);
+    return res.ok ? Promise.resolve(customResponse) : Promise.reject(customResponse);
   });
 };
 
-const deserialize = res => {
+const deserialize = (res, expectJson) => {
   const contentType = res.headers.get("content-type");
 
-  return res.text().then(body => {
-    if (contentType && includes("application/json", contentType)) {
-      if (isEmpty(body)) {
-        return null;
-      }
+  if (expectJson) {
+    return res.json().then(camelizeKeys);
+  }
 
-      return camelizeKeys(JSON.parse(body));
-    }
-
-    return body;
-  });
+  return res.text();
 };
 
-const requester = ({ host }) => {
+const requester = ({ host, expectJson }) => {
   let builder = farfetch;
 
   if (isDev) {
     builder = builder.use(requestLogger()).use(responseLogger());
   }
 
+  if (expectJson) {
+    builder = builder.use(serializeJson);
+  }
+
   builder = builder
     .use(prefix(host))
     .use(req => req.set("Content-Type", "application/json"))
-    .use(req => req.set("Accept", "application/json"))
+    .use(req => req.set("Accept", expectJson ? "application/json" : "text/plain"))
     .use((req, execute) => ({
       ...req,
       execute: req => {
         log(pickAll(["body", "headers", "url"], req));
-        return handleResponseError(execute(req));
+        return handleResponseError(execute(req), expectJson);
       },
     }));
 
@@ -82,7 +80,6 @@ const getData = ({ data }) => data;
 
 const createAccount = curry((client, { content, publicKey, signature }) =>
   client
-    .use(serializeJson)
     .post("/keys")
     .send({ content, publicKey, signature })
     .then(getData),
@@ -90,7 +87,6 @@ const createAccount = curry((client, { content, publicKey, signature }) =>
 
 const login = curry((client, { content, signature, publicKey }) =>
   client
-    .use(serializeJson)
     .post("/sign_in")
     .send({ content, signature, publicKey })
     .then(getData),
@@ -98,12 +94,16 @@ const login = curry((client, { content, signature, publicKey }) =>
 
 const fetchPublicKey = client => () => client.get("/public-key").then(getData);
 
+const fetchQrcodeSignedData = client => hash => client.get(`/qrcode/${hash}`).then(getData);
+
 export default Config => {
-  const client = requester({ host: Config.API_URL });
+  const clientText = requester({ host: Config.API_URL, expectJson: false });
+  const clientJson = requester({ host: Config.API_URL, expectJson: true });
 
   return {
-    createAccount: createAccount(client),
-    login: login(client),
-    fetchPublicKey: fetchPublicKey(client),
+    createAccount: createAccount(clientJson),
+    fetchPublicKey: fetchPublicKey(clientText),
+    fetchQrcodeSignedData: fetchQrcodeSignedData(clientText),
+    login: login(clientJson),
   };
 };
