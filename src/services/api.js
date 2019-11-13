@@ -36,11 +36,17 @@ const rejectErrorResponses = (res, expectJson) => {
 const deserialize = (res, expectJson) => {
   const contentType = res.headers.get("content-type");
 
-  if (expectJson) {
-    return res.json().then(camelizeKeys);
-  }
+  return res.text().then(body => {
+    if (expectJson && contentType && includes("application/json", contentType)) {
+      if (isEmpty(body)) {
+        return null;
+      }
 
-  return res.text();
+      return camelizeKeys(JSON.parse(body));
+    }
+
+    return body;
+  });
 };
 
 const requester = ({ host, expectJson }) => {
