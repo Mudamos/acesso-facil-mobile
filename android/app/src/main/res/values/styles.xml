@@ -3,13 +3,11 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:textColor">#000000</item>
-        <item name="android:windowBackground">
-          @mipmap/background_splashscreen
-        </item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:statusBarColor">
-          @color/primary
+          @color/darkblue
         </item>
+        <item name="android:navigationBarColor">@color/darkblue</item>
     </style>
 
 </resources>
