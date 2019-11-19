@@ -1,7 +1,7 @@
-import { compose, lifecycle, mapProps, pure, withProps } from "recompose";
+import { compose, lifecycle, mapProps, pure, renderNothing, withProps } from "recompose";
 import { isNil, omit } from "ramda";
 
-import SplashScreen from "../components/splash-screen";
+import SplashScreen from "react-native-splash-screen";
 import { connect } from "react-redux";
 import { getAccounts } from "../selectors";
 
@@ -15,6 +15,7 @@ const enhance = compose(
   lifecycle({
     componentDidMount() {
       if (!this.props.shouldRender) {
+        SplashScreen.hide();
         this.props.navigation.replace("Home");
       }
     },
@@ -22,6 +23,7 @@ const enhance = compose(
       const hasDiffProp = prop => this.props[prop] !== prevProps[prop];
 
       if (hasDiffProp("shouldRender") && !this.props.shouldRender) {
+        SplashScreen.hide();
         this.props.navigation.replace("Home");
       }
     },
@@ -30,4 +32,4 @@ const enhance = compose(
   pure,
 );
 
-export default enhance(SplashScreen);
+export default enhance(renderNothing);
