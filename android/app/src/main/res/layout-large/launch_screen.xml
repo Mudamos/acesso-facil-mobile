@@ -6,7 +6,6 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:theme="@style/AppTheme"
-    android:layout_margin="20dip"
     android:weightSum="1">
 
     <RelativeLayout
@@ -18,24 +17,23 @@
             android:id="@+id/applogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
             android:contentDescription="@string/app_name"
-            android:scaleType="centerInside"
+            android:scaleType="fitXY"
             android:src="@drawable/app_full_logo" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.2">
+        android:layout_weight="0.1">
 
         <ImageView
             android:id="@+id/sflogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="340dip"
+            android:layout_height="64dip"
             android:layout_centerInParent="true"
             android:contentDescription="@string/sf_rio_name"
             android:src="@drawable/logo_rio_sf" />
     </RelativeLayout>
-
 </LinearLayout>
