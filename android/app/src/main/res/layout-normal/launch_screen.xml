@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.8"
+        android:layout_weight="0.7"
         android:gravity="bottom">
 
         <ImageView
@@ -28,7 +28,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.1">
+        android:layout_weight="0.2">
 
         <ImageView
             android:id="@+id/sflogo"
@@ -48,13 +48,12 @@
         <ImageView
             android:id="@+id/footerbackground"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dip"
             android:layout_centerHorizontal="true"
-            android:layout_gravity="bottom"
             android:adjustViewBounds="false"
             android:contentDescription="@string/background"
-            android:scaleType="centerCrop"
-            android:src="@drawable/footer_background"
+            android:scaleType="fitXY"
+            android:src="@drawable/background_rio"
             tools:visibility="visible" />
     </RelativeLayout>
 </LinearLayout>
