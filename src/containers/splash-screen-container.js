@@ -3,32 +3,28 @@ import { isNil, omit } from "ramda";
 
 import SplashScreen from "react-native-splash-screen";
 import { connect } from "react-redux";
-import { getAccounts } from "../selectors";
+import { fetchConfigs } from "../actions";
+import { getConfigs } from "../selectors";
 
 const enhance = compose(
   connect(state => ({
-    accounts: getAccounts(state),
-  })),
-  withProps(({ accounts }) => ({
-    shouldRender: isNil(accounts),
+    configs: getConfigs(state),
   })),
   lifecycle({
-    componentDidMount() {
-      if (!this.props.shouldRender) {
-        SplashScreen.hide();
-        this.props.navigation.replace("Home");
-      }
-    },
     componentDidUpdate(prevProps) {
       const hasDiffProp = prop => this.props[prop] !== prevProps[prop];
 
-      if (hasDiffProp("shouldRender") && !this.props.shouldRender) {
+      if (hasDiffProp("configs")) {
         SplashScreen.hide();
-        this.props.navigation.replace("Home");
+        if (this.props.configs[INTRO_COMPLETED]) {
+          this.props.navigation.replace("Home");
+        } else {
+          this.props.navigation.replace("Intro");
+        }
       }
     },
   }),
-  mapProps(omit(["accounts", "shouldRender", "navigation"])),
+  mapProps(omit(["configs", "navigation"])),
   pure,
 );
 

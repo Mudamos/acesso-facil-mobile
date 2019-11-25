@@ -15,26 +15,28 @@ import {
   requestNewAccountName,
   showNotifyQrcodeSuccess,
 } from "../actions";
-import { delay, fromJsonBase64, log, toJsonBase64 } from "../utils";
 import {
+  combineEpics,
+  ofType as ofType$
+} from "redux-observable";
+import {
+  concatMap as concatMap$,
   exhaustMap as exhaustMap$,
   mergeMap as mergeMap$,
   switchMap as switchMap$,
 } from "rxjs/operators";
 import { filter, identity, prop, propEq } from "ramda";
+import { fromJsonBase64, log, toJsonBase64 } from "../utils";
 
-import { combineEpics } from "redux-observable";
 import { of } from "rxjs";
-import { ofType as ofType$ } from "redux-observable";
 
 const rejectUncommitted = filter(propEq("committed", true));
 
 const mountAppEpic = action$ =>
   action$.pipe(
     ofType$("APP_DID_MOUNT"),
-    exhaustMap$(() =>
+    concatMap$(() =>
       Promise.resolve()
-        .then(delay(3000))
         .then(fetchAccountsRequest),
     ),
   );
@@ -77,7 +79,7 @@ const fetchAccountsEpic = (action$, state$, { accountManager }) =>
     switchMap$(() =>
       accountManager
         .fetchAccounts()
-        .then(accounts => log(accounts) || accounts)
+        .then(accounts => log("Accounts: ") || log(accounts) || accounts)
         .then(rejectUncommitted)
         .then(fetchAccountsSuccess)
         .catch(fetchAccountsError),
