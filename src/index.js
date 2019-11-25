@@ -6,6 +6,7 @@ import IntroContainer from "./containers/intro-container";
 import { NavigationNativeContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import QRCodeCreateAccountContainer from "./containers/qrcode-create-account-container";
+import QRCodeLoginContainer from "./containers/qrcode-login-container";
 import SplashScreenContainer from "./containers/splash-screen-container";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -21,6 +22,10 @@ const AppBuilder = store =>
       store.dispatch(appWillUnmount());
     }
 
+    screenOptions = {
+      animation: "spring",
+    };
+
     render() {
       return (
         <Provider store={store}>
@@ -28,19 +33,15 @@ const AppBuilder = store =>
             <Navigator
               initialRouteName="SplashScreen"
               headerMode="none"
-              screenOptions={{ gestureEnabled: true }}>
+              screenOptions={this.screenOptions}>
               <Screen name="SplashScreen" component={SplashScreenContainer} />
               <Screen name="Intro" component={IntroContainer} />
               <Screen name="Home" component={HomeContainer} />
               <Screen
                 name="CreateAccount"
                 component={QRCodeCreateAccountContainer}
-                options={{
-                  gesturesEnabled: true,
-                  gestureDirection: "horizontal",
-                  animation: "spring",
-                }}
               />
+              <Screen name="Login" component={QRCodeLoginContainer} />
             </Navigator>
           </NavigationNativeContainer>
         </Provider>

@@ -1,10 +1,10 @@
-import { compose, mapProps, pure, withHandlers, withProps } from "recompose";
+import { compose, mapProps, pure, withHandlers } from "recompose";
 import { getAccounts, getCurrentAccount } from "../selectors";
-import { isEmpty, omit, propOr } from "ramda";
 
 import Home from "../components/home";
 import { changeCurrentAccount } from "../actions";
 import { connect } from "react-redux";
+import { omit } from "ramda";
 
 const enhance = compose(
   connect(
@@ -27,13 +27,11 @@ const enhance = compose(
         changeCurrentAccount(null);
       }
     },
+    onLogin: ({ changeCurrentAccount, navigation }) => account => {
+      changeCurrentAccount(account);
+      navigation.navigate("Login");
+    },
   }),
-  withProps(({ accounts, currentAccount }) => ({
-    title: isEmpty(accounts)
-      ? "Acesso Fácil SEFAZ"
-      : propOr("Selecione uma identidade", "accountName", currentAccount),
-    hasCurrentAccount: !!currentAccount,
-  })),
   mapProps(omit(["accounts", "currentAccount", "changeCurrentAccount"])),
   pure,
 );
