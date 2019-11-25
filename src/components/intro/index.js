@@ -51,6 +51,7 @@ const Intro = ({ onFinish }) => {
       slides={slides}
       ref={appIntroSliderRef}
       showNextButton={false}
+      showDoneButton={false}
       dotStyle={styles.dotStyle}
       activeDotStyle={[styles.dotStyle, { backgroundColor: BLUE }]}
     />
