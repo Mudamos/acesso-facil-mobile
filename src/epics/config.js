@@ -1,9 +1,9 @@
 import { combineEpics, ofType as ofType$ } from "redux-observable";
+import { delay, log } from "../utils";
 import {
-  concatMap as concatMap$,
+  exhaustMap as exhaustMap$,
   switchMap as switchMap$,
 } from "rxjs/operators";
-import { delay, log } from "../utils";
 import {
   fetchConfigsError,
   fetchConfigs as fetchConfigsRequest,
@@ -15,7 +15,7 @@ import {
 const mountAppEpic = action$ =>
   action$.pipe(
     ofType$("APP_DID_MOUNT"),
-    concatMap$(() =>
+    exhaustMap$(() =>
       Promise.resolve()
         .then(delay(3000))
         .then(fetchConfigsRequest),

@@ -20,7 +20,6 @@ import {
   ofType as ofType$
 } from "redux-observable";
 import {
-  concatMap as concatMap$,
   exhaustMap as exhaustMap$,
   mergeMap as mergeMap$,
   switchMap as switchMap$,
@@ -35,7 +34,7 @@ const rejectUncommitted = filter(propEq("committed", true));
 const mountAppEpic = action$ =>
   action$.pipe(
     ofType$("APP_DID_MOUNT"),
-    concatMap$(() =>
+    exhaustMap$(() =>
       Promise.resolve()
         .then(fetchAccountsRequest),
     ),
