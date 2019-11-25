@@ -1,23 +1,24 @@
-import { compose, lifecycle, mapProps, pure, renderNothing, withProps } from "recompose";
+import { compose, lifecycle, mapProps, pure, renderNothing } from "recompose";
 import { isNil, omit } from "ramda";
+import { getConfig, hasLoadedConfigs } from "../selectors";
 
 import { INTRO_COMPLETED } from "../models/config";
 import SplashScreen from "react-native-splash-screen";
 import { connect } from "react-redux";
-import { fetchConfigs } from "../actions";
-import { getConfigs } from "../selectors";
+import { omit } from "ramda";
 
 const enhance = compose(
   connect(state => ({
-    configs: getConfigs(state),
+    hasLoadedConfigs: hasLoadedConfigs(state),
+    hasCompletedAppIntro: getConfig(INTRO_COMPLETED)(state),
   })),
   lifecycle({
     componentDidUpdate(prevProps) {
       const hasDiffProp = prop => this.props[prop] !== prevProps[prop];
 
-      if (hasDiffProp("configs")) {
+      if (hasDiffProp("hasLoadedConfigs") && this.props.hasLoadedConfigs) {
         SplashScreen.hide();
-        if (this.props.configs[INTRO_COMPLETED]) {
+        if (this.props.hasCompletedAppIntro) {
           this.props.navigation.replace("Home");
         } else {
           this.props.navigation.replace("Intro");
@@ -25,7 +26,7 @@ const enhance = compose(
       }
     },
   }),
-  mapProps(omit(["configs", "navigation"])),
+  mapProps(omit(["hasCompletedAppIntro", "hasLoadedConfigs", "navigation"])),
   pure,
 );
 
