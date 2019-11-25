@@ -1,6 +1,7 @@
 import { compose, lifecycle, mapProps, pure, renderNothing, withProps } from "recompose";
 import { isNil, omit } from "ramda";
 
+import { INTRO_COMPLETED } from "../models/config";
 import SplashScreen from "react-native-splash-screen";
 import { connect } from "react-redux";
 import { fetchConfigs } from "../actions";

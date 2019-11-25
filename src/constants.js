@@ -6,6 +6,3 @@ export const BLACK = "#353839";
 export const LIGHT_GRAY = "#eee";
 export const GRAY = "#b6b6b6";
 export const DARK_GRAY = "#999";
-
-// CONFIG
-export const INTRO_COMPLETED = "intro-completed";

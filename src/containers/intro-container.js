@@ -1,6 +1,6 @@
 import { compose, mapProps, pure, withHandlers } from "recompose";
 
-import { INTRO_COMPLETED } from "../constants";
+import { INTRO_COMPLETED } from "../models/config";
 import Intro from "../components/intro";
 import { connect } from "react-redux";
 import { getConfigs } from "../selectors";
