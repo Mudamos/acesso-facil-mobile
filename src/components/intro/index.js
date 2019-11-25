@@ -49,7 +49,7 @@ const Intro = ({ onFinish }) => {
       style={styles.slider}
       renderItem={({ item }) => item.component({ goToSlide, onFinish })}
       slides={slides}
-      ref={this.appIntroSliderRef}
+      ref={appIntroSliderRef}
       showNextButton={false}
       dotStyle={styles.dotStyle}
       activeDotStyle={[styles.dotStyle, { backgroundColor: BLUE }]}
