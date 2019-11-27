@@ -1,4 +1,12 @@
-import { curry, includes, isEmpty, lensProp, pickAll, propOr, set } from "ramda";
+import {
+  curry,
+  includes,
+  isEmpty,
+  lensProp,
+  pickAll,
+  propOr,
+  set,
+} from "ramda";
 import farfetch, { prefix, requestLogger, responseLogger } from "farfetch";
 import { isDev, log } from "../utils";
 
@@ -23,13 +31,19 @@ const rejectErrorResponses = (res, expectJson) => {
       return Promise.reject(
         set(
           lensProp("data"),
-          propOr("Identidade expirada, por favor gere uma nova", "descricao", body),
+          propOr(
+            "Identidade expirada, por favor gere uma nova",
+            "descricao",
+            body,
+          ),
           customResponse,
         ),
       );
     }
 
-    return res.ok ? Promise.resolve(customResponse) : Promise.reject(customResponse);
+    return res.ok
+      ? Promise.resolve(customResponse)
+      : Promise.reject(customResponse);
   });
 };
 
@@ -37,7 +51,11 @@ const deserialize = (res, expectJson) => {
   const contentType = res.headers.get("content-type");
 
   return res.text().then(body => {
-    if (expectJson && contentType && includes("application/json", contentType)) {
+    if (
+      expectJson &&
+      contentType &&
+      includes("application/json", contentType)
+    ) {
       if (isEmpty(body)) {
         return null;
       }
@@ -63,7 +81,9 @@ const requester = ({ host, expectJson }) => {
   builder = builder
     .use(prefix(host))
     .use(req => req.set("Content-Type", "application/json"))
-    .use(req => req.set("Accept", expectJson ? "application/json" : "text/plain"))
+    .use(req =>
+      req.set("Accept", expectJson ? "application/json" : "text/plain"),
+    )
     .use((req, execute) => ({
       ...req,
       execute: req => {
@@ -100,7 +120,8 @@ const login = curry((client, { content, signature, publicKey }) =>
 
 const fetchPublicKey = client => () => client.get("/public-key").then(getData);
 
-const fetchQrcodeSignedData = client => hash => client.get(`/qrcode/${hash}`).then(getData);
+const fetchQrcodeSignedData = client => hash =>
+  client.get(`/qrcode/${hash}`).then(getData);
 
 export default Config => {
   const clientText = requester({ host: Config.API_URL, expectJson: false });

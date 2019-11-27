@@ -1,34 +1,31 @@
-import { compose, lifecycle, mapProps, pure, renderNothing, withProps } from "recompose";
-import { isNil, omit } from "ramda";
+import { compose, lifecycle, mapProps, pure, renderNothing } from "recompose";
+import { getConfig, hasLoadedConfigs } from "../selectors";
 
+import { INTRO_COMPLETED } from "../models/config";
 import SplashScreen from "react-native-splash-screen";
 import { connect } from "react-redux";
-import { getAccounts } from "../selectors";
+import { omit } from "ramda";
 
 const enhance = compose(
   connect(state => ({
-    accounts: getAccounts(state),
-  })),
-  withProps(({ accounts }) => ({
-    shouldRender: isNil(accounts),
+    hasLoadedConfigs: hasLoadedConfigs(state),
+    hasCompletedAppIntro: getConfig(INTRO_COMPLETED)(state),
   })),
   lifecycle({
-    componentDidMount() {
-      if (!this.props.shouldRender) {
-        SplashScreen.hide();
-        this.props.navigation.replace("Home");
-      }
-    },
     componentDidUpdate(prevProps) {
       const hasDiffProp = prop => this.props[prop] !== prevProps[prop];
 
-      if (hasDiffProp("shouldRender") && !this.props.shouldRender) {
+      if (hasDiffProp("hasLoadedConfigs") && this.props.hasLoadedConfigs) {
         SplashScreen.hide();
-        this.props.navigation.replace("Home");
+        if (this.props.hasCompletedAppIntro) {
+          this.props.navigation.replace("Home");
+        } else {
+          this.props.navigation.replace("Intro");
+        }
       }
     },
   }),
-  mapProps(omit(["accounts", "shouldRender", "navigation"])),
+  mapProps(omit(["hasCompletedAppIntro", "hasLoadedConfigs", "navigation"])),
   pure,
 );
 

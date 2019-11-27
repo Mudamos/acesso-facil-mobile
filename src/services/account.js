@@ -34,38 +34,39 @@ const persistAccounts = curry((storage, accounts) =>
  *  @param {String} newAccount.publicKey
  *  @param {Boolean} newAccount.committed - If it's should be considered saved
  */
-const createAccount = curry((storage, keychainNamespace, { accountName, ...extra }) =>
-  fetchAccounts(storage)
-    .then(accounts => ({
-      accounts,
-      newAccount: {
-        id: generateAccountId(keychainNamespace),
-        accountName: accountName,
-        committed: false,
-        ...extra,
-      },
-    }))
-    .then(({ accounts, newAccount }) =>
-      RSAKeychain.generateKeys(newAccount.id, RSA_STRENGTH).then(keys =>
-        set(lensPath(["newAccount", "publicKey"]), keys.public, {
-          accounts,
-          newAccount,
-        }),
+const createAccount = curry(
+  (storage, keychainNamespace, { accountName, ...extra }) =>
+    fetchAccounts(storage)
+      .then(accounts => ({
+        accounts,
+        newAccount: {
+          id: generateAccountId(keychainNamespace),
+          accountName: accountName,
+          committed: false,
+          ...extra,
+        },
+      }))
+      .then(({ accounts, newAccount }) =>
+        RSAKeychain.generateKeys(newAccount.id, RSA_STRENGTH).then(keys =>
+          set(lensPath(["newAccount", "publicKey"]), keys.public, {
+            accounts,
+            newAccount,
+          }),
+        ),
+      )
+      .then(({ accounts, newAccount }) =>
+        sha1(newAccount.publicKey).then(hash =>
+          set(lensPath(["newAccount", "idDevice"]), hash, {
+            accounts,
+            newAccount,
+          }),
+        ),
+      )
+      .then(({ accounts, newAccount }) =>
+        persistAccounts(storage, append(newAccount, accounts)).then(
+          () => newAccount,
+        ),
       ),
-    )
-    .then(({ accounts, newAccount }) =>
-      sha1(newAccount.publicKey).then(hash =>
-        set(lensPath(["newAccount", "idDevice"]), hash, {
-          accounts,
-          newAccount,
-        }),
-      ),
-    )
-    .then(({ accounts, newAccount }) =>
-      persistAccounts(storage, append(newAccount, accounts)).then(
-        () => newAccount,
-      ),
-    ),
 );
 
 const deleteAccount = curry((storage, id) =>

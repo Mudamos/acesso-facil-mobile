@@ -47,7 +47,9 @@ const AccountList = ({
             account={item}
             index={index}
             onChange={changeCurrentAccount}
-            onDelete={() => onDeleteAccount({ id: item.id, accountName: item.accountName })}
+            onDelete={() =>
+              onDeleteAccount({ id: item.id, accountName: item.accountName })
+            }
           />
         )}
       />

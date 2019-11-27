@@ -1,5 +1,6 @@
+// COLORS
 export const DARK_BLUE = "#007fff";
-export const BLUE = "#24a0ed";
+export const BLUE = "#6cbceb";
 export const WHITE = "#f8f8ff";
 export const BLACK = "#353839";
 export const LIGHT_GRAY = "#eee";

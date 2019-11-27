@@ -25,10 +25,11 @@ const enhance = compose(
   }),
   withHandlers({
     onDeleteAccount: ({ deleteAccount }) => ({ id, accountName }) => {
-      Alert.alert("Acesso Fácil", `Tem certeza que deseja deletar ${accountName}?`, [
-        { text: "Sim", onPress: () => deleteAccount(id) },
-        { text: "Não" },
-      ]);
+      Alert.alert(
+        "Acesso Fácil",
+        `Tem certeza que deseja deletar ${accountName}?`,
+        [{ text: "Sim", onPress: () => deleteAccount(id) }, { text: "Não" }],
+      );
     },
   }),
   mapProps(omit(["fetchAccounts", "deleteAccount"])),
