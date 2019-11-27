@@ -15,16 +15,13 @@ import {
   requestNewAccountName,
   showNotifyQrcodeSuccess,
 } from "../actions";
-import {
-  combineEpics,
-  ofType as ofType$
-} from "redux-observable";
+import { combineEpics, ofType as ofType$ } from "redux-observable";
 import {
   exhaustMap as exhaustMap$,
   mergeMap as mergeMap$,
   switchMap as switchMap$,
 } from "rxjs/operators";
-import { filter, identity, prop, propEq } from "ramda";
+import { filter, identity, propEq } from "ramda";
 import { fromJsonBase64, log, toJsonBase64 } from "../utils";
 
 import { of } from "rxjs";
@@ -34,10 +31,7 @@ const rejectUncommitted = filter(propEq("committed", true));
 const mountAppEpic = action$ =>
   action$.pipe(
     ofType$("APP_DID_MOUNT"),
-    exhaustMap$(() =>
-      Promise.resolve()
-        .then(fetchAccountsRequest),
-    ),
+    exhaustMap$(() => Promise.resolve().then(fetchAccountsRequest)),
   );
 
 const createAccountEpic = (action$, state$, { accountManager, api }) =>
@@ -115,41 +109,48 @@ const qrcodeScanEpic = (action$, state$, { api }) =>
     ofType$("QRCODE_SCAN"),
     exhaustMap$(async ({ payload: { content, currentAccount } }) => {
       try {
-        const [qrcodeSignedData, publicKey] =
-          await Promise.all([
-            api.fetchQrcodeSignedData(content),
-            api.fetchPublicKey()
-          ]);
+        const [qrcodeSignedData, publicKey] = await Promise.all([
+          api.fetchQrcodeSignedData(content),
+          api.fetchPublicKey(),
+        ]);
 
-          return qcodeValidateContent({ qrcodeSignedData, publicKey, currentAccount })
+        return qcodeValidateContent({
+          qrcodeSignedData,
+          publicKey,
+          currentAccount,
+        });
       } catch (error) {
         return qrcodeScanError(error);
       }
     }),
   );
 
-const qrcodeScanValidateContentEpic = (action$, state$, { accountManager, api }) =>
+const qrcodeScanValidateContentEpic = (action$, state$, { accountManager }) =>
   action$.pipe(
     ofType$("QRCODE_VALIDATE_CONTENT"),
-    exhaustMap$(async ({ payload: { qrcodeSignedData, publicKey, currentAccount } }) => {
-      try {
-        const [contentEncoded, signature] = qrcodeSignedData.split(";");
+    exhaustMap$(
+      async ({ payload: { qrcodeSignedData, publicKey, currentAccount } }) => {
+        try {
+          const [contentEncoded, signature] = qrcodeSignedData.split(";");
 
-        return accountManager
-          .verifyMessageWithPublicKey(signature, contentEncoded, publicKey)
-          .then(success => {
-            if (success) {
-              return { success, data: fromJsonBase64(contentEncoded) };
-            }
+          return accountManager
+            .verifyMessageWithPublicKey(signature, contentEncoded, publicKey)
+            .then(success => {
+              if (success) {
+                return { success, data: fromJsonBase64(contentEncoded) };
+              }
 
-            return Promise.reject("QRCode inválido");
-          })
-          .then(({ success, data }) => qrcodeScanSuccess({ success, data, currentAccount }))
-          .catch(qrcodeScanError);
-      } catch (error) {
-        return qrcodeScanError(error);
-      }
-    }),
+              return Promise.reject("QRCode inválido");
+            })
+            .then(({ success, data }) =>
+              qrcodeScanSuccess({ success, data, currentAccount }),
+            )
+            .catch(qrcodeScanError);
+        } catch (error) {
+          return qrcodeScanError(error);
+        }
+      },
+    ),
   );
 
 const qrcodeScanSuccessEpic = action$ =>

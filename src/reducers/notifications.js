@@ -8,10 +8,12 @@ const MAPPED_ERRORS = [
   {
     pattern: /.*Network request failed.*/i,
     message: "Não foi possível conectar com o servidor, tente novamente",
-  }
+  },
 ];
 
-const testPattern = curry((error, mappedError) => mappedError.pattern.test(error));
+const testPattern = curry((error, mappedError) =>
+  mappedError.pattern.test(error),
+);
 
 const formatErrorPayload = payload => {
   const error = propOr(payload.raw, "message", payload.raw);

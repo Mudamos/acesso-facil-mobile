@@ -41,7 +41,9 @@ const Button = ({ text, icon, textStyle, style, disabled, onPress }) => {
     return (
       <View style={[styles.disabled, style]}>
         {icon}
-        <Text style={[styles.text, styles.disabledText, textStyle]}>{text}</Text>
+        <Text style={[styles.text, styles.disabledText, textStyle]}>
+          {text}
+        </Text>
       </View>
     );
   }

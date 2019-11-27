@@ -1,5 +1,4 @@
 import { compose, lifecycle, mapProps, pure, renderNothing } from "recompose";
-import { isNil, omit } from "ramda";
 import { getConfig, hasLoadedConfigs } from "../selectors";
 
 import { INTRO_COMPLETED } from "../models/config";
