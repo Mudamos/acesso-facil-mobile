@@ -12,8 +12,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 2,
     backgroundColor: WHITE,
-    paddingVertical: 40,
-    paddingHorizontal: 20,
+  },
+  flatList: {
+    marginVertical: 40,
+    marginHorizontal: 20,
   },
   newAccount: { marginBottom: 16 },
   newAccountText: { fontWeight: "bold" },
@@ -39,6 +41,7 @@ const AccountList = ({
     {isEmpty(accounts) && <EmptyAccounts onCreateAccount={onCreateAccount} />}
     {!isEmpty(accounts) && (
       <FlatList
+        style={styles.flatList}
         data={accounts}
         showsVerticalScrollIndicator
         ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
