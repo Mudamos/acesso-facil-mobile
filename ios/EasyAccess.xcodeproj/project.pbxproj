@@ -623,6 +623,7 @@
 			baseConfigurationReference = 1B1CAB611D135BE6F74AF011 /* Pods-EasyAccess.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = YGK2CQTELW;
@@ -644,6 +645,7 @@
 			baseConfigurationReference = 6B11D93F57556D791B9F5446 /* Pods-EasyAccess.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YGK2CQTELW;
 				INFOPLIST_FILE = EasyAccess/Info.plist;
