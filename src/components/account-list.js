@@ -1,4 +1,4 @@
-import { DARK_GRAY, LIGHT_GRAY } from "../constants";
+import { DARKER_BLUE, WHITE } from "../constants";
 import { FlatList, StyleSheet, View } from "react-native";
 
 import AccountCard from "./account-card";
@@ -9,17 +9,19 @@ import React from "react";
 import { isEmpty } from "ramda";
 
 const styles = StyleSheet.create({
-  container: { flex: 2, backgroundColor: LIGHT_GRAY },
+  container: {
+    flex: 2,
+    backgroundColor: WHITE,
+    paddingVertical: 40,
+    paddingHorizontal: 20,
+  },
   newAccount: { marginBottom: 16 },
   newAccountText: { fontWeight: "bold" },
   itemSeparator: {
     flex: 1,
-    backgroundColor: DARK_GRAY,
+    backgroundColor: DARKER_BLUE,
     minWidth: 1,
     minHeight: 1,
-  },
-  columnWrapper: {
-    flex: 1,
   },
   emptyItem: {
     flex: 1,
@@ -38,10 +40,8 @@ const AccountList = ({
     {!isEmpty(accounts) && (
       <FlatList
         data={accounts}
-        showsVerticalScrollIndicator={false}
-        numColumns={2}
+        showsVerticalScrollIndicator
         ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
-        columnWrapperStyle={styles.columnWrapper}
         renderItem={({ item, index }) => (
           <AccountCard
             account={item}
