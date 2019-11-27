@@ -1,41 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/white"
     android:orientation="vertical"
     android:theme="@style/AppTheme"
-    android:padding="20dip"
-    android:weightSum="1">
+    android:weightSum="10">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.8">
+        android:layout_weight="8"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:layout_marginTop="100dp">
 
         <ImageView
             android:id="@+id/applogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="true"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="match_parent"
             android:contentDescription="@string/app_name"
-            android:scaleType="centerInside"
             android:src="@drawable/app_full_logo" />
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.2">
+        android:layout_weight="1"
+        android:weightSum="1"
+        android:orientation="horizontal"
+        android:layout_marginBottom="50dp"
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/sflogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_width="0dp"
+            android:layout_weight="0.7"
+            android:adjustViewBounds="true"
+            android:layout_height="match_parent"
             android:contentDescription="@string/sf_rio_name"
             android:src="@drawable/logo_rio_sf" />
-    </RelativeLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:weightSum="1"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/backgroundrio"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:scaleType="fitEnd"
+            android:adjustViewBounds="true"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/sf_rio_name"
+            android:src="@drawable/background_rio" />
+    </LinearLayout>
 </LinearLayout>
