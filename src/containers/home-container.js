@@ -6,6 +6,7 @@ import Home from "../components/home";
 import { ToastAndroid } from 'react-native';
 import { changeCurrentAccount } from "../actions";
 import { connect } from "react-redux";
+import { isDebug } from "../utils";
 
 const enhance = compose(
   connect(
@@ -37,7 +38,7 @@ const enhance = compose(
   })),
   lifecycle({
     componentDidMount() {
-      if (__DEV__) {
+      if (isDebug) {
         ToastAndroid.show('DEBUG MODE ACTIVATED', ToastAndroid.LONG);
       }
     }
