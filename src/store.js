@@ -1,8 +1,8 @@
+import { accountEpics, logEpics } from "./epics";
 import { applyMiddleware, createStore } from "redux";
 import { combineEpics, createEpicMiddleware } from "redux-observable";
 
 import Config from "react-native-config";
-import { accountEpics } from "./epics";
 import accountManager from "./services/account";
 import api from "./services/api";
 import { createLogger } from "redux-logger";
@@ -30,7 +30,7 @@ export const storeBuilder = () => {
     },
   });
 
-  const epics = [accountEpics];
+  const epics = [accountEpics, logEpics];
 
   const rootEpic = combineEpics(...epics);
 
@@ -38,11 +38,12 @@ export const storeBuilder = () => {
 
   const epicMiddleware = createEpicMiddleware({
     dependencies: {
-      api: api(Config),
+      api: api({ config: Config, storage }),
       accountManager: accountManager({
         keychainNamespace: Config.KEYCHAIN_NAMESPACE,
         storage,
       }),
+      storage,
     },
   });
 

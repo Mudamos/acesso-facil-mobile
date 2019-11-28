@@ -1,4 +1,4 @@
-import { curry, includes, isEmpty, lensProp, pickAll, propOr, set } from "ramda";
+import { curry, includes, isEmpty, lensProp, omit, pickAll, propOr, set } from "ramda";
 import farfetch, { prefix, requestLogger, responseLogger } from "farfetch";
 import { isDev, log } from "../utils";
 
@@ -18,6 +18,16 @@ const rejectErrorResponses = (res, expectJson) => {
     };
 
     log("Api response body: ", body);
+
+    if (/4\d\d/.test(res.status) || !res.ok) {
+      return Promise.reject(
+        set(
+          lensProp("data"),
+          propOr("Sem resposta do servidor, tente novamente mais tarde", "descricao", body),
+          customResponse,
+        ),
+      );
+    }
 
     return res.ok ? Promise.resolve(customResponse) : Promise.reject(customResponse);
   });
@@ -39,7 +49,7 @@ const deserialize = (res, expectJson) => {
   });
 };
 
-const requester = ({ host, expectJson }) => {
+const requester = ({ host, expectJson, storage }) => {
   let builder = farfetch;
 
   if (isDev) {
@@ -56,9 +66,41 @@ const requester = ({ host, expectJson }) => {
     .use(req => req.set("Accept", expectJson ? "application/json" : "text/plain"))
     .use((req, execute) => ({
       ...req,
-      execute: req => {
-        log(pickAll(["body", "headers", "url"], req));
-        return handleResponseError(execute(req), expectJson);
+      execute: async req => {
+        const requestedAt = new Date().toUTCString();
+        const request = pickAll(["body", "headers", "url"], req);
+
+        log(request);
+        try {
+          const response = await handleResponseError(execute(req), expectJson);
+          const responseArrivedAt = new Date().toUTCString();
+
+          await logAtStore(
+            storage,
+            {
+              requestedAt,
+              request,
+              response: omit(["response"], response),
+              responseArrivedAt
+            }
+          );
+
+          return Promise.resolve(response) ;
+        } catch (e) {
+          const responseArrivedAt = new Date().toUTCString();
+
+          await logAtStore(
+            storage,
+            {
+              requestedAt,
+              request,
+              response: omit(["response"], e),
+              responseArrivedAt
+            }
+          );
+
+          return Promise.reject(getData(e) || e.message);
+        }
       },
     }));
 
@@ -67,8 +109,19 @@ const requester = ({ host, expectJson }) => {
 
 const logError = err => {
   log("Raw error: ", err.message, err.status, err.data, err.response);
-  return Promise.reject(getData(err) || err.message);
+  return Promise.reject(err);
 };
+
+const logAtStore = (storage, log) => {
+  const key = "request-logs";
+
+  storage.fetch(key)
+    .then(logs => {
+      const previous = logs ? JSON.parse(logs) : [];
+
+      return storage.store(key, JSON.stringify([...previous, log]))
+    })
+}
 
 const serializeJson = req => ({ ...req, body: JSON.stringify(req.body) });
 
@@ -92,9 +145,9 @@ const fetchPublicKey = client => () => client.get("/public-key").then(getData);
 
 const fetchQrcodeSignedData = client => hash => client.get(`/qrcode/${hash}`).then(getData);
 
-export default Config => {
-  const clientText = requester({ host: Config.API_URL, expectJson: false });
-  const clientJson = requester({ host: Config.API_URL, expectJson: true });
+export default ({ config, storage }) => {
+  const clientText = requester({ host: config.API_URL, storage, expectJson: false });
+  const clientJson = requester({ host: config.API_URL, storage, expectJson: true });
 
   return {
     createAccount: createAccount(clientJson),

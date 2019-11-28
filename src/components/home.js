@@ -8,10 +8,13 @@ import {
 import React, { useState } from "react";
 
 import AccountListContainer from "../containers/account-list-container";
+import Button from "./base/button";
 import { DARK_BLUE } from "../constants";
+import DebugModalContainer from "../containers/debug-modal-container";
 import Header from "./header";
 import PropTypes from "prop-types";
 import QRCodeLoginContainer from "../containers/qrcode-login-container";
+import { isDebug } from "../utils";
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: DARK_BLUE },
@@ -19,6 +22,7 @@ const styles = StyleSheet.create({
 
 const Home = ({ title, hasCurrentAccount, onCreateAccount }) => {
   const [anim] = useState(new Animated.Value(0));
+  const [isDebugModalVisible, setDebugModalVisible] = useState(false);
 
   if (hasCurrentAccount) {
     Animated.timing(anim, {
@@ -44,6 +48,8 @@ const Home = ({ title, hasCurrentAccount, onCreateAccount }) => {
         {hasCurrentAccount && <QRCodeLoginContainer />}
       </Animated.View>
       <AccountListContainer onCreateAccount={onCreateAccount} />
+      {isDebug && (<Button text="Debug" onPress={() => setDebugModalVisible(true)} />)}
+      {isDebug && (<DebugModalContainer visible={isDebugModalVisible} onClose={() => setDebugModalVisible(false)} />)}
     </SafeAreaView>
   );
 };
