@@ -119,7 +119,7 @@ const logAtStore = (storage, log) => {
     .then(logs => {
       const previous = logs ? JSON.parse(logs) : [];
 
-      return storage.store(key, JSON.stringify([...previous, log]))
+      return storage.store(key, JSON.stringify([log, ...previous]))
     })
 }
 
