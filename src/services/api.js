@@ -14,6 +14,7 @@ const rejectErrorResponses = (res, expectJson) => {
     const customResponse = {
       status: res.status,
       response: res,
+      body,
       data: expectJson ? camelizeKeys(body) : body,
     };
 
@@ -94,7 +95,7 @@ const requester = ({ host, expectJson, storage }) => {
             {
               requestedAt,
               request,
-              response: omit(["response"], e),
+              response: omit(["response", "data"], e),
               responseArrivedAt
             }
           );
