@@ -1,4 +1,4 @@
-import { DARK_GRAY, WHITE } from "../constants";
+import { DARK_BLUE, WHITE } from "../constants";
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useEffect } from "react";
 import { isEmpty, isNil } from "ramda";
@@ -16,9 +16,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   itemSeparator: {
-    backgroundColor: DARK_GRAY,
+    backgroundColor: DARK_BLUE,
     minWidth: 1,
-    minHeight: 1,
+    minHeight: 3,
   },
   marginBottom10: { marginBottom: 10 }
 });
