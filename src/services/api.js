@@ -4,6 +4,16 @@ import { isDev, log } from "../utils";
 
 import { camelizeKeys } from "humps";
 
+const buildResponseData = (res, body, expectJson) => {
+  const formattedBody = expectJson ? camelizeKeys(body) : body;
+
+  if (__DEV__ && !res.ok) {
+    return `status: ${res.status}\nbody: ${JSON.stringify(formattedBody)}`
+  } else {
+    return formattedBody;
+  }
+}
+
 const handleResponseError = (res, expectJson) =>
   res.then(error => rejectErrorResponses(error, expectJson)).catch(logError);
 
@@ -14,20 +24,10 @@ const rejectErrorResponses = (res, expectJson) => {
     const customResponse = {
       status: res.status,
       response: res,
-      data: expectJson ? camelizeKeys(body) : body,
+      data: buildResponseData(res, body, expectJson),
     };
 
     log("Api response body: ", body);
-
-    if (/4\d\d/.test(res.status)) {
-      return Promise.reject(
-        set(
-          lensProp("data"),
-          propOr("Identidade expirada, por favor gere uma nova", "descricao", body),
-          customResponse,
-        ),
-      );
-    }
 
     return res.ok ? Promise.resolve(customResponse) : Promise.reject(customResponse);
   });

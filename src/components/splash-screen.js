@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
 const SplashScreen = () => (
   <View style={styles.container}>
     <Text style={styles.text}>Acesso Fácil</Text>
+    {__DEV__ && (<Text style={styles.text}>[DEBUG]</Text>)}
   </View>
 );
 
