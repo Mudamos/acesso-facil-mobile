@@ -4,16 +4,6 @@ import { isDev, log } from "../utils";
 
 import { camelizeKeys } from "humps";
 
-const buildResponseData = (res, body, expectJson) => {
-  const formattedBody = expectJson ? camelizeKeys(body) : body;
-
-  if (__DEV__ && !res.ok) {
-    return `status: ${res.status}\nbody: ${JSON.stringify(formattedBody)}`
-  } else {
-    return formattedBody;
-  }
-}
-
 const handleResponseError = (res, expectJson) =>
   res.then(error => rejectErrorResponses(error, expectJson)).catch(logError);
 
@@ -24,7 +14,7 @@ const rejectErrorResponses = (res, expectJson) => {
     const customResponse = {
       status: res.status,
       response: res,
-      data: buildResponseData(res, body, expectJson),
+      data: expectJson ? camelizeKeys(body) : body,
     };
 
     log("Api response body: ", body);
