@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: DARKER_BLUE },
 });
 
-const Home = ({ onCreateAccount }) => {
+const Home = ({ onCreateAccount, onLogin }) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={DARKER_BLUE} barStyle="light-content" />
@@ -20,7 +20,10 @@ const Home = ({ onCreateAccount }) => {
         onCreateAccount={onCreateAccount}
         onOpenOptions={identity}
       />
-      <AccountListContainer onCreateAccount={onCreateAccount} />
+      <AccountListContainer
+        onCreateAccount={onCreateAccount}
+        onLogin={onLogin}
+      />
     </SafeAreaView>
   );
 };

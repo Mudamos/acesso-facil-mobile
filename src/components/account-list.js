@@ -33,9 +33,9 @@ const styles = StyleSheet.create({
 
 const AccountList = ({
   accounts,
-  changeCurrentAccount,
   onCreateAccount,
   onDeleteAccount,
+  onLogin,
 }) => (
   <View style={styles.container}>
     {isEmpty(accounts) && <EmptyAccounts onCreateAccount={onCreateAccount} />}
@@ -49,7 +49,7 @@ const AccountList = ({
           <AccountCard
             account={item}
             index={index}
-            onChange={changeCurrentAccount}
+            onChange={onLogin}
             onDelete={() =>
               onDeleteAccount({ id: item.id, accountName: item.accountName })
             }
@@ -66,9 +66,9 @@ AccountList.defaultProps = {
 
 AccountList.propTypes = {
   accounts: PropTypes.arrayOf(AccountPrototype),
-  changeCurrentAccount: PropTypes.func.isRequired,
   onCreateAccount: PropTypes.func.isRequired,
   onDeleteAccount: PropTypes.func.isRequired,
+  onLogin: PropTypes.func.isRequired,
 };
 
 export default AccountList;

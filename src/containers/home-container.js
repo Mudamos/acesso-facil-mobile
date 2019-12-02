@@ -28,8 +28,8 @@ const enhance = compose(
         changeCurrentAccount(null);
       }
     },
-    onLogin: ({ changeCurrentAccount, navigation }) => account => {
-      changeCurrentAccount(account);
+    onLogin: ({ changeCurrentAccount, navigation }) => accountId => {
+      changeCurrentAccount(accountId);
       navigation.navigate("Login");
     },
   }),

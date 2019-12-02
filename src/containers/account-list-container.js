@@ -32,7 +32,7 @@ const enhance = compose(
       );
     },
   }),
-  mapProps(omit(["fetchAccounts", "deleteAccount"])),
+  mapProps(omit(["changeCurrentAccount", "deleteAccount", "fetchAccounts"])),
   pure,
 );
 
