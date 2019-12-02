@@ -6,7 +6,6 @@ import Alert from "./base/alert";
 import Button from "./base/button";
 import PropTypes from "prop-types";
 import React from "react";
-import { prop } from "ramda";
 
 const styles = StyleSheet.create({
   bold: {
@@ -27,21 +26,19 @@ const styles = StyleSheet.create({
   },
 });
 
-const getAccountName = prop("accountName");
-
 const DeleteAccountModal = ({
-  accountToDelete,
+  accountToDelete: { accountName },
   abortAccountDelete,
   deleteAccount,
   visible,
 }) => (
   <Alert
-    visible={!!accountToDelete}
+    visible={visible}
     title="Acesso Fácil"
     content={
       <Text style={styles.contentText}>
         Tem certeza que deseja deletar{" "}
-        <Text style={styles.bold}>{getAccountName(accountToDelete)}</Text>?
+        <Text style={styles.bold}>{accountName}</Text>?
       </Text>
     }
     buttonAccept={

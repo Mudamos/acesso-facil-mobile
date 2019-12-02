@@ -1,5 +1,5 @@
 import { abortAccountDelete, deleteAccount } from "../actions";
-import { compose, pure, withHandlers } from "recompose";
+import { compose, pure, withHandlers, withProps } from "recompose";
 
 import DeleteAccountModal from "../components/delete-account-modal";
 import { connect } from "react-redux";
@@ -19,6 +19,7 @@ const enhance = compose(
     deleteAccount: ({ deleteAccount, accountToDelete = {} }) => () =>
       deleteAccount(accountToDelete.id),
   }),
+  withProps(({ accountToDelete }) => ({ visible: !!accountToDelete })),
   pure,
 );
 

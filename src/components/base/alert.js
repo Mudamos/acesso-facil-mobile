@@ -1,9 +1,8 @@
-import Modal, { propTypes } from "./modal";
-import { StyleSheet, Text, View, ViewPropTypes } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
+import Modal from "./modal";
 import PropTypes from "prop-types";
 import React from "react";
-import { WHITE } from "../../constants";
 import { omit } from "ramda";
 
 const styles = StyleSheet.create({
@@ -29,13 +28,13 @@ const ButtonContainer = ({ primary, secondary }) => (
     {secondary}
     {primary}
   </View>
-)
+);
 
 const Alert = ({ title, content, buttonAccept, buttonDecline, ...props }) => (
   <Modal {...props} style={[styles.container, props.style]}>
     <Text style={styles.title}>{title}</Text>
     {content}
-    <ButtonContainer primary={buttonAccept} secondary={buttonDecline}/>
+    <ButtonContainer primary={buttonAccept} secondary={buttonDecline} />
   </Modal>
 );
 
