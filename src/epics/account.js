@@ -17,7 +17,6 @@ import {
 } from "../actions";
 import { combineEpics, ofType as ofType$ } from "redux-observable";
 import {
-  concatMap as concatMap$,
   exhaustMap as exhaustMap$,
   mergeMap as mergeMap$,
   switchMap as switchMap$,
