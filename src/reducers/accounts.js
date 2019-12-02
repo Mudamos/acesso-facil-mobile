@@ -38,7 +38,7 @@ export default (state = initialState, action) => {
         isWaitingForName: true,
         tempAccount: payload.tempAccount,
       };
-    case "CREATE_ACCOUNT_ABORT":
+    case "ABORT_CREATE_ACCOUNT":
       return {
         ...state,
         isWaitingForName: false,

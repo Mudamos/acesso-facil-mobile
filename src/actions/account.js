@@ -13,7 +13,7 @@ export const createAccountError = raw => ({
   },
 });
 
-export const createAccountAbort = () => ({ type: "CREATE_ACCOUNT_ABORT" });
+export const abortCreateAccount = () => ({ type: "ABORT_CREATE_ACCOUNT" });
 
 export const createAccountSuccess = ({
   id,

@@ -86,7 +86,7 @@ export default (state = initialState, action) => {
         notifyQrcodeSuccess: false,
         scannerError: null,
       };
-    case "CREATE_ACCOUNT_ABORT":
+    case "ABORT_CREATE_ACCOUNT":
       return {
         ...state,
         isScanning: false,
