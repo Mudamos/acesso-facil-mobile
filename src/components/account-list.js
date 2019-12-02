@@ -3,6 +3,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 
 import AccountCard from "./account-card";
 import { AccountPrototype } from "../proptypes";
+import DeleteAccountModalContainer from "../containers/delete-account-modal-container";
 import EmptyAccounts from "./empty-accounts";
 import PropTypes from "prop-types";
 import React from "react";
@@ -50,13 +51,12 @@ const AccountList = ({
             account={item}
             index={index}
             onChange={onLogin}
-            onDelete={() =>
-              onDeleteAccount({ id: item.id, accountName: item.accountName })
-            }
+            onDelete={() => onDeleteAccount(accounts[index])}
           />
         )}
       />
     )}
+    <DeleteAccountModalContainer visible={true} />
   </View>
 );
 

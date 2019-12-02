@@ -107,6 +107,15 @@ export const requestNewAccountName = tempAccount => ({
   },
 });
 
+export const prepareAccountToDelete = id => ({
+  type: "PREPARE_ACCOUNT_TO_DELETE",
+  payload: { id },
+});
+
+export const abortAccountDelete = () => ({
+  type: "ABORT_ACCOUNT_DELETE",
+});
+
 export const deleteAccount = id => ({
   type: "DELETE_ACCOUNT",
   payload: { id },

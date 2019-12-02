@@ -28,3 +28,14 @@ export const getTempAccount = pipe(
   baseSelector,
   prop("tempAccount"),
 );
+
+const getAccountToDeleteId = pipe(
+  baseSelector,
+  prop("accountToDelete"),
+);
+
+export const getAccountToDelete = createSelector(
+  [getAccounts, getAccountToDeleteId],
+  (accounts, accountToDeleteId) =>
+    accounts.find(propEq("id", accountToDeleteId)),
+);

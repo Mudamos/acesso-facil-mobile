@@ -1,6 +1,7 @@
 const initialState = {
   data: null,
   currentAccount: null,
+  accountToDelete: null,
   isWaitingForName: false,
   tempAccount: null,
 };
@@ -43,6 +44,17 @@ export default (state = initialState, action) => {
         ...state,
         isWaitingForName: false,
         tempAccount: null,
+      };
+    case "PREPARE_ACCOUNT_TO_DELETE":
+      return {
+        ...state,
+        accountToDelete: payload.id,
+      };
+    case "ABORT_ACCOUNT_DELETE":
+    case "DELETE_ACCOUNT":
+      return {
+        ...state,
+        accountToDelete: null,
       };
     default:
       return state;

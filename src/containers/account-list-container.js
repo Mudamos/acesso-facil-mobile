@@ -1,4 +1,9 @@
-import { changeCurrentAccount, deleteAccount, fetchAccounts } from "../actions";
+import {
+  changeCurrentAccount,
+  deleteAccount,
+  fetchAccounts,
+  prepareAccountToDelete,
+} from "../actions";
 import { compose, lifecycle, mapProps, pure, withHandlers } from "recompose";
 
 import AccountList from "../components/account-list";
@@ -14,8 +19,9 @@ const enhance = compose(
     }),
     {
       changeCurrentAccount,
-      fetchAccounts,
       deleteAccount,
+      fetchAccounts,
+      prepareAccountToDelete,
     },
   ),
   lifecycle({
@@ -24,13 +30,8 @@ const enhance = compose(
     },
   }),
   withHandlers({
-    onDeleteAccount: ({ deleteAccount }) => ({ id, accountName }) => {
-      Alert.alert(
-        "Acesso Fácil",
-        `Tem certeza que deseja deletar ${accountName}?`,
-        [{ text: "Sim", onPress: () => deleteAccount(id) }, { text: "Não" }],
-      );
-    },
+    onDeleteAccount: ({ prepareAccountToDelete }) => ({ id, accountName }) =>
+      prepareAccountToDelete(id),
   }),
   mapProps(omit(["changeCurrentAccount", "deleteAccount", "fetchAccounts"])),
   pure,
