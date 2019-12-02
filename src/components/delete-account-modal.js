@@ -59,10 +59,14 @@ const DeleteAccountModal = ({
 );
 
 DeleteAccountModal.propTypes = {
-  accountToDelete: AccountPrototype.isRequired,
+  accountToDelete: PropTypes.shape({ accountName: PropTypes.string }),
   abortAccountDelete: PropTypes.func.isRequired,
   deleteAccount: PropTypes.func.isRequired,
   visible: PropTypes.bool.isRequired,
 };
+
+DeleteAccountModal.defaultProps = {
+  accountToDelete: {},
+}
 
 export default DeleteAccountModal;
