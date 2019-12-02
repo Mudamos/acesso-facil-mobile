@@ -9,6 +9,7 @@ import QRCodeCreateAccountContainer from "./containers/qrcode-create-account-con
 import QRCodeLoginContainer from "./containers/qrcode-login-container";
 import SplashScreenContainer from "./containers/splash-screen-container";
 import { createStackNavigator } from "@react-navigation/stack";
+import { log } from "./utils";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -29,7 +30,8 @@ const AppBuilder = store =>
     render() {
       return (
         <Provider store={store}>
-          <NavigationNativeContainer>
+          <NavigationNativeContainer
+            onStateChange={state => log("[react-navigation]: ", state)}>
             <Navigator
               initialRouteName="SplashScreen"
               headerMode="none"
