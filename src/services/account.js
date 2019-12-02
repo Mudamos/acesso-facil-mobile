@@ -25,7 +25,7 @@ const fetchAccounts = storage =>
   storage.fetch(ACCOUNTS_KEY).then(accounts => accounts || []);
 
 const persistAccounts = curry((storage, accounts) =>
-  storage.store(ACCOUNTS_KEY, accounts)
+  storage.store(ACCOUNTS_KEY, accounts),
 );
 
 /* @returns {Object} newAccount
