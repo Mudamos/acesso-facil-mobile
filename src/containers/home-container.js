@@ -1,7 +1,8 @@
-import { compose, mapProps, pure, withHandlers } from "recompose";
+import { compose, lifecycle, mapProps, pure, withHandlers } from "recompose";
 import { getAccounts, getCurrentAccount } from "../selectors";
 
 import Home from "../components/home";
+import SplashScreen from "react-native-splash-screen";
 import { changeCurrentAccount } from "../actions";
 import { connect } from "react-redux";
 import { omit } from "ramda";
@@ -30,6 +31,11 @@ const enhance = compose(
     onLogin: ({ changeCurrentAccount, navigation }) => account => {
       changeCurrentAccount(account);
       navigation.navigate("Login");
+    },
+  }),
+  lifecycle({
+    componentDidMount() {
+      SplashScreen.hide();
     },
   }),
   mapProps(omit(["accounts", "currentAccount", "changeCurrentAccount"])),
