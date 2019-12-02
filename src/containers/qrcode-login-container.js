@@ -3,7 +3,7 @@ import {
   dismissNotifyQrcodeSuccess,
   qrcodeScan,
 } from "../actions";
-import { compose, lifecycle, mapProps, pure, withHandlers } from "recompose";
+import { compose, lifecycle, pure, withHandlers } from "recompose";
 import {
   getCurrentAccount,
   getScannerError,
@@ -15,7 +15,6 @@ import {
 import { Alert } from "react-native";
 import QRCodeLogin from "../components/qrcode-login";
 import { connect } from "react-redux";
-import { omit } from "ramda";
 
 const enhance = compose(
   connect(
@@ -68,9 +67,6 @@ const enhance = compose(
     onQrcodeScan: ({ currentAccount, qrcodeScan }) => ({ content }) =>
       qrcodeScan({ currentAccount, content }),
   }),
-  mapProps(
-    omit(["currentAccount", "dismissNotifyQrcodeSuccess", "qrcodeScan"]),
-  ),
   pure,
 );
 

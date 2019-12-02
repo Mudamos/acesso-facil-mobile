@@ -1,4 +1,4 @@
-import { compose, lifecycle, mapProps, pure, withHandlers } from "recompose";
+import { compose, lifecycle, pure, withHandlers } from "recompose";
 
 import { INTRO_COMPLETED } from "../models";
 import Intro from "../components/intro";
@@ -6,7 +6,6 @@ import { SCREENS } from "../models";
 import SplashScreen from "react-native-splash-screen";
 import { connect } from "react-redux";
 import { getConfigs } from "../selectors";
-import { omit } from "ramda";
 import { updateConfigs } from "../actions";
 
 const enhance = compose(
@@ -34,7 +33,6 @@ const enhance = compose(
       SplashScreen.hide();
     },
   }),
-  mapProps(omit(["configs", "navigation", "updateConfigs"])),
   pure,
 );
 

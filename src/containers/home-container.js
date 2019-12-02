@@ -1,4 +1,4 @@
-import { compose, lifecycle, mapProps, pure, withHandlers } from "recompose";
+import { compose, lifecycle, pure, withHandlers } from "recompose";
 
 import Home from "../components/home";
 import { SCREENS } from "../models";
@@ -6,7 +6,6 @@ import SplashScreen from "react-native-splash-screen";
 import { changeCurrentAccount } from "../actions";
 import { connect } from "react-redux";
 import { getCurrentAccount } from "../selectors";
-import { omit } from "ramda";
 
 const enhance = compose(
   connect(
@@ -43,7 +42,6 @@ const enhance = compose(
       SplashScreen.hide();
     },
   }),
-  mapProps(omit(["currentAccount", "changeCurrentAccount"])),
   pure,
 );
 
