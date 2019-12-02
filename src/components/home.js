@@ -1,30 +1,20 @@
-import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
-
 import AccountListContainer from "../containers/account-list-container";
-import { DARKER_BLUE } from "../constants";
-import Header from "./header";
 import PropTypes from "prop-types";
 import React from "react";
+import SefazScreen from "./base/sefaz-screen";
 import { identity } from "ramda";
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: DARKER_BLUE },
-});
-
-const Home = ({ onCreateAccount, onLogin }) => {
+const Home = ({ onCreateAccount, onLogin, navigation }) => {
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={DARKER_BLUE} barStyle="light-content" />
-      <Header
-        color={DARKER_BLUE}
-        onCreateAccount={onCreateAccount}
-        onOpenOptions={identity}
-      />
+    <SefazScreen
+      onHeaderLeft={onCreateAccount}
+      onHeaderRight={identity}
+      navigation={navigation}>
       <AccountListContainer
         onCreateAccount={onCreateAccount}
         onLogin={onLogin}
       />
-    </SafeAreaView>
+    </SefazScreen>
   );
 };
 
@@ -33,6 +23,10 @@ Home.defaultProps = {
 };
 
 Home.propTypes = {
+  navigation: PropTypes.shape({
+    canGoBack: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired,
+  }).isRequired,
   title: PropTypes.string,
   onCreateAccount: PropTypes.func.isRequired,
 };

@@ -13,7 +13,7 @@ import React from "react";
 const styles = StyleSheet.create({
   container: {
     backgroundColor: DARK_BLUE,
-    borderRadius: 10,
+    borderRadius: 6,
     paddingVertical: 12,
     paddingHorizontal: 24,
     flexDirection: "row",
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
   disabled: {
     backgroundColor: LIGHT_GRAY,
-    borderRadius: 10,
+    borderRadius: 6,
     padding: 10,
     flexDirection: "row",
     justifyContent: "center",
@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     color: GRAY,
   },
   text: {
+    fontSize: 18,
     color: WHITE,
     fontWeight: "700",
   },

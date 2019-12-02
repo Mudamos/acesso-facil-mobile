@@ -1,17 +1,16 @@
 import { compose, lifecycle, mapProps, pure, withHandlers } from "recompose";
-import { getAccounts, getCurrentAccount } from "../selectors";
 
 import Home from "../components/home";
 import { SCREENS } from "../models";
 import SplashScreen from "react-native-splash-screen";
 import { changeCurrentAccount } from "../actions";
 import { connect } from "react-redux";
+import { getCurrentAccount } from "../selectors";
 import { omit } from "ramda";
 
 const enhance = compose(
   connect(
     state => ({
-      accounts: getAccounts(state),
       currentAccount: getCurrentAccount(state),
     }),
     {
@@ -24,7 +23,7 @@ const enhance = compose(
       changeCurrentAccount,
       navigation,
     }) => () => {
-      navigation.navigate(SCREENS.CREATE_ACCOUNT);
+      navigation.navigate(SCREENS.INTRO_CREATE_ACCOUNT);
       if (currentAccount) {
         changeCurrentAccount(null);
       }
@@ -44,7 +43,7 @@ const enhance = compose(
       SplashScreen.hide();
     },
   }),
-  mapProps(omit(["accounts", "currentAccount", "changeCurrentAccount"])),
+  mapProps(omit(["currentAccount", "changeCurrentAccount"])),
   pure,
 );
 

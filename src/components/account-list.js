@@ -3,7 +3,6 @@ import { FlatList, StyleSheet, View } from "react-native";
 
 import AccountCard from "./account-card";
 import { AccountPrototype } from "../proptypes";
-import DeleteAccountModalContainer from "../containers/delete-account-modal-container";
 import EmptyAccounts from "./empty-accounts";
 import PropTypes from "prop-types";
 import React from "react";
@@ -16,7 +15,6 @@ const styles = StyleSheet.create({
   },
   flatList: {
     marginVertical: 40,
-    marginHorizontal: 20,
   },
   newAccount: { marginBottom: 16 },
   newAccountText: { fontWeight: "bold" },
@@ -56,7 +54,6 @@ const AccountList = ({
         )}
       />
     )}
-    <DeleteAccountModalContainer visible={true} />
   </View>
 );
 

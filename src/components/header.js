@@ -1,5 +1,5 @@
 import { DARKER_BLUE, WHITE } from "../constants";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import AppSimpleLogoImage from "../images/app_simple_logo.svg";
 import IonIcons from "react-native-vector-icons/Ionicons";
@@ -22,18 +22,32 @@ const styles = StyleSheet.create({
   },
 });
 
-const Header = ({ color, onCreateAccount, onOpenOptions }) => (
+const Header = ({
+  color,
+  title,
+  navigation: { canGoBack, goBack },
+  onHeaderLeft,
+  onHeaderRight,
+}) => (
   <View style={[styles.container, color && { backgroundColor: color }]}>
     <TouchableOpacity
-      onPress={onCreateAccount}
+      onPress={() => (canGoBack() ? goBack() : onHeaderLeft())}
       style={styles.createAccountContainer}>
-      <IonIcons name="md-person-add" size={24} color={WHITE} />
+      <IonIcons
+        name={canGoBack() ? "md-arrow-back" : "md-person-add"}
+        size={24}
+        color={WHITE}
+      />
     </TouchableOpacity>
 
-    <AppSimpleLogoImage width={30} height={30} />
+    {title ? (
+      <Text>{title}</Text>
+    ) : (
+      <AppSimpleLogoImage width={30} height={30} />
+    )}
 
     <TouchableOpacity
-      onPress={onOpenOptions}
+      onPress={onHeaderRight}
       style={styles.createAccountContainer}>
       <IonIcons name="md-menu" size={24} color={WHITE} />
     </TouchableOpacity>
@@ -42,12 +56,18 @@ const Header = ({ color, onCreateAccount, onOpenOptions }) => (
 
 Header.defaultProps = {
   color: null,
+  title: null,
 };
 
 Header.propTypes = {
   color: PropTypes.string,
-  onCreateAccount: PropTypes.func.isRequired,
-  onOpenOptions: PropTypes.func.isRequired,
+  navigation: PropTypes.shape({
+    goBack: PropTypes.func.isRequired,
+    canGoBack: PropTypes.func.isRequired,
+  }).isRequired,
+  title: PropTypes.string,
+  onHeaderLeft: PropTypes.func.isRequired,
+  onHeaderRight: PropTypes.func.isRequired,
 };
 
 export default Header;

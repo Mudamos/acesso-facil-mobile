@@ -1,7 +1,6 @@
 import { DARK_GRAY, RED } from "../constants";
 import { StyleSheet, Text } from "react-native";
 
-import { AccountPrototype } from "../proptypes";
 import Alert from "./base/alert";
 import Button from "./base/button";
 import PropTypes from "prop-types";

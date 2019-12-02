@@ -9,7 +9,6 @@ import {
 import React, { useState } from "react";
 
 import EditAccountModalContainer from "../containers/edit-account-modal-container";
-import IntroCreateAccountModal from "./intro-create-account-modal";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import LoaderModal from "./loader-modal";
 import PropTypes from "prop-types";
@@ -52,13 +51,11 @@ const QRCodeCreateAccount = ({
   onQrcodeScan,
   scannerError,
 }) => {
-  const [showIntro, setShowIntro] = useState(true);
   const [cameraEnabled, setCameraEnabled] = useState(false);
   const shouldRenderCamera =
     !isScanning &&
     !isWaitingForName &&
     !hasSuccessOnQrcodeScan &&
-    !showIntro &&
     !scannerError;
 
   return (
@@ -89,9 +86,6 @@ const QRCodeCreateAccount = ({
             </View>
           )}
         </View>
-      )}
-      {showIntro && (
-        <IntroCreateAccountModal onPress={() => setShowIntro(false)} />
       )}
       <TouchableOpacity style={styles.backButton} onPress={onBack}>
         <IonIcons name="md-arrow-round-back" size={30} color={WHITE} />

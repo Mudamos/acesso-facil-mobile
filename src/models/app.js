@@ -4,4 +4,5 @@ export const SCREENS = {
   HOME: "Home",
   CREATE_ACCOUNT: "CreateAccount",
   LOGIN: "Login",
+  INTRO_CREATE_ACCOUNT: "IntroCreateAccount",
 };

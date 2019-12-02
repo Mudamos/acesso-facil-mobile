@@ -1,8 +1,10 @@
-import { StyleSheet, View, ViewPropTypes } from "react-native";
+import { Dimensions, StyleSheet, View, ViewPropTypes } from "react-native";
 
 import PropTypes from "prop-types";
 import React from "react";
 import { WHITE } from "../../constants";
+
+const { width: screenWidth, height: screenHeight } = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
   modalBackground: {
@@ -11,6 +13,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+    width: screenWidth,
+    height: screenHeight,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "rgba(0,0,0,0.6)",
