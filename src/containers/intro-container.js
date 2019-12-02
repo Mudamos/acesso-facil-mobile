@@ -29,6 +29,11 @@ const enhance = compose(
       SplashScreen.hide();
     },
   }),
+  lifecycle({
+    componentDidMount() {
+      SplashScreen.hide();
+    },
+  }),
   mapProps(omit(["configs", "navigation", "updateConfigs"])),
   pure,
 );

@@ -39,6 +39,11 @@ const enhance = compose(
       SplashScreen.hide();
     },
   }),
+  lifecycle({
+    componentDidMount() {
+      SplashScreen.hide();
+    },
+  }),
   mapProps(omit(["accounts", "currentAccount", "changeCurrentAccount"])),
   pure,
 );
