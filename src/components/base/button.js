@@ -1,4 +1,4 @@
-import { BLUE, GRAY, LIGHT_GRAY, WHITE } from "../../constants";
+import { DARK_BLUE, GRAY, LIGHT_GRAY, WHITE } from "../../constants";
 import {
   StyleSheet,
   Text,
@@ -12,7 +12,7 @@ import React from "react";
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: BLUE,
+    backgroundColor: DARK_BLUE,
     borderRadius: 10,
     paddingVertical: 12,
     paddingHorizontal: 24,

@@ -6,8 +6,11 @@ import IntroContainer from "./containers/intro-container";
 import { NavigationNativeContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import QRCodeCreateAccountContainer from "./containers/qrcode-create-account-container";
+import QRCodeLoginContainer from "./containers/qrcode-login-container";
+import { SCREENS } from "./models";
 import SplashScreenContainer from "./containers/splash-screen-container";
 import { createStackNavigator } from "@react-navigation/stack";
+import { log } from "./utils";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -21,26 +24,30 @@ const AppBuilder = store =>
       store.dispatch(appWillUnmount());
     }
 
+    screenOptions = {
+      animation: "spring",
+    };
+
     render() {
       return (
         <Provider store={store}>
-          <NavigationNativeContainer>
+          <NavigationNativeContainer
+            onStateChange={state => log("[react-navigation]: ", state)}>
             <Navigator
-              initialRouteName="SplashScreen"
+              initialRouteName={SCREENS.SPLASHSCREEN}
               headerMode="none"
-              screenOptions={{ gestureEnabled: true }}>
-              <Screen name="SplashScreen" component={SplashScreenContainer} />
-              <Screen name="Intro" component={IntroContainer} />
-              <Screen name="Home" component={HomeContainer} />
+              screenOptions={this.screenOptions}>
               <Screen
-                name="CreateAccount"
-                component={QRCodeCreateAccountContainer}
-                options={{
-                  gesturesEnabled: true,
-                  gestureDirection: "horizontal",
-                  animation: "spring",
-                }}
+                name={SCREENS.SPLASHSCREEN}
+                component={SplashScreenContainer}
               />
+              <Screen name={SCREENS.APP_INTRO} component={IntroContainer} />
+              <Screen name={SCREENS.HOME} component={HomeContainer} />
+              <Screen
+                name={SCREENS.CREATE_ACCOUNT}
+                component={QRCodeCreateAccountContainer}
+              />
+              <Screen name={SCREENS.LOGIN} component={QRCodeLoginContainer} />
             </Navigator>
           </NavigationNativeContainer>
         </Provider>

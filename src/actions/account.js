@@ -13,7 +13,7 @@ export const createAccountError = raw => ({
   },
 });
 
-export const createAccountAbort = () => ({ type: "CREATE_ACCOUNT_ABORT" });
+export const abortCreateAccount = () => ({ type: "ABORT_CREATE_ACCOUNT" });
 
 export const createAccountSuccess = ({
   id,
@@ -105,6 +105,15 @@ export const requestNewAccountName = tempAccount => ({
   payload: {
     tempAccount,
   },
+});
+
+export const prepareAccountToDelete = id => ({
+  type: "PREPARE_ACCOUNT_TO_DELETE",
+  payload: { id },
+});
+
+export const abortAccountDelete = () => ({
+  type: "ABORT_ACCOUNT_DELETE",
 });
 
 export const deleteAccount = id => ({

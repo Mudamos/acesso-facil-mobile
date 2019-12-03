@@ -1,6 +1,6 @@
 import { compose, lifecycle, mapProps, pure, withHandlers } from "recompose";
 import {
-  createAccountAbort,
+  abortCreateAccount,
   dismissNotifyQrcodeSuccess,
   qrcodeScan,
 } from "../actions";
@@ -29,7 +29,7 @@ const enhance = compose(
     {
       dismissNotifyQrcodeSuccess,
       qrcodeScan,
-      createAccountAbort,
+      abortCreateAccount,
     },
   ),
   lifecycle({
@@ -60,7 +60,7 @@ const enhance = compose(
     },
     componentWillUnmount() {
       if (this.props.isScanning || this.props.isWaitingForName) {
-        this.props.createAccountAbort();
+        this.props.abortCreateAccount();
       }
       this.props.dismissNotifyQrcodeSuccess();
     },
@@ -69,7 +69,7 @@ const enhance = compose(
     onBack: ({ navigation: { goBack } }) => () => goBack(),
     onQrcodeScan: ({ qrcodeScan }) => ({ content }) => qrcodeScan({ content }),
   }),
-  mapProps(omit(["dismissNotifyQrcodeSuccess", "createAccountAbort"])),
+  mapProps(omit(["dismissNotifyQrcodeSuccess", "abortCreateAccount"])),
   pure,
 );
 

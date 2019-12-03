@@ -1,8 +1,12 @@
-import { changeCurrentAccount, deleteAccount, fetchAccounts } from "../actions";
+import {
+  changeCurrentAccount,
+  deleteAccount,
+  fetchAccounts,
+  prepareAccountToDelete,
+} from "../actions";
 import { compose, lifecycle, mapProps, pure, withHandlers } from "recompose";
 
 import AccountList from "../components/account-list";
-import { Alert } from "react-native";
 import { connect } from "react-redux";
 import { getAccounts } from "../selectors";
 import { omit } from "ramda";
@@ -14,8 +18,9 @@ const enhance = compose(
     }),
     {
       changeCurrentAccount,
-      fetchAccounts,
       deleteAccount,
+      fetchAccounts,
+      prepareAccountToDelete,
     },
   ),
   lifecycle({
@@ -24,15 +29,10 @@ const enhance = compose(
     },
   }),
   withHandlers({
-    onDeleteAccount: ({ deleteAccount }) => ({ id, accountName }) => {
-      Alert.alert(
-        "Acesso Fácil",
-        `Tem certeza que deseja deletar ${accountName}?`,
-        [{ text: "Sim", onPress: () => deleteAccount(id) }, { text: "Não" }],
-      );
-    },
+    onDeleteAccount: ({ prepareAccountToDelete }) => ({ id }) =>
+      prepareAccountToDelete(id),
   }),
-  mapProps(omit(["fetchAccounts", "deleteAccount"])),
+  mapProps(omit(["changeCurrentAccount", "deleteAccount", "fetchAccounts"])),
   pure,
 );
 

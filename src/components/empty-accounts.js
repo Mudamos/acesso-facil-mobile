@@ -1,23 +1,18 @@
-import { BLACK, WHITE } from "../constants";
-import { StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 
+import BackgroundRioImage from "../images/background_rio.svg";
 import Button from "./base/button";
-import Entypo from "react-native-vector-icons/Entypo";
-import IonIcons from "react-native-vector-icons/Ionicons";
+import ProfileImage from "../images/profile.svg";
 import PropTypes from "prop-types";
 import React from "react";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 30,
     alignItems: "center",
+    flex: 1,
     justifyContent: "center",
-  },
-  title: {
-    textAlign: "center",
-    marginBottom: 20,
-    color: BLACK,
+    paddingHorizontal: 30,
+    paddingTop: 30,
   },
   image: {
     marginBottom: 20,
@@ -25,30 +20,24 @@ const styles = StyleSheet.create({
   button: {
     paddingRight: 10,
   },
+  background: {
+    bottom: -1,
+    position: "absolute",
+  },
 });
+
+const { width: screenWidth } = Dimensions.get("screen");
+const backgroundWidth = screenWidth;
+const backgroundHeight = Math.ceil(screenWidth * 0.164);
 
 const EmptyAccounts = ({ onCreateAccount }) => (
   <View style={styles.container}>
-    <Text style={styles.title}>
-      Nenhuma identidade vinculada à esse dispositivo
-    </Text>
-    <Entypo
-      style={styles.image}
-      name="tablet-mobile-combo"
-      size={80}
-      color={BLACK}
-    />
-    <Button
-      text="Criar identidade"
-      icon={
-        <IonIcons
-          style={styles.button}
-          name="md-person-add"
-          size={20}
-          color={WHITE}
-        />
-      }
-      onPress={onCreateAccount}
+    <ProfileImage style={styles.image} width={120} height={120} />
+    <Button text="CRIAR IDENTIDADE" onPress={onCreateAccount} />
+    <BackgroundRioImage
+      style={styles.background}
+      width={backgroundWidth}
+      height={backgroundHeight}
     />
   </View>
 );
