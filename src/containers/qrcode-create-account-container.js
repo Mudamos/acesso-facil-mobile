@@ -39,7 +39,7 @@ const enhance = compose(
         hasDiffProp("hasSuccessOnQrcodeScan") &&
         this.props.hasSuccessOnQrcodeScan
       ) {
-        this.props.navigation.goBack();
+        this.props.navigation.pop();
         Alert.alert("Acesso Fácil", "Identidade criada com sucesso", [
           {
             text: "Ok",
@@ -65,7 +65,7 @@ const enhance = compose(
     },
   }),
   withHandlers({
-    onBack: ({ navigation: { goBack } }) => () => goBack(),
+    onBack: ({ navigation: { pop } }) => () => pop(),
     onQrcodeScan: ({ qrcodeScan }) => ({ content }) => qrcodeScan({ content }),
   }),
   pure,

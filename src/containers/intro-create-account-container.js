@@ -6,7 +6,7 @@ import { SCREENS } from "../models";
 const enhance = compose(
   withHandlers({
     onContinue: ({ navigation }) => () => {
-      navigation.navigate(SCREENS.CREATE_ACCOUNT);
+      navigation.push(SCREENS.CREATE_ACCOUNT);
     },
   }),
   pure,
