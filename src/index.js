@@ -7,6 +7,7 @@ import { NavigationNativeContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import QRCodeCreateAccountContainer from "./containers/qrcode-create-account-container";
 import QRCodeLoginContainer from "./containers/qrcode-login-container";
+import { SCREENS } from "./models";
 import SplashScreenContainer from "./containers/splash-screen-container";
 import { createStackNavigator } from "@react-navigation/stack";
 import { log } from "./utils";
@@ -33,17 +34,20 @@ const AppBuilder = store =>
           <NavigationNativeContainer
             onStateChange={state => log("[react-navigation]: ", state)}>
             <Navigator
-              initialRouteName="SplashScreen"
+              initialRouteName={SCREENS.SPLASHSCREEN}
               headerMode="none"
               screenOptions={this.screenOptions}>
-              <Screen name="SplashScreen" component={SplashScreenContainer} />
-              <Screen name="Intro" component={IntroContainer} />
-              <Screen name="Home" component={HomeContainer} />
               <Screen
-                name="CreateAccount"
+                name={SCREENS.SPLASHSCREEN}
+                component={SplashScreenContainer}
+              />
+              <Screen name={SCREENS.APP_INTRO} component={IntroContainer} />
+              <Screen name={SCREENS.HOME} component={HomeContainer} />
+              <Screen
+                name={SCREENS.CREATE_ACCOUNT}
                 component={QRCodeCreateAccountContainer}
               />
-              <Screen name="Login" component={QRCodeLoginContainer} />
+              <Screen name={SCREENS.LOGIN} component={QRCodeLoginContainer} />
             </Navigator>
           </NavigationNativeContainer>
         </Provider>

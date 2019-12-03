@@ -1,7 +1,8 @@
 import { compose, lifecycle, mapProps, pure, renderNothing } from "recompose";
 import { getConfig, hasLoadedConfigs } from "../selectors";
 
-import { INTRO_COMPLETED } from "../models/config";
+import { INTRO_COMPLETED } from "../models";
+import { SCREENS } from "../models";
 import { connect } from "react-redux";
 import { omit } from "ramda";
 
@@ -16,9 +17,9 @@ const enhance = compose(
 
       if (hasDiffProp("hasLoadedConfigs") && this.props.hasLoadedConfigs) {
         if (this.props.hasCompletedAppIntro) {
-          this.props.navigation.replace("Home");
+          this.props.navigation.replace(SCREENS.HOME);
         } else {
-          this.props.navigation.replace("Intro");
+          this.props.navigation.replace(SCREENS.APP_INTRO);
         }
       }
     },

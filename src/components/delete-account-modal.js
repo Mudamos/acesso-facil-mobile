@@ -67,6 +67,6 @@ DeleteAccountModal.propTypes = {
 
 DeleteAccountModal.defaultProps = {
   accountToDelete: {},
-}
+};
 
 export default DeleteAccountModal;

@@ -2,6 +2,7 @@ import { compose, lifecycle, mapProps, pure, withHandlers } from "recompose";
 import { getAccounts, getCurrentAccount } from "../selectors";
 
 import Home from "../components/home";
+import { SCREENS } from "../models";
 import SplashScreen from "react-native-splash-screen";
 import { changeCurrentAccount } from "../actions";
 import { connect } from "react-redux";
@@ -23,14 +24,14 @@ const enhance = compose(
       changeCurrentAccount,
       navigation,
     }) => () => {
-      navigation.navigate("CreateAccount");
+      navigation.navigate(SCREENS.CREATE_ACCOUNT);
       if (currentAccount) {
         changeCurrentAccount(null);
       }
     },
     onLogin: ({ changeCurrentAccount, navigation }) => accountId => {
       changeCurrentAccount(accountId);
-      navigation.navigate("Login");
+      navigation.navigate(SCREENS.LOGIN);
     },
   }),
   lifecycle({
