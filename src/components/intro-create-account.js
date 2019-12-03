@@ -20,10 +20,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const IntroCreateAccount = ({ onContinue, onCreateAccount }) => {
+const IntroCreateAccount = ({ onContinue }) => {
   return (
-    <SefazScreen
-      onHeaderLeft={onCreateAccount}>
+    <SefazScreen>
       <View style={styles.container}>
         <ScanQrCodeExampleImage width={160} height={160} />
         <Text style={styles.text}>
@@ -37,7 +36,6 @@ const IntroCreateAccount = ({ onContinue, onCreateAccount }) => {
 
 IntroCreateAccount.propTypes = {
   onContinue: PropTypes.func.isRequired,
-  onCreateAccount: PropTypes.func.isRequired,
 };
 
 export default IntroCreateAccount;
