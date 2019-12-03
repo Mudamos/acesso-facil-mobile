@@ -2,13 +2,11 @@ import AccountListContainer from "../containers/account-list-container";
 import PropTypes from "prop-types";
 import React from "react";
 import SefazScreen from "./base/sefaz-screen";
-import { identity } from "ramda";
 
 const Home = ({ onCreateAccount, onLogin, navigation }) => {
   return (
     <SefazScreen
       onHeaderLeft={onCreateAccount}
-      onHeaderRight={identity}
       navigation={navigation}>
       <AccountListContainer
         onCreateAccount={onCreateAccount}

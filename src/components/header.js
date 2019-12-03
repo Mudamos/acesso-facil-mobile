@@ -5,6 +5,7 @@ import AppSimpleLogoImage from "../images/app_simple_logo.svg";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import PropTypes from "prop-types";
 import React from "react";
+import { isFunction } from "../utils";
 
 const styles = StyleSheet.create({
   container: {
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingHorizontal: 16,
   },
-  createAccountContainer: {
+  actionContainer: {
     flexBasis: 30,
   },
 });
@@ -28,35 +29,48 @@ const Header = ({
   navigation: { canGoBack, goBack },
   onHeaderLeft,
   onHeaderRight,
-}) => (
-  <View style={[styles.container, color && { backgroundColor: color }]}>
-    <TouchableOpacity
-      onPress={() => (canGoBack() ? goBack() : onHeaderLeft())}
-      style={styles.createAccountContainer}>
-      <IonIcons
-        name={canGoBack() ? "md-arrow-back" : "md-person-add"}
-        size={24}
-        color={WHITE}
-      />
-    </TouchableOpacity>
+}) => {
+  const showHeaderLeft = isFunction(onHeaderLeft) || canGoBack();
+  const showHeaderRight = isFunction(onHeaderRight);
 
-    {title ? (
-      <Text>{title}</Text>
-    ) : (
-      <AppSimpleLogoImage width={30} height={30} />
-    )}
+  return (
+    <View style={[styles.container, color && { backgroundColor: color }]}>
+      <View style={styles.actionContainer}>
+        {showHeaderLeft && (
+          <TouchableOpacity
+            onPress={() => (canGoBack() ? goBack() : onHeaderLeft())}>
+            <IonIcons
+              name={canGoBack() ? "md-arrow-back" : "md-person-add"}
+              size={24}
+              color={WHITE}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
 
-    <TouchableOpacity
-      onPress={onHeaderRight}
-      style={styles.createAccountContainer}>
-      <IonIcons name="md-menu" size={24} color={WHITE} />
-    </TouchableOpacity>
-  </View>
-);
+      {title ? (
+        <Text>{title}</Text>
+      ) : (
+        <AppSimpleLogoImage width={30} height={30} />
+      )}
+
+      <View style={styles.actionContainer}>
+        {showHeaderRight && (
+          <TouchableOpacity
+            onPress={onHeaderRight}>
+            <IonIcons name="md-menu" size={24} color={WHITE} />
+          </TouchableOpacity>
+        )}
+      </View>
+    </View>
+  );
+};
 
 Header.defaultProps = {
   color: null,
   title: null,
+  onHeaderLeft: null,
+  onHeaderRight: null,
 };
 
 Header.propTypes = {
@@ -66,8 +80,8 @@ Header.propTypes = {
     canGoBack: PropTypes.func.isRequired,
   }).isRequired,
   title: PropTypes.string,
-  onHeaderLeft: PropTypes.func.isRequired,
-  onHeaderRight: PropTypes.func.isRequired,
+  onHeaderLeft: PropTypes.func,
+  onHeaderRight: PropTypes.func,
 };
 
 export default Header;

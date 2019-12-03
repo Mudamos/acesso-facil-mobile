@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import ScanQrCodeExampleImage from "../images/scan_qrcode_example.svg";
 import SefazScreen from "./base/sefaz-screen";
-import { identity } from "ramda";
 
 const styles = StyleSheet.create({
   container: {
@@ -25,8 +24,7 @@ const IntroCreateAccount = ({ onContinue, onCreateAccount, navigation }) => {
   return (
     <SefazScreen
       navigation={navigation}
-      onHeaderLeft={onCreateAccount}
-      onHeaderRight={identity}>
+      onHeaderLeft={onCreateAccount}>
       <View style={styles.container}>
         <ScanQrCodeExampleImage width={160} height={160} />
         <Text style={styles.text}>

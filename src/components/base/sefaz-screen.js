@@ -12,7 +12,6 @@ import DeleteAccountModalContainer from "../../containers/delete-account-modal-c
 import Header from "../header";
 import PropTypes from "prop-types";
 import React from "react";
-import { identity } from "ramda";
 
 const { width: screenWidth } = Dimensions.get("screen");
 const backgroundWidth = screenWidth + 2;
@@ -74,8 +73,8 @@ SefazScreen.propTypes = {
 
 SefazScreen.defaultProps = {
   navigation: null,
-  onHeaderLeft: identity,
-  onHeaderRight: identity,
+  onHeaderLeft: null,
+  onHeaderRight: null,
   title: null,
 };
 
