@@ -1,7 +1,9 @@
 import { Buffer } from "buffer";
+import Config from "react-native-config";
 
 export const isDev = __DEV__;
 
+export const isDebug = Config.DEBUG_MODE === "true";
 export const toJsonBase64 = object =>
   Buffer.from(JSON.stringify(object), "utf8").toString("base64");
 
