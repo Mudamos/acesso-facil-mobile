@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
 const QRCodeCreateAccount = ({
   hasSuccessOnQrcodeScan,
   isScanning,
-  loadingMessage,
   isWaitingForName,
+  loadingMessage,
   onBack,
   onQrcodeScan,
   scannerError,

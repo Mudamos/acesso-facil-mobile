@@ -3,11 +3,10 @@ import PropTypes from "prop-types";
 import React from "react";
 import SefazScreen from "./base/sefaz-screen";
 
-const Home = ({ onCreateAccount, onLogin, navigation }) => {
+const Home = ({ onCreateAccount, onLogin }) => {
   return (
     <SefazScreen
-      onHeaderLeft={onCreateAccount}
-      navigation={navigation}>
+      onHeaderLeft={onCreateAccount}>
       <AccountListContainer
         onCreateAccount={onCreateAccount}
         onLogin={onLogin}
@@ -21,10 +20,6 @@ Home.defaultProps = {
 };
 
 Home.propTypes = {
-  navigation: PropTypes.shape({
-    canGoBack: PropTypes.func.isRequired,
-    goBack: PropTypes.func.isRequired,
-  }).isRequired,
   title: PropTypes.string,
   onCreateAccount: PropTypes.func.isRequired,
 };

@@ -6,6 +6,7 @@ import IonIcons from "react-native-vector-icons/Ionicons";
 import PropTypes from "prop-types";
 import React from "react";
 import { isFunction } from "../utils";
+import { useNavigation } from '@react-navigation/core';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,10 +27,10 @@ const styles = StyleSheet.create({
 const Header = ({
   color,
   title,
-  navigation: { canGoBack, goBack },
   onHeaderLeft,
   onHeaderRight,
 }) => {
+  const { canGoBack, goBack } = useNavigation();
   const showHeaderLeft = isFunction(onHeaderLeft) || canGoBack();
   const showHeaderRight = isFunction(onHeaderRight);
 
@@ -75,10 +76,6 @@ Header.defaultProps = {
 
 Header.propTypes = {
   color: PropTypes.string,
-  navigation: PropTypes.shape({
-    goBack: PropTypes.func.isRequired,
-    canGoBack: PropTypes.func.isRequired,
-  }).isRequired,
   title: PropTypes.string,
   onHeaderLeft: PropTypes.func,
   onHeaderRight: PropTypes.func,

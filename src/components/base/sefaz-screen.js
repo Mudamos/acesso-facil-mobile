@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
 
 const SefazScreen = ({
   children,
-  navigation,
   onHeaderLeft,
   onHeaderRight,
   title,
@@ -45,7 +44,6 @@ const SefazScreen = ({
       <Header
         color={DARKER_BLUE}
         title={title}
-        navigation={navigation}
         onHeaderLeft={onHeaderLeft}
         onHeaderRight={onHeaderRight}
       />
@@ -61,10 +59,6 @@ const SefazScreen = ({
 };
 
 SefazScreen.propTypes = {
-  navigation: PropTypes.shape({
-    goBack: PropTypes.func.isRequired,
-    canGoBack: PropTypes.func.isRequired,
-  }).isRequired,
   children: PropTypes.node.isRequired,
   onHeaderLeft: PropTypes.func,
   onHeaderRight: PropTypes.func,
@@ -72,7 +66,6 @@ SefazScreen.propTypes = {
 };
 
 SefazScreen.defaultProps = {
-  navigation: null,
   onHeaderLeft: null,
   onHeaderRight: null,
   title: null,

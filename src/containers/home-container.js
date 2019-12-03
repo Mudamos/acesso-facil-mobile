@@ -22,10 +22,10 @@ const enhance = compose(
       changeCurrentAccount,
       navigation,
     }) => () => {
-      navigation.navigate(SCREENS.INTRO_CREATE_ACCOUNT);
       if (currentAccount) {
         changeCurrentAccount(null);
       }
+      navigation.navigate(SCREENS.INTRO_CREATE_ACCOUNT);
     },
     onLogin: ({ changeCurrentAccount, navigation }) => accountId => {
       changeCurrentAccount(accountId);
