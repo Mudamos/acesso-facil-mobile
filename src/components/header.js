@@ -1,10 +1,10 @@
 import { DARKER_BLUE, WHITE } from "../constants";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import AppSimpleLogoImage from "../images/app_simple_logo.svg";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import PropTypes from "prop-types";
-import React from "react";
 import { isFunction } from "../utils";
 import { useNavigation } from '@react-navigation/core';
 
@@ -30,18 +30,24 @@ const Header = ({
   onHeaderLeft,
   onHeaderRight,
 }) => {
-  const { canGoBack, goBack } = useNavigation();
+  const [showBackButton, setShowBackButton] = useState(false);
+  const { canGoBack, pop, dangerouslyGetState } = useNavigation();
   const showHeaderLeft = isFunction(onHeaderLeft) || canGoBack();
   const showHeaderRight = isFunction(onHeaderRight);
+  const currentRouteIndex = dangerouslyGetState().index;
+
+  useEffect(() => {
+    setShowBackButton(currentRouteIndex !== 0);
+  }, []);
 
   return (
     <View style={[styles.container, color && { backgroundColor: color }]}>
       <View style={styles.actionContainer}>
         {showHeaderLeft && (
           <TouchableOpacity
-            onPress={() => (canGoBack() ? goBack() : onHeaderLeft())}>
+            onPress={() => (showBackButton ? pop() : onHeaderLeft())}>
             <IonIcons
-              name={canGoBack() ? "md-arrow-back" : "md-person-add"}
+              name={showBackButton ? "md-arrow-back" : "md-person-add"}
               size={24}
               color={WHITE}
             />
