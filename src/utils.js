@@ -14,4 +14,4 @@ export const log = (...args) => isDev && console.log(...args);
 export const delay = ms => result =>
   new Promise(resolve => setTimeout(() => resolve(result), ms));
 
-export const isFunction = value => is(Function);
+export const isFunction = is(Function);
