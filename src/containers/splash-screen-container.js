@@ -1,10 +1,9 @@
-import { compose, lifecycle, mapProps, pure, renderNothing } from "recompose";
+import { compose, lifecycle, pure, renderNothing } from "recompose";
 import { getConfig, hasLoadedConfigs } from "../selectors";
 
 import { INTRO_COMPLETED } from "../models";
 import { SCREENS } from "../models";
 import { connect } from "react-redux";
-import { omit } from "ramda";
 
 const enhance = compose(
   connect(state => ({
@@ -24,7 +23,6 @@ const enhance = compose(
       }
     },
   }),
-  mapProps(omit(["hasCompletedAppIntro", "hasLoadedConfigs", "navigation"])),
   pure,
 );
 

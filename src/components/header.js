@@ -1,53 +1,90 @@
 import { DARKER_BLUE, WHITE } from "../constants";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import AppSimpleLogoImage from "../images/app_simple_logo.svg";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import PropTypes from "prop-types";
-import React from "react";
+import { isFunction } from "../utils";
+import { useNavigation } from "@react-navigation/core";
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "flex-end",
+    alignItems: "center",
     backgroundColor: DARKER_BLUE,
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     maxHeight: 60,
     padding: 10,
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
   },
-  createAccountContainer: {
+  title: {
+    fontWeight: "bold",
+    color: WHITE,
+  },
+  actionContainer: {
     flexBasis: 30,
   },
 });
 
-const Header = ({ color, onCreateAccount, onOpenOptions }) => (
-  <View style={[styles.container, color && { backgroundColor: color }]}>
-    <TouchableOpacity
-      onPress={onCreateAccount}
-      style={styles.createAccountContainer}>
-      <IonIcons name="md-person-add" size={24} color={WHITE} />
-    </TouchableOpacity>
+const Header = ({ color, title, onHeaderLeft, onHeaderRight }) => {
+  const [showBackButton, setShowBackButton] = useState(false);
+  const { pop, dangerouslyGetState } = useNavigation();
+  const currentRouteIndex = isFunction(dangerouslyGetState)
+    ? dangerouslyGetState().index
+    : 0;
+  const showHeaderLeft = isFunction(onHeaderLeft) || showBackButton;
+  const showHeaderRight = isFunction(onHeaderRight);
 
-    <AppSimpleLogoImage width={30} height={30} />
+  useEffect(() => {
+    setShowBackButton(currentRouteIndex !== 0);
+  }, []);
 
-    <TouchableOpacity
-      onPress={onOpenOptions}
-      style={styles.createAccountContainer}>
-      <IonIcons name="md-menu" size={24} color={WHITE} />
-    </TouchableOpacity>
-  </View>
-);
+  return (
+    <View style={[styles.container, color && { backgroundColor: color }]}>
+      <View style={styles.actionContainer}>
+        {showHeaderLeft && (
+          <TouchableOpacity
+            onPress={() => (showBackButton ? pop() : onHeaderLeft())}>
+            <IonIcons
+              name={showBackButton ? "md-arrow-back" : "md-person-add"}
+              size={24}
+              color={WHITE}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+
+      {title ? (
+        <Text style={styles.title}>{title}</Text>
+      ) : (
+        <AppSimpleLogoImage width={30} height={30} />
+      )}
+
+      <View style={styles.actionContainer}>
+        {showHeaderRight && (
+          <TouchableOpacity onPress={onHeaderRight}>
+            <IonIcons name="md-menu" size={24} color={WHITE} />
+          </TouchableOpacity>
+        )}
+      </View>
+    </View>
+  );
+};
 
 Header.defaultProps = {
   color: null,
+  title: null,
+  onHeaderLeft: null,
+  onHeaderRight: null,
 };
 
 Header.propTypes = {
   color: PropTypes.string,
-  onCreateAccount: PropTypes.func.isRequired,
-  onOpenOptions: PropTypes.func.isRequired,
+  title: PropTypes.string,
+  onHeaderLeft: PropTypes.func,
+  onHeaderRight: PropTypes.func,
 };
 
 export default Header;

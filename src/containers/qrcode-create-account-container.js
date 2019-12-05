@@ -1,9 +1,9 @@
-import { compose, lifecycle, mapProps, pure, withHandlers } from "recompose";
 import {
   abortCreateAccount,
   dismissNotifyQrcodeSuccess,
   qrcodeScan,
 } from "../actions";
+import { compose, lifecycle, pure, withHandlers } from "recompose";
 import {
   getScannerError,
   getScannerLoadingMessage,
@@ -15,7 +15,6 @@ import {
 import { Alert } from "react-native";
 import QRCodeCreateAccount from "../components/qrcode-create-account";
 import { connect } from "react-redux";
-import { omit } from "ramda";
 
 const enhance = compose(
   connect(
@@ -40,7 +39,7 @@ const enhance = compose(
         hasDiffProp("hasSuccessOnQrcodeScan") &&
         this.props.hasSuccessOnQrcodeScan
       ) {
-        this.props.navigation.goBack();
+        this.props.navigation.pop();
         Alert.alert("Acesso Fácil", "Identidade criada com sucesso", [
           {
             text: "Ok",
@@ -66,10 +65,9 @@ const enhance = compose(
     },
   }),
   withHandlers({
-    onBack: ({ navigation: { goBack } }) => () => goBack(),
+    onBack: ({ navigation: { pop } }) => () => pop(),
     onQrcodeScan: ({ qrcodeScan }) => ({ content }) => qrcodeScan({ content }),
   }),
-  mapProps(omit(["dismissNotifyQrcodeSuccess", "abortCreateAccount"])),
   pure,
 );
 

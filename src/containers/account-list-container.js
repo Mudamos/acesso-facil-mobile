@@ -4,12 +4,11 @@ import {
   fetchAccounts,
   prepareAccountToDelete,
 } from "../actions";
-import { compose, lifecycle, mapProps, pure, withHandlers } from "recompose";
+import { compose, lifecycle, pure, withHandlers } from "recompose";
 
 import AccountList from "../components/account-list";
 import { connect } from "react-redux";
 import { getAccounts } from "../selectors";
-import { omit } from "ramda";
 
 const enhance = compose(
   connect(
@@ -32,7 +31,6 @@ const enhance = compose(
     onDeleteAccount: ({ prepareAccountToDelete }) => ({ id }) =>
       prepareAccountToDelete(id),
   }),
-  mapProps(omit(["changeCurrentAccount", "deleteAccount", "fetchAccounts"])),
   pure,
 );
 

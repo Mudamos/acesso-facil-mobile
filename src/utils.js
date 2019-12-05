@@ -1,4 +1,5 @@
 import { Buffer } from "buffer";
+import { is } from "ramda";
 
 export const isDev = __DEV__;
 
@@ -12,3 +13,5 @@ export const log = (...args) => isDev && console.log(...args);
 
 export const delay = ms => result =>
   new Promise(resolve => setTimeout(() => resolve(result), ms));
+
+export const isFunction = is(Function);

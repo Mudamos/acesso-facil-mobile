@@ -3,6 +3,7 @@ import { appDidMount, appWillUnmount } from "./actions";
 
 import HomeContainer from "./containers/home-container";
 import IntroContainer from "./containers/intro-container";
+import IntroCreateAccountContainer from "./containers/intro-create-account-container";
 import { NavigationNativeContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import QRCodeCreateAccountContainer from "./containers/qrcode-create-account-container";
@@ -46,6 +47,10 @@ const AppBuilder = store =>
               <Screen
                 name={SCREENS.CREATE_ACCOUNT}
                 component={QRCodeCreateAccountContainer}
+              />
+              <Screen
+                name={SCREENS.INTRO_CREATE_ACCOUNT}
+                component={IntroCreateAccountContainer}
               />
               <Screen name={SCREENS.LOGIN} component={QRCodeLoginContainer} />
             </Navigator>
