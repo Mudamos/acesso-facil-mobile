@@ -31,8 +31,8 @@ const Header = ({
   onHeaderRight,
 }) => {
   const [showBackButton, setShowBackButton] = useState(false);
-  const { canGoBack, pop, dangerouslyGetState } = useNavigation();
-  const showHeaderLeft = isFunction(onHeaderLeft) || canGoBack();
+  const { pop, dangerouslyGetState } = useNavigation();
+  const showHeaderLeft = isFunction(onHeaderLeft);
   const showHeaderRight = isFunction(onHeaderRight);
   const currentRouteIndex = dangerouslyGetState().index;
 
