@@ -6,35 +6,36 @@ import AppSimpleLogoImage from "../images/app_simple_logo.svg";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import PropTypes from "prop-types";
 import { isFunction } from "../utils";
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from "@react-navigation/core";
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "flex-end",
+    alignItems: "center",
     backgroundColor: DARKER_BLUE,
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     maxHeight: 60,
     padding: 10,
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
+  },
+  title: {
+    fontWeight: "bold",
+    color: WHITE,
   },
   actionContainer: {
     flexBasis: 30,
   },
 });
 
-const Header = ({
-  color,
-  title,
-  onHeaderLeft,
-  onHeaderRight,
-}) => {
+const Header = ({ color, title, onHeaderLeft, onHeaderRight }) => {
   const [showBackButton, setShowBackButton] = useState(false);
   const { pop, dangerouslyGetState } = useNavigation();
-  const showHeaderLeft = isFunction(onHeaderLeft);
+  const currentRouteIndex = isFunction(dangerouslyGetState)
+    ? dangerouslyGetState().index
+    : 0;
+  const showHeaderLeft = isFunction(onHeaderLeft) || showBackButton;
   const showHeaderRight = isFunction(onHeaderRight);
-  const currentRouteIndex = dangerouslyGetState ? dangerouslyGetState().index : 0;
 
   useEffect(() => {
     setShowBackButton(currentRouteIndex !== 0);
@@ -56,15 +57,14 @@ const Header = ({
       </View>
 
       {title ? (
-        <Text>{title}</Text>
+        <Text style={styles.title}>{title}</Text>
       ) : (
         <AppSimpleLogoImage width={30} height={30} />
       )}
 
       <View style={styles.actionContainer}>
         {showHeaderRight && (
-          <TouchableOpacity
-            onPress={onHeaderRight}>
+          <TouchableOpacity onPress={onHeaderRight}>
             <IonIcons name="md-menu" size={24} color={WHITE} />
           </TouchableOpacity>
         )}
