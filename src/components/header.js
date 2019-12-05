@@ -34,7 +34,7 @@ const Header = ({
   const { pop, dangerouslyGetState } = useNavigation();
   const showHeaderLeft = isFunction(onHeaderLeft);
   const showHeaderRight = isFunction(onHeaderRight);
-  const currentRouteIndex = dangerouslyGetState().index;
+  const currentRouteIndex = dangerouslyGetState ? dangerouslyGetState().index : 0;
 
   useEffect(() => {
     setShowBackButton(currentRouteIndex !== 0);
