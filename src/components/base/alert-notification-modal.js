@@ -7,7 +7,7 @@ import { Text } from "react-native";
 const AlertNotificationModal = ({ message, visible, onConfirm }) => {
   return (
     <Alert
-      visible={visible}
+      showModal={visible}
       title="Acesso Fácil"
       content={<Text>{message}</Text>}
       buttonAccept={<Button text="Ok" onPress={onConfirm} />}

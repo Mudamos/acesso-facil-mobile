@@ -32,7 +32,7 @@ const DeleteAccountModal = ({
   visible,
 }) => (
   <Alert
-    visible={visible}
+    showModal={visible}
     title="Acesso Fácil"
     content={
       <Text style={styles.contentText}>

@@ -26,29 +26,24 @@ const styles = StyleSheet.create({
   },
 });
 
-const Modal = ({ backgroundStyle, children, style, visible }) => {
-  if (!visible) {
-    return null;
-  }
-
-  return (
+const Modal = ({ backgroundStyle, children, showModal, style }) =>
+  showModal && (
     <View style={[styles.modalBackground, backgroundStyle]}>
       <View style={[styles.modalContainer, style]}>{children}</View>
     </View>
   );
-};
 
 Modal.propTypes = {
   backgroundStyle: ViewPropTypes.style,
   children: PropTypes.node.isRequired,
+  showModal: PropTypes.bool,
   style: ViewPropTypes.style,
-  visible: PropTypes.bool,
 };
 
 Modal.defaultProps = {
   backgroundStyle: {},
+  showModal: false,
   style: {},
-  visible: false,
 };
 
 export default Modal;

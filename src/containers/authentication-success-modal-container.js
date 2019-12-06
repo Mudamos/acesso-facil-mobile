@@ -18,7 +18,7 @@ const enhance = compose(
     },
   ),
   withProps(({ notifySuccess, dismissNotifySuccess }) => ({
-    visible: !!notifySuccess,
+    showModal: !!notifySuccess,
     title: "Acesso Fácil",
     content: <Text>{notifySuccess}</Text>,
     buttonAccept: <Button text="Ok" onPress={dismissNotifySuccess} />,

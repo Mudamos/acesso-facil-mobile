@@ -18,7 +18,7 @@ const enhance = compose(
     },
   ),
   withProps(({ notifyError, dismissNotifyError }) => ({
-    visible: !!notifyError,
+    showModal: !!notifyError,
     title: "Acesso Fácil",
     content: <Text>{notifyError}</Text>,
     buttonAccept: <Button text="Ok" onPress={dismissNotifyError} />,
