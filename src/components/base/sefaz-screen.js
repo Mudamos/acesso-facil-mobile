@@ -6,12 +6,15 @@ import {
   StyleSheet,
   View,
 } from "react-native";
+import React, { useEffect, useState } from "react";
 
 import BackgroundRioImage from "../../images/background_rio.svg";
 import DeleteAccountModalContainer from "../../containers/delete-account-modal-container";
 import Header from "../header";
 import PropTypes from "prop-types";
-import React from "react";
+import Sidebar from "../sidebar";
+import { pure } from "recompose";
+import { useNavigation } from "@react-navigation/core";
 
 const { width: screenWidth } = Dimensions.get("screen");
 const backgroundWidth = screenWidth + 2;
@@ -33,13 +36,27 @@ const styles = StyleSheet.create({
 });
 
 const SefazScreen = ({ children, onHeaderLeft, onHeaderRight, title }) => {
+  const [showSidebar, setShowSidebar] = useState(false);
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const unsubscribeBlur = navigation.addListener("blur", () =>
+      setShowSidebar(false),
+    );
+
+    return unsubscribeBlur;
+  }, [navigation]);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={DARKER_BLUE} barStyle="light-content" />
       <Header
         title={title}
         onHeaderLeft={onHeaderLeft}
-        onHeaderRight={onHeaderRight}
+        onHeaderRight={() => {
+          setShowSidebar(!showSidebar);
+          onHeaderRight();
+        }}
       />
       <View style={styles.content}>{children}</View>
       <BackgroundRioImage
@@ -47,6 +64,7 @@ const SefazScreen = ({ children, onHeaderLeft, onHeaderRight, title }) => {
         width={backgroundWidth}
         height={backgroundHeight}
       />
+      <Sidebar visible={showSidebar} onDismiss={() => setShowSidebar(false)} />
       <DeleteAccountModalContainer />
     </SafeAreaView>
   );
@@ -65,4 +83,4 @@ SefazScreen.defaultProps = {
   title: null,
 };
 
-export default SefazScreen;
+export default pure(SefazScreen);
