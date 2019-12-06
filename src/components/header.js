@@ -6,6 +6,8 @@ import AppSimpleLogoImage from "../images/app_simple_logo.svg";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import PropTypes from "prop-types";
 import { isFunction } from "../utils";
+import { propOr } from "ramda";
+import { pure } from "recompose";
 import { useNavigation } from "@react-navigation/core";
 
 const styles = StyleSheet.create({
@@ -31,15 +33,14 @@ const styles = StyleSheet.create({
 const Header = ({ title, onHeaderLeft, onHeaderRight }) => {
   const [showBackButton, setShowBackButton] = useState(false);
   const { pop, dangerouslyGetState } = useNavigation();
-  const currentRouteIndex = isFunction(dangerouslyGetState)
-    ? dangerouslyGetState().index
-    : 0;
+  const currentRouteIndex = propOr(0, "index", dangerouslyGetState());
+  const [routeIndex] = useState(currentRouteIndex);
   const showHeaderLeft = isFunction(onHeaderLeft) || showBackButton;
   const showHeaderRight = isFunction(onHeaderRight);
 
   useEffect(() => {
-    setShowBackButton(currentRouteIndex !== 0);
-  }, []);
+    setShowBackButton(routeIndex !== 0);
+  }, [routeIndex]);
 
   return (
     <View style={styles.container}>
@@ -85,4 +86,4 @@ Header.propTypes = {
   onHeaderRight: PropTypes.func,
 };
 
-export default Header;
+export default pure(Header);

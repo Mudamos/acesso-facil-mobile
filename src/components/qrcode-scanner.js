@@ -53,7 +53,7 @@ const QRCodeScanner = ({
       unsubscribeFocus();
       unsubscribeBlur();
     };
-  }, []);
+  }, [navigation]);
 
   return (
     <Fragment>
