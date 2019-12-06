@@ -28,10 +28,10 @@ const formatErrorPayload = payload => {
 };
 
 const initialState = {
-  notifyQrcodeSuccess: false,
+  notifySuccess: null,
   isScanning: false,
-  scannerLoadingMessage: null,
-  scannerError: null,
+  loadingMessage: null,
+  notifyError: null,
 };
 
 export default (state = initialState, action) => {
@@ -46,53 +46,63 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isScanning: true,
-        scannerError: null,
-        scannerLoadingMessage: "Validando QRCode",
+        notifyError: null,
+        loadingMessage: "Validando QRCode",
       };
     case "QRCODE_SCAN_SUCCESS":
       return {
         ...state,
-        scannerLoadingMessage: "Verificando identidade",
+        loadingMessage: "Verificando identidade",
       };
     case "REQUEST_NEW_ACCOUNT_NAME": {
       return {
         ...state,
         isScanning: false,
-        scannerLoadingMessage: null,
+        loadingMessage: null,
       };
     }
     case "CREATE_ACCOUNT":
       return {
         ...state,
         isScanning: true,
-        scannerLoadingMessage: "Criando identidade",
+        loadingMessage: "Criando identidade",
       };
     case "ACCOUNT_LOGIN":
       return {
         ...state,
-        scannerLoadingMessage: "Acessando",
+        loadingMessage: "Acessando",
       };
-    case "SHOW_NOTIFY_QRCODE_SUCCESS":
     case "CREATE_ACCOUNT_SUCCESS":
       return {
         ...state,
         isScanning: false,
-        notifyQrcodeSuccess: true,
-        scannerLoadingMessage: null,
+        notifySuccess: "Identidade criada com sucesso!",
+        loadingMessage: null,
       };
-    case "DISMISS_NOTIFY_QRCODE_SUCCESS":
+    case "ACCOUNT_LOGIN_SUCCESS":
       return {
         ...state,
-        notifyQrcodeSuccess: false,
-        scannerError: null,
+        isScanning: false,
+        notifySuccess: "Login feito com sucesso!",
+        loadingMessage: null,
+      };
+    case "DISMISS_NOTIFY_SUCCESS":
+      return {
+        ...state,
+        notifySuccess: null,
+      };
+    case "DISMISS_NOTIFY_ERROR":
+      return {
+        ...state,
+        notifyError: null,
       };
     case "ABORT_CREATE_ACCOUNT":
       return {
         ...state,
         isScanning: false,
-        scannerError: null,
-        notifyQrcodeSuccess: false,
-        scannerLoadingMessage: null,
+        notifyError: null,
+        notifySuccess: null,
+        loadingMessage: null,
       };
     case "CREATE_ACCOUNT_ERROR":
     case "FETCH_ACCOUNTS_ERROR":
@@ -101,8 +111,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isScanning: false,
-        scannerLoadingMessage: null,
-        scannerError: formatErrorPayload(payload),
+        loadingMessage: null,
+        notifyError: formatErrorPayload(payload),
       };
     default:
       return state;

@@ -26,13 +26,13 @@ const styles = StyleSheet.create({
 });
 
 const DeleteAccountModal = ({
-  accountToDelete: { accountName },
   abortAccountDelete,
+  accountToDelete: { accountName },
   deleteAccount,
   visible,
 }) => (
   <Alert
-    visible={visible}
+    showModal={visible}
     title="Acesso Fácil"
     content={
       <Text style={styles.contentText}>
@@ -58,8 +58,8 @@ const DeleteAccountModal = ({
 );
 
 DeleteAccountModal.propTypes = {
-  accountToDelete: PropTypes.shape({ accountName: PropTypes.string }),
   abortAccountDelete: PropTypes.func.isRequired,
+  accountToDelete: PropTypes.shape({ accountName: PropTypes.string }),
   deleteAccount: PropTypes.func.isRequired,
   visible: PropTypes.bool.isRequired,
 };

@@ -30,7 +30,7 @@ const ButtonContainer = ({ primary, secondary }) => (
   </View>
 );
 
-const Alert = ({ title, content, buttonAccept, buttonDecline, ...props }) => (
+const Alert = ({ buttonAccept, buttonDecline, content, title, ...props }) => (
   <Modal {...props} style={[styles.container, props.style]}>
     <Text style={styles.title}>{title}</Text>
     {content}
@@ -40,10 +40,10 @@ const Alert = ({ title, content, buttonAccept, buttonDecline, ...props }) => (
 
 Alert.propTypes = {
   ...omit(["children"], Modal.propTypes),
-  title: PropTypes.string.isRequired,
-  content: PropTypes.node.isRequired,
   buttonAccept: PropTypes.node.isRequired,
   buttonDecline: PropTypes.node,
+  content: PropTypes.node.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 Alert.defaultProps = {

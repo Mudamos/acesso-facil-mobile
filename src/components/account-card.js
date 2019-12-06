@@ -50,6 +50,7 @@ const AccountCard = ({ account, onChange, onDelete }) => (
 AccountCard.propTypes = {
   account: AccountPrototype.isRequired,
   onChange: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default AccountCard;

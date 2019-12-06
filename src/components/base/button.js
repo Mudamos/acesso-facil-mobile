@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   },
   disabled: {
     backgroundColor: LIGHT_GRAY,
+    borderColor: GRAY,
     borderRadius: 6,
     padding: 10,
     flexDirection: "row",
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Button = ({ text, icon, textStyle, style, disabled, onPress }) => {
+const Button = ({ disabled, icon, onPress, style, text, textStyle }) => {
   if (disabled) {
     return (
       <View style={[styles.disabled, style]}>
@@ -60,20 +61,20 @@ const Button = ({ text, icon, textStyle, style, disabled, onPress }) => {
   );
 };
 
-Button.defaultProps = {
-  style: {},
-  disabled: false,
-  icon: null,
-  textStyle: {},
-};
-
 Button.propTypes = {
-  style: ViewPropTypes.style,
   disabled: PropTypes.bool,
   icon: PropTypes.node,
   onPress: PropTypes.func.isRequired,
+  style: ViewPropTypes.style,
   text: PropTypes.string.isRequired,
   textStyle: ViewPropTypes.style,
+};
+
+Button.defaultProps = {
+  disabled: false,
+  icon: null,
+  style: {},
+  textStyle: {},
 };
 
 export default Button;

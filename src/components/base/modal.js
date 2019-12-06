@@ -26,33 +26,24 @@ const styles = StyleSheet.create({
   },
 });
 
-class Modal extends React.Component {
-  render() {
-    const { backgroundStyle, children, style, visible } = this.props;
-
-    if (!visible) {
-      return null;
-    }
-
-    return (
-      <View style={[styles.modalBackground, backgroundStyle]}>
-        <View style={[styles.modalContainer, style]}>{children}</View>
-      </View>
-    );
-  }
-}
+const Modal = ({ backgroundStyle, children, showModal, style }) =>
+  showModal && (
+    <View style={[styles.modalBackground, backgroundStyle]}>
+      <View style={[styles.modalContainer, style]}>{children}</View>
+    </View>
+  );
 
 Modal.propTypes = {
   backgroundStyle: ViewPropTypes.style,
   children: PropTypes.node.isRequired,
+  showModal: PropTypes.bool,
   style: ViewPropTypes.style,
-  visible: PropTypes.bool,
 };
 
 Modal.defaultProps = {
   backgroundStyle: {},
+  showModal: false,
   style: {},
-  visible: false,
 };
 
 export default Modal;

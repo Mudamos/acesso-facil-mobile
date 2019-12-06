@@ -1,11 +1,13 @@
 import { DARKER_BLUE, WHITE } from "../constants";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import AppSimpleLogoImage from "../images/app_simple_logo.svg";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import PropTypes from "prop-types";
 import { isFunction } from "../utils";
+import { propOr } from "ramda";
+import { pure } from "recompose";
 import { useNavigation } from "@react-navigation/core";
 
 const styles = StyleSheet.create({
@@ -28,21 +30,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const Header = ({ color, title, onHeaderLeft, onHeaderRight }) => {
-  const [showBackButton, setShowBackButton] = useState(false);
+const Header = ({ title, onHeaderLeft, onHeaderRight }) => {
   const { pop, dangerouslyGetState } = useNavigation();
-  const currentRouteIndex = isFunction(dangerouslyGetState)
-    ? dangerouslyGetState().index
-    : 0;
+  const currentRouteIndex = propOr(0, "index", dangerouslyGetState());
+  const [showBackButton] = useState(currentRouteIndex !== 0);
   const showHeaderLeft = isFunction(onHeaderLeft) || showBackButton;
   const showHeaderRight = isFunction(onHeaderRight);
 
-  useEffect(() => {
-    setShowBackButton(currentRouteIndex !== 0);
-  }, []);
-
   return (
-    <View style={[styles.container, color && { backgroundColor: color }]}>
+    <View style={styles.container}>
       <View style={styles.actionContainer}>
         {showHeaderLeft && (
           <TouchableOpacity
@@ -74,17 +70,15 @@ const Header = ({ color, title, onHeaderLeft, onHeaderRight }) => {
 };
 
 Header.defaultProps = {
-  color: null,
   title: null,
   onHeaderLeft: null,
   onHeaderRight: null,
 };
 
 Header.propTypes = {
-  color: PropTypes.string,
   title: PropTypes.string,
   onHeaderLeft: PropTypes.func,
   onHeaderRight: PropTypes.func,
 };
 
-export default Header;
+export default pure(Header);

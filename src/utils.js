@@ -1,5 +1,6 @@
+import { anyPass, complement, is, isEmpty, isNil, test } from "ramda";
+
 import { Buffer } from "buffer";
-import { is } from "ramda";
 
 export const isDev = __DEV__;
 
@@ -15,3 +16,7 @@ export const delay = ms => result =>
   new Promise(resolve => setTimeout(() => resolve(result), ms));
 
 export const isFunction = is(Function);
+
+// eslint-disable-next-line jest/no-disabled-tests
+const isStringPresent = test(/\S/);
+export const isBlank = anyPass([isNil, isEmpty, complement(isStringPresent)]);

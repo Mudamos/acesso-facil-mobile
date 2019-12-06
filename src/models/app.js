@@ -1,8 +1,11 @@
 export const SCREENS = {
-  SPLASHSCREEN: "SplashScreen",
+  ABOUT: "About",
   APP_INTRO: "Intro",
-  HOME: "Home",
+  EDIT_ACCOUNT: "EditAccount",
   CREATE_ACCOUNT: "CreateAccount",
-  LOGIN: "Login",
+  FAQ: "Faq",
+  HOME: "Home",
   INTRO_CREATE_ACCOUNT: "IntroCreateAccount",
+  LOGIN: "Login",
+  SPLASHSCREEN: "SplashScreen",
 };

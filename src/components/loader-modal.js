@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 });
 
 const LoaderModal = ({ visible, message }) => (
-  <Modal visible={visible}>
+  <Modal showModal={visible}>
     <ActivityIndicator animating={!!visible} size="large" color={DARK_BLUE} />
     {message && <Text style={styles.text}>{message}</Text>}
   </Modal>

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { appDidMount, appWillUnmount } from "./actions";
 
+import EditAccountContainer from "./containers/edit-account-container";
 import HomeContainer from "./containers/home-container";
 import IntroContainer from "./containers/intro-container";
 import IntroCreateAccountContainer from "./containers/intro-create-account-container";
@@ -51,6 +52,10 @@ const AppBuilder = store =>
               <Screen
                 name={SCREENS.INTRO_CREATE_ACCOUNT}
                 component={IntroCreateAccountContainer}
+              />
+              <Screen
+                name={SCREENS.EDIT_ACCOUNT}
+                component={EditAccountContainer}
               />
               <Screen name={SCREENS.LOGIN} component={QRCodeLoginContainer} />
             </Navigator>
