@@ -46,7 +46,7 @@ const enhance = compose(
   lifecycle({
     componentWillUnmount() {
       if (!this.props.notifySuccess) {
-        abortCreateAccount();
+        this.props.abortCreateAccount();
       }
     },
   }),
