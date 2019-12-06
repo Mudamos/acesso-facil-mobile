@@ -1,5 +1,5 @@
 import { DARKER_BLUE, WHITE } from "../constants";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import AppSimpleLogoImage from "../images/app_simple_logo.svg";
@@ -31,16 +31,11 @@ const styles = StyleSheet.create({
 });
 
 const Header = ({ title, onHeaderLeft, onHeaderRight }) => {
-  const [showBackButton, setShowBackButton] = useState(false);
   const { pop, dangerouslyGetState } = useNavigation();
   const currentRouteIndex = propOr(0, "index", dangerouslyGetState());
-  const [routeIndex] = useState(currentRouteIndex);
+  const [showBackButton] = useState(currentRouteIndex !== 0);
   const showHeaderLeft = isFunction(onHeaderLeft) || showBackButton;
   const showHeaderRight = isFunction(onHeaderRight);
-
-  useEffect(() => {
-    setShowBackButton(routeIndex !== 0);
-  }, [routeIndex]);
 
   return (
     <View style={styles.container}>
