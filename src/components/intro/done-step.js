@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   imageContainer: { flex: 3, alignItems: "center", paddingTop: 40 },
 });
 
-const DoneStep = ({ previousStep, nextStep }) => (
+const DoneStep = ({ nextStep, previousStep }) => (
   <StepWrapper previousStep={previousStep} nextStep={nextStep}>
     <View style={styles.textContainer}>
       <Text style={[styles.text, styles.bold]}>Pronto!</Text>

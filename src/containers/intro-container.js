@@ -28,11 +28,6 @@ const enhance = compose(
       SplashScreen.hide();
     },
   }),
-  lifecycle({
-    componentDidMount() {
-      SplashScreen.hide();
-    },
-  }),
   pure,
 );
 

@@ -1,65 +1,28 @@
 import { StyleSheet, View } from "react-native";
 
-import LoaderModal from "./loader-modal";
-import PropTypes from "prop-types";
-import QRCodeMask from "./qrcode-mask";
-import QRCodeNotAuthorized from "./qrcode-not-authorized";
-import QRCodeScanner from "react-native-qrcode-scanner";
+import { AccountPrototype } from "../proptypes";
+import AuthenticationErrorModalContainer from "../containers/authentication-error-modal-container";
+import Header from "./header";
+import QRCodeScannerContainer from "../containers/qrcode-scanner-container";
 import React from "react";
+import { WHITE } from "../constants";
 
 const styles = StyleSheet.create({
-  container: { flex: 1, overflow: "hidden" },
-  qrcodeContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  container: { flex: 1, backgroundColor: WHITE },
 });
 
-const QRCodeLogin = ({
-  hasSuccessOnQrcodeScan,
-  onQrcodeScan,
-  scannerError,
-  isScanning,
-  loadingMessage,
-}) => {
-  const shouldRenderCamera =
-    !isScanning && !hasSuccessOnQrcodeScan && !scannerError;
-
+const QRCodeLogin = ({ currentAccount: { accountName } }) => {
   return (
     <View style={styles.container}>
-      {shouldRenderCamera && (
-        <QRCodeScanner
-          onRead={content => onQrcodeScan({ content: content.data })}
-          showMarker
-          customMarker={<QRCodeMask />}
-          containerStyle={styles.qrcodeContainer}
-          cameraStyle={styles.qrcodeCamera}
-          notAuthorizedView={<QRCodeNotAuthorized />}
-          pendingAuthorizationView={<View />}
-          cameraProps={{
-            ratio: "1:1",
-            notAuthorizedView: <QRCodeNotAuthorized />,
-          }}
-          checkAndroid6Permissions
-          permissionDialogTitle="Por que precisamos do acesso a camera?"
-          permissionDialogMessage="Para conceder o acesso à SEFAZ é necessário escanear o QRCode através da camera do seu dispositivo"
-        />
-      )}
-      <LoaderModal visible={isScanning} message={loadingMessage} />
+      <Header title={accountName} />
+      <QRCodeScannerContainer />
+      <AuthenticationErrorModalContainer />
     </View>
   );
 };
 
-QRCodeLogin.defaultProps = {
-  loadingMessage: null,
-};
-
 QRCodeLogin.proptypes = {
-  hasSuccessOnQrcodeScan: PropTypes.bool.isRequired,
-  isScanning: PropTypes.bool.isRequired,
-  loadingMessage: PropTypes.string,
-  onQrcodeScan: PropTypes.func.isRequired,
+  currentAccount: AccountPrototype.isRequired,
 };
 
 export default QRCodeLogin;

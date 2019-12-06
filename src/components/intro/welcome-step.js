@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const WelcomeStep = ({ previousStep, nextStep }) => (
+const WelcomeStep = ({ nextStep, previousStep }) => (
   <StepWrapper previousStep={previousStep} nextStep={nextStep}>
     <View style={styles.textContainer}>
       <Text style={styles.text}>Bem vindo(a) ao</Text>

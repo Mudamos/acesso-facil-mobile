@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   controlContainer: { flex: 0, flexBasis: 38, justifyContent: "center" },
 });
 
-const StepWrapper = ({ children, previousStep, nextStep }) => (
+const StepWrapper = ({ children, nextStep, previousStep }) => (
   <View style={styles.container}>
     <View style={[styles.controlContainer, styles.alignEnd]}>
       {previousStep && (

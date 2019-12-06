@@ -1,6 +1,7 @@
 import {
   accountLogin,
   accountLoginError,
+  accountLoginSuccess,
   createAccountError,
   createAccountSuccess,
   deleteAccountError,
@@ -8,12 +9,10 @@ import {
   fetchAccountsError,
   fetchAccounts as fetchAccountsRequest,
   fetchAccountsSuccess,
-  notifyQrcodeSuccess,
   qcodeValidateContent,
   qrcodeScanError,
   qrcodeScanSuccess,
   requestNewAccountName,
-  showNotifyQrcodeSuccess,
 } from "../actions";
 import { combineEpics, ofType as ofType$ } from "redux-observable";
 import {
@@ -98,10 +97,9 @@ const loginEpic = (action$, state$, { accountManager, api }) =>
       accountManager
         .signMessage(id, contentEncoded)
         .then(signature => api.login({ content: contentEncoded, signature }))
-        .then(() => [notifyQrcodeSuccess(), showNotifyQrcodeSuccess()])
-        .catch(error => [accountLoginError(error)]),
+        .then(accountLoginSuccess)
+        .catch(accountLoginError),
     ),
-    mergeMap$(identity),
   );
 
 const qrcodeScanEpic = (action$, state$, { api }) =>

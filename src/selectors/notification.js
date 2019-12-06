@@ -2,9 +2,9 @@ import { pipe, prop } from "ramda";
 
 const baseSelector = prop("notifications");
 
-export const hasSuccessOnQrcodeScan = pipe(
+export const getNotifySuccess = pipe(
   baseSelector,
-  prop("notifyQrcodeSuccess"),
+  prop("notifySuccess"),
 );
 
 export const isScanning = pipe(
@@ -12,12 +12,12 @@ export const isScanning = pipe(
   prop("isScanning"),
 );
 
-export const getScannerError = pipe(
+export const getNotifyError = pipe(
   baseSelector,
-  prop("scannerError"),
+  prop("notifyError"),
 );
 
-export const getScannerLoadingMessage = pipe(
+export const getLoadingMessage = pipe(
   baseSelector,
-  prop("scannerLoadingMessage"),
+  prop("loadingMessage"),
 );

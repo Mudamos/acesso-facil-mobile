@@ -7,8 +7,8 @@ import { connect } from "react-redux";
 
 const enhance = compose(
   connect(state => ({
-    hasLoadedConfigs: hasLoadedConfigs(state),
     hasCompletedAppIntro: getConfig(INTRO_COMPLETED)(state),
+    hasLoadedConfigs: hasLoadedConfigs(state),
   })),
   lifecycle({
     componentDidUpdate(prevProps) {

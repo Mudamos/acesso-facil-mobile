@@ -32,17 +32,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const SefazScreen = ({
-  children,
-  onHeaderLeft,
-  onHeaderRight,
-  title,
-}) => {
+const SefazScreen = ({ children, onHeaderLeft, onHeaderRight, title }) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={DARKER_BLUE} barStyle="light-content" />
       <Header
-        color={DARKER_BLUE}
         title={title}
         onHeaderLeft={onHeaderLeft}
         onHeaderRight={onHeaderRight}

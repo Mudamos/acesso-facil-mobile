@@ -1,5 +1,6 @@
+import { is, isEmpty, isNil } from "ramda";
+
 import { Buffer } from "buffer";
-import { is } from "ramda";
 
 export const isDev = __DEV__;
 
@@ -15,3 +16,5 @@ export const delay = ms => result =>
   new Promise(resolve => setTimeout(() => resolve(result), ms));
 
 export const isFunction = is(Function);
+
+export const isBlank = value => isEmpty(value) || isNil(value);

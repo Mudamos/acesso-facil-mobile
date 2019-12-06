@@ -1,71 +1,18 @@
-import {
-  changeCurrentAccount,
-  dismissNotifyQrcodeSuccess,
-  qrcodeScan,
-} from "../actions";
-import { compose, lifecycle, pure, withHandlers } from "recompose";
-import {
-  getCurrentAccount,
-  getScannerError,
-  getScannerLoadingMessage,
-  hasSuccessOnQrcodeScan,
-  isScanning,
-} from "../selectors";
+import { compose, pure, withPropsOnChange } from "recompose";
+import { getCurrentAccount, getNotifySuccess } from "../selectors";
 
-import { Alert } from "react-native";
 import QRCodeLogin from "../components/qrcode-login";
 import { connect } from "react-redux";
 
 const enhance = compose(
-  connect(
-    state => ({
-      currentAccount: getCurrentAccount(state),
-      hasSuccessOnQrcodeScan: hasSuccessOnQrcodeScan(state),
-      isScanning: isScanning(state),
-      scannerError: getScannerError(state),
-      loadingMessage: getScannerLoadingMessage(state),
-    }),
-    {
-      changeCurrentAccount,
-      dismissNotifyQrcodeSuccess,
-      qrcodeScan,
-    },
-  ),
-  lifecycle({
-    componentDidUpdate(prevProps) {
-      const hasDiffProp = prop => this.props[prop] !== prevProps[prop];
-
-      if (
-        hasDiffProp("hasSuccessOnQrcodeScan") &&
-        this.props.hasSuccessOnQrcodeScan
-      ) {
-        Alert.alert("Acesso Fácil", "Login feito com sucesso", [
-          {
-            text: "Ok",
-            onPress: () => {
-              this.props.dismissNotifyQrcodeSuccess();
-              this.props.changeCurrentAccount(null);
-            },
-          },
-        ]);
-      }
-
-      if (hasDiffProp("scannerError") && this.props.scannerError) {
-        Alert.alert("Acesso Fácil", this.props.scannerError, [
-          {
-            text: "Ok",
-            onPress: () => this.props.dismissNotifyQrcodeSuccess(),
-          },
-        ]);
-      }
-    },
-    componentWillUnmount() {
-      this.props.dismissNotifyQrcodeSuccess();
-    },
-  }),
-  withHandlers({
-    onQrcodeScan: ({ currentAccount, qrcodeScan }) => ({ content }) =>
-      qrcodeScan({ currentAccount, content }),
+  connect(state => ({
+    currentAccount: getCurrentAccount(state),
+    notifySuccess: getNotifySuccess(state),
+  })),
+  withPropsOnChange(["notifySuccess"], ({ notifySuccess, navigation }) => {
+    if (notifySuccess) {
+      navigation.popToTop();
+    }
   }),
   pure,
 );

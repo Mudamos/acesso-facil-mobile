@@ -53,15 +53,15 @@ export const accountLogin = ({ contentEncoded, id }) => ({
   payload: { contentEncoded, id },
 });
 
+export const accountLoginSuccess = () => ({
+  type: "ACCOUNT_LOGIN_SUCCESS",
+});
+
 export const accountLoginError = raw => ({
   type: "ACCOUNT_LOGIN_ERROR",
   payload: {
     raw,
   },
-});
-
-export const notifyQrcodeSuccess = () => ({
-  type: "NOTIFY_QRCODE_SUCCESS",
 });
 
 export const changeCurrentAccount = id => ({

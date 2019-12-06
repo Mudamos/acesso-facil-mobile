@@ -18,8 +18,8 @@ const enhance = compose(
   ),
   withHandlers({
     onCreateAccount: ({
-      currentAccount,
       changeCurrentAccount,
+      currentAccount,
       navigation,
     }) => () => {
       if (currentAccount) {
@@ -30,11 +30,6 @@ const enhance = compose(
     onLogin: ({ changeCurrentAccount, navigation }) => accountId => {
       changeCurrentAccount(accountId);
       navigation.push(SCREENS.LOGIN);
-    },
-  }),
-  lifecycle({
-    componentDidMount() {
-      SplashScreen.hide();
     },
   }),
   lifecycle({

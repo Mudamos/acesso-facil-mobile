@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Header = ({ color, title, onHeaderLeft, onHeaderRight }) => {
+const Header = ({ title, onHeaderLeft, onHeaderRight }) => {
   const [showBackButton, setShowBackButton] = useState(false);
   const { pop, dangerouslyGetState } = useNavigation();
   const currentRouteIndex = isFunction(dangerouslyGetState)
@@ -42,7 +42,7 @@ const Header = ({ color, title, onHeaderLeft, onHeaderRight }) => {
   }, []);
 
   return (
-    <View style={[styles.container, color && { backgroundColor: color }]}>
+    <View style={styles.container}>
       <View style={styles.actionContainer}>
         {showHeaderLeft && (
           <TouchableOpacity
@@ -74,14 +74,12 @@ const Header = ({ color, title, onHeaderLeft, onHeaderRight }) => {
 };
 
 Header.defaultProps = {
-  color: null,
   title: null,
   onHeaderLeft: null,
   onHeaderRight: null,
 };
 
 Header.propTypes = {
-  color: PropTypes.string,
   title: PropTypes.string,
   onHeaderLeft: PropTypes.func,
   onHeaderRight: PropTypes.func,
