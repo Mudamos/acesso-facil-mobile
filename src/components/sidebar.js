@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SidebarComponent = ({ item }) => {
+const SidebarItem = ({ item }) => {
   const { push } = useNavigation();
 
   return (
@@ -81,11 +81,7 @@ const SidebarComponent = ({ item }) => {
 };
 
 const Sidebar = ({ visible, onDismiss }) => {
-  if (!visible) {
-    return null;
-  }
-
-  return (
+  visible && (
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.background}
@@ -97,7 +93,7 @@ const Sidebar = ({ visible, onDismiss }) => {
         style={styles.flatList}
         data={items}
         ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
-        renderItem={props => <SidebarComponent {...props} />}
+        renderItem={props => <SidebarItem {...props} />}
       />
     </View>
   );

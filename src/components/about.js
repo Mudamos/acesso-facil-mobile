@@ -24,30 +24,28 @@ const styles = StyleSheet.create({
   },
 });
 
-const About = () => {
-  return (
-    <SefazScreen>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <AppFullLogoImage width={140} height={160} />
-          <Text style={styles.version}>Versão 1.0.0</Text>
-        </View>
-        <View style={styles.content}>
-          <Text>
-            There are many variations of passages of Lorem Ipsum available, but
-            theses majority have suffered alteration in some form, by injected
-            humour, or randomised words which don’t look even slightly
-            believable. It uses a dictionary of over 200 Latin words, combined
-            with a handful of model sentence structures, to generate Lorem Ipsum
-            which looks reasonable.
-          </Text>
-        </View>
-        <View style={styles.footer}>
-          <LogoSFRJImage width={260} height={80} />
-        </View>
+const About = () => (
+  <SefazScreen>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <AppFullLogoImage width={140} height={160} />
+        <Text style={styles.version}>Versão 1.0.0</Text>
       </View>
-    </SefazScreen>
-  );
-};
+      <View style={styles.content}>
+        <Text>
+          There are many variations of passages of Lorem Ipsum available, but
+          theses majority have suffered alteration in some form, by injected
+          humour, or randomised words which don’t look even slightly believable.
+          It uses a dictionary of over 200 Latin words, combined with a handful
+          of model sentence structures, to generate Lorem Ipsum which looks
+          reasonable.
+        </Text>
+      </View>
+      <View style={styles.footer}>
+        <LogoSFRJImage width={260} height={80} />
+      </View>
+    </View>
+  </SefazScreen>
+);
 
 export default About;
