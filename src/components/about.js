@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 
 import AppFullLogoImage from "../images/app_full_logo.svg";
 import { DARK_GRAY } from "../constants";
+import DeviceInfo from "react-native-device-info";
 import LogoSFRJImage from "../images/logo_rio_sf.svg";
 import React from "react";
 import SefazScreen from "./base/sefaz-screen";
@@ -29,7 +30,9 @@ const About = () => (
     <View style={styles.container}>
       <View style={styles.header}>
         <AppFullLogoImage width={140} height={160} />
-        <Text style={styles.version}>Versão 1.0.0</Text>
+        <Text style={styles.version}>
+          Versão {DeviceInfo.getReadableVersion()}
+        </Text>
       </View>
       <View style={styles.content}>
         <Text>

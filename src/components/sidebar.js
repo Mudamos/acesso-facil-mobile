@@ -80,7 +80,7 @@ const SidebarItem = ({ item }) => {
   );
 };
 
-const Sidebar = ({ visible, onDismiss }) => {
+const Sidebar = ({ visible, onDismiss }) =>
   visible && (
     <View style={styles.container}>
       <TouchableOpacity
@@ -97,7 +97,6 @@ const Sidebar = ({ visible, onDismiss }) => {
       />
     </View>
   );
-};
 
 Sidebar.propTypes = {
   onDismiss: PropTypes.func.isRequired,

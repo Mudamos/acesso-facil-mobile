@@ -227,7 +227,7 @@ android {
             dimension "version"
             applicationId = "org.itsrio.sefaz.staging.easyaccess"
             versionCode 1
-            versionName "1.0-beta-mudamos"
+            versionName "1.0-beta"
             signingConfig signingConfigs.staging
         }
     }
