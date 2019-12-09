@@ -80,27 +80,25 @@ const SidebarItem = ({ item }) => {
   );
 };
 
-const Sidebar = ({ visible, onDismiss }) =>
-  visible && (
-    <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.background}
-        onPress={onDismiss}
-        activeOpacity={0.8}
-      />
-      <FlatList
-        ListHeaderComponent={() => <View style={styles.itemSeparatorSlim} />}
-        style={styles.flatList}
-        data={items}
-        ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
-        renderItem={props => <SidebarItem {...props} />}
-      />
-    </View>
-  );
+const Sidebar = ({ onDismiss }) => (
+  <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.background}
+      onPress={onDismiss}
+      activeOpacity={0.8}
+    />
+    <FlatList
+      ListHeaderComponent={() => <View style={styles.itemSeparatorSlim} />}
+      style={styles.flatList}
+      data={items}
+      ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
+      renderItem={props => <SidebarItem {...props} />}
+    />
+  </View>
+);
 
 Sidebar.propTypes = {
   onDismiss: PropTypes.func.isRequired,
-  visible: PropTypes.bool.isRequired,
 };
 
 export default pure(Sidebar);

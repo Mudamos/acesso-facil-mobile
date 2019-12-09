@@ -87,10 +87,7 @@ const SefazScreen = ({
             height={backgroundHeight}
           />
         )}
-        <Sidebar
-          visible={showSidebar}
-          onDismiss={() => setShowSidebar(false)}
-        />
+        {showSidebar && <Sidebar onDismiss={() => setShowSidebar(false)} />}
         <DeleteAccountModalContainer />
       </SafeAreaView>
       <SafeAreaView style={styles.bottom} />
