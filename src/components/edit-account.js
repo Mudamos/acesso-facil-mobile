@@ -1,6 +1,6 @@
 import { BLACK, LIGHT_GRAY, WHITE } from "../constants";
 import { Keyboard, StyleSheet, Text, TextInput, View } from "react-native";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { isEmpty, isNil } from "ramda";
 
 import AuthenticationErrorModalContainer from "../containers/authentication-error-modal-container";
@@ -44,10 +44,25 @@ const styles = StyleSheet.create({
 
 const EditAccount = ({ account, loadingMessage, notifySuccess, onSubmit }) => {
   const [customName, setCustomName] = useState(account.accountName);
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+
+  useEffect(() => {
+    const keyboardShowListener = Keyboard.addListener("keyboardDidShow", () =>
+      setIsKeyboardOpen(true),
+    );
+    const keyboardHideListener = Keyboard.addListener("keyboardDidHide", () =>
+      setIsKeyboardOpen(false),
+    );
+
+    return () => {
+      keyboardShowListener.remove();
+      keyboardHideListener.remove();
+    };
+  }, []);
 
   return (
     <Fragment>
-      <SefazScreen>
+      <SefazScreen showBackground={!isKeyboardOpen}>
         <View style={styles.container}>
           <View style={styles.box}>
             <Text style={styles.accountNameText}>
