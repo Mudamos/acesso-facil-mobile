@@ -10,8 +10,9 @@ import { isEmpty } from "ramda";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
+    flex: 1,
     backgroundColor: WHITE,
+    paddingHorizontal: 30,
   },
   flatList: {
     marginVertical: 40,

@@ -8,6 +8,7 @@ import {
 } from "react-native";
 
 import { HEADER_HEIGHT } from "./header";
+import PropTypes from "prop-types";
 import React from "react";
 import { SCREENS } from "../models";
 import { pure } from "recompose";

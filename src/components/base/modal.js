@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet, View, ViewPropTypes } from "react-native";
 
+import { HEADER_HEIGHT } from "../header";
 import PropTypes from "prop-types";
 import React from "react";
 import { WHITE } from "../../constants";
@@ -9,7 +10,7 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get("screen");
 const styles = StyleSheet.create({
   modalBackground: {
     position: "absolute",
-    top: 0,
+    top: -HEADER_HEIGHT,
     bottom: 0,
     left: 0,
     right: 0,

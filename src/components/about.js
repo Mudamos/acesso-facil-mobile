@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    paddingHorizontal: 30,
   },
   header: {
     alignItems: "center",
