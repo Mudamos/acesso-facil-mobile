@@ -10,14 +10,15 @@ import { propOr } from "ramda";
 import { pure } from "recompose";
 import { useNavigation } from "@react-navigation/core";
 
+export const HEADER_HEIGHT = 60;
+
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     backgroundColor: DARKER_BLUE,
-    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    maxHeight: 60,
+    flexBasis: HEADER_HEIGHT,
     padding: 10,
     paddingHorizontal: 20,
   },
@@ -33,8 +34,8 @@ const styles = StyleSheet.create({
 const Header = ({ title, onHeaderLeft, onHeaderRight }) => {
   const { pop, dangerouslyGetState } = useNavigation();
   const currentRouteIndex = propOr(0, "index", dangerouslyGetState());
-  const [showBackButton] = useState(currentRouteIndex !== 0);
-  const showHeaderLeft = isFunction(onHeaderLeft) || showBackButton;
+  const [isRootRoute] = useState(currentRouteIndex === 0);
+  const showHeaderLeft = isFunction(onHeaderLeft) || !isRootRoute;
   const showHeaderRight = isFunction(onHeaderRight);
 
   return (
@@ -42,9 +43,9 @@ const Header = ({ title, onHeaderLeft, onHeaderRight }) => {
       <View style={styles.actionContainer}>
         {showHeaderLeft && (
           <TouchableOpacity
-            onPress={() => (showBackButton ? pop() : onHeaderLeft())}>
+            onPress={() => (isRootRoute ? onHeaderLeft() : pop())}>
             <IonIcons
-              name={showBackButton ? "md-arrow-back" : "md-person-add"}
+              name={isRootRoute ? "md-person-add" : "md-arrow-back"}
               size={24}
               color={WHITE}
             />
@@ -59,7 +60,7 @@ const Header = ({ title, onHeaderLeft, onHeaderRight }) => {
       )}
 
       <View style={styles.actionContainer}>
-        {showHeaderRight && (
+        {showHeaderRight && isRootRoute && (
           <TouchableOpacity onPress={onHeaderRight}>
             <IonIcons name="md-menu" size={24} color={WHITE} />
           </TouchableOpacity>

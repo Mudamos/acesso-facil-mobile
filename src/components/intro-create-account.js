@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 40,
     alignItems: "center",
+    justifyContent: "center",
   },
   text: {
     fontSize: 16,
