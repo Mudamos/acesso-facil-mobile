@@ -18,8 +18,12 @@
 - sorting imports `yarn run sort`
 - prettier `yarn run prettier`
 
+## Production build
+
+- run `yarn run build-android-production` > This is will generate `android/app/build/outputs/bundle/productionRelease/app.aab` which can be uploaded to the play console.
 
 ## Envs
 
 - .env.development
 - .env.staging
+- .env.production

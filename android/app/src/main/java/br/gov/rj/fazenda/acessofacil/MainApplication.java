@@ -1,4 +1,4 @@
-package com.easyaccess;
+package br.gov.rj.fazenda.acessofacil;
 
 import android.app.Application;
 import android.util.Log;
