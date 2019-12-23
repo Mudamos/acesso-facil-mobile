@@ -22,6 +22,11 @@
 
 - run `yarn run build-android-production` > This is will generate `android/app/build/outputs/bundle/productionRelease/app.aab` which can be uploaded to the play console.
 
+### Testing the production bundle
+
+- run `yarn run apks-android-production` which will prompt for the keystore password
+- run `yarn run install-android-apks-production` which will install the apk on the connected device
+
 ## Envs
 
 - .env.development
