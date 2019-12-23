@@ -24,7 +24,7 @@
 
 ### Testing the production bundle
 
-On mac OS install bundletool `brew install bundletool`, then:
+On mac OS install bundletool `brew install bundletool`. On other distros or if you want to manually install `https://github.com/google/bundletool/releases`, then:
 
 - run `yarn run apks-android-production` which will prompt for the keystore password
 - run `yarn run install-android-apks-production` which will install the apk on the connected device
