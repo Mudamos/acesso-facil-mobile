@@ -136,7 +136,7 @@ android {
         versionName "1.0"
 
         // react-native-config
-        resValue "string", "build_config_package", "com.easyaccess"
+        resValue "string", "build_config_package", "br.gov.rj.fazenda.acessofacil"
 
         // react-native-camera
         missingDimensionStrategy "react-native-camera", "general"

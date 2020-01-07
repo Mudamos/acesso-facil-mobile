@@ -9,6 +9,7 @@
   "scripts": {
     "android": "ENVFILE=.env.development android/gradlew -p android installDevelopmentDebug && adb reverse tcp:8081 tcp:8081 && adb shell am start -n org.itsrio.sefaz.development.easyaccess/br.gov.rj.fazenda.acessofacil.MainActivity",
     "android-beta": "ENVFILE=.env.staging android/gradlew -p android installStagingDebug && adb reverse tcp:8081 tcp:8081 && adb shell am start -n org.itsrio.sefaz.staging.easyaccess/br.gov.rj.fazenda.acessofacil.MainActivity",
+    "android-production": "ENVFILE=.env.production android/gradlew -p android installProductionDebug && adb reverse tcp:8081 tcp:8081 && adb shell am start -n br.gov.rj.fazenda.acessofacil/br.gov.rj.fazenda.acessofacil.MainActivity",
     "build-android-staging": "ENVFILE=.env.staging android/gradlew -p android assembleStagingRelease",
     "build-android-production": "ENVFILE=.env.production android/gradlew -p android bundleProductionRelease",
     "apks-android-production": "bundletool build-apks --bundle=android/app/build/outputs/bundle/productionRelease/app.aab --output=android/app/build/app.apks --ks=android/keystores/easyaccess-upload-production.keystore --ks-key-alias=easyaccess-upload-production",
