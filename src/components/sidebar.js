@@ -1,12 +1,14 @@
 import { BLACK, DARKER_BLUE, LIGHT_GRAY, WHITE } from "../constants";
 import {
   FlatList,
+  Linking,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
 
+import Config from "react-native-config";
 import { HEADER_HEIGHT } from "./header";
 import PropTypes from "prop-types";
 import React from "react";
@@ -24,6 +26,16 @@ const items = [
     id: "2",
     title: "DÚVIDAS FREQUENTES",
     destination: SCREENS.FAQ,
+  },
+  {
+    id: "3",
+    title: "PRIMEIROS PASSOS",
+    destination: SCREENS.APP_INTRO,
+  },
+  {
+    id: "4",
+    title: "POLÍTICA DE PRIVACIDADE",
+    link: Config.SEFAZ_PRIVACY_POLICY,
   },
 ];
 
@@ -43,7 +55,7 @@ const styles = StyleSheet.create({
   },
   flatList: {
     backgroundColor: DARKER_BLUE,
-    flexBasis: 100,
+    flexBasis: 150,
   },
   itemSeparator: {
     flex: 1,
@@ -68,11 +80,15 @@ const styles = StyleSheet.create({
 
 const SidebarItem = ({ item }) => {
   const { push } = useNavigation();
+  const action = () =>
+    item.link
+      ? Linking.canOpenURL(item.link).then(
+          isSupported => isSupported && Linking.openURL(item.link),
+        )
+      : push(item.destination);
 
   return (
-    <TouchableOpacity
-      style={styles.itemContainer}
-      onPress={() => push(item.destination)}>
+    <TouchableOpacity style={styles.itemContainer} onPress={action}>
       <Text numberOfLines={1} style={styles.itemText}>
         {item.title}
       </Text>
@@ -85,7 +101,7 @@ const Sidebar = ({ onDismiss }) => (
     <TouchableOpacity
       style={styles.background}
       onPress={onDismiss}
-      activeOpacity={0.8}
+      activeOpacity={0}
     />
     <FlatList
       ListHeaderComponent={() => <View style={styles.itemSeparatorSlim} />}
