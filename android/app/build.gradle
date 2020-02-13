@@ -136,7 +136,7 @@ android {
         versionName "1.0"
 
         // react-native-config
-        resValue "string", "build_config_package", "com.easyaccess"
+        resValue "string", "build_config_package", "br.gov.rj.fazenda.acessofacil"
 
         // react-native-camera
         missingDimensionStrategy "react-native-camera", "general"
@@ -192,6 +192,7 @@ android {
 
     signingConfigs {
       staging
+      production
     }
 
     // Staging signing configs
@@ -214,6 +215,26 @@ android {
         }
     }
 
+    // Production signing configs
+    def Properties productionProps = new Properties()
+    def productionPropFile = file('../keystores/easyaccess-upload-production.properties')
+    if (productionPropFile.canRead()) {
+        println "Will load PRODUCTION realease properties"
+
+        productionProps.load(new FileInputStream(productionPropFile))
+
+        if (productionProps != null && productionProps.containsKey('STORE_FILE') && productionProps.containsKey('STORE_PASSWORD') &&
+                productionProps.containsKey('KEY_ALIAS') && productionProps.containsKey('KEY_PASSWORD')) {
+
+            println "Production release variables found"
+
+            android.signingConfigs.production.storeFile = file(productionProps['STORE_FILE'])
+            android.signingConfigs.production.storePassword = productionProps['STORE_PASSWORD']
+            android.signingConfigs.production.keyAlias = productionProps['KEY_ALIAS']
+            android.signingConfigs.production.keyPassword = productionProps['KEY_PASSWORD']
+        }
+    }
+
     flavorDimensions "version"
 
     productFlavors {
@@ -229,6 +250,14 @@ android {
             versionCode 1
             versionName "1.0-beta"
             signingConfig signingConfigs.staging
+        }
+
+        production {
+            dimension "version"
+            applicationId = "br.gov.rj.fazenda.acessofacil"
+            versionCode 1
+            versionName "1.0"
+            signingConfig signingConfigs.production
         }
     }
 }

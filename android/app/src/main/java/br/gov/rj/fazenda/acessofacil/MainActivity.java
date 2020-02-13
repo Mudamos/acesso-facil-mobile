@@ -1,4 +1,4 @@
-package com.easyaccess;
+package br.gov.rj.fazenda.acessofacil;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;

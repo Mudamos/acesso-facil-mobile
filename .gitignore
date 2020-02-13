@@ -41,6 +41,7 @@ buck-out/
 \.buckd/
 *.keystore
 !android/keystores/easyaccess-staging.keystore
+android/keystores/easyaccess-upload-production.properties
 
 # fastlane
 #
