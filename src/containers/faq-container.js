@@ -6,7 +6,7 @@ import { Linking } from "react-native";
 
 const enhance = compose(
   withProps(() => ({
-    portalUrl: Config.SEFAZ_PORTAL_FAQ,
+    portalUrl: Config.SEFAZ_FAQ,
     phoneNumber: Config.SEFAZ_PHONE_NUMBER,
   })),
   withProps(({ portalUrl, phoneNumber }) => ({
