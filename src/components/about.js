@@ -36,12 +36,8 @@ const About = () => (
       </View>
       <View style={styles.content}>
         <Text>
-          There are many variations of passages of Lorem Ipsum available, but
-          theses majority have suffered alteration in some form, by injected
-          humour, or randomised words which don’t look even slightly believable.
-          It uses a dictionary of over 200 Latin words, combined with a handful
-          of model sentence structures, to generate Lorem Ipsum which looks
-          reasonable.
+        O aplicativo Acesso Fácil é uma ferramenta que visa viabilizar a autenticação da identidade do usuário na plataforma de serviços digitais da Secretaria de Estado de Fazenda do Rio de Janeiro, garantindo a verificação de identidade na plataforma SSA (Sistema de Segurança de Acesso) por meio de criptografia assimétrica.
+Importante mencionar que não existe informação sensível a ser transitada, nem armazenamento de dados pessoais na plataforma do Acesso Fácil.
         </Text>
       </View>
       <View style={styles.footer}>

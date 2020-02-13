@@ -18,9 +18,9 @@ const enhance = compose(
     },
   ),
   withHandlers({
-    onFinish: ({ configs, navigation: { replace }, updateConfigs }) => () => {
+    onFinish: ({ configs, navigation: { reset }, updateConfigs }) => () => {
       updateConfigs({ ...configs, [INTRO_COMPLETED]: true });
-      replace(SCREENS.HOME);
+      reset({ index: 0, routes: [{ key: SCREENS.HOME, name: SCREENS.HOME }] });
     },
   }),
   lifecycle({
