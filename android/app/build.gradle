@@ -132,7 +132,7 @@ android {
         applicationId "com.easyaccess"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
+        versionCode 3
         versionName "1.0"
 
         // react-native-config
@@ -247,7 +247,7 @@ android {
         staging {
             dimension "version"
             applicationId = "org.itsrio.sefaz.staging.easyaccess"
-            versionCode 2
+            versionCode 3
             versionName "1.0-beta"
             signingConfig signingConfigs.staging
         }
@@ -255,7 +255,7 @@ android {
         production {
             dimension "version"
             applicationId = "br.gov.rj.fazenda.acessofacil"
-            versionCode 2
+            versionCode 3
             versionName "1.0"
             signingConfig signingConfigs.production
         }
